@@ -1,0 +1,96 @@
+.container-login {
+    min-height: 100vh;
+    background: url(../../assets//images/bg-login2.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+  
+    .container-form {
+      background-color: #3f7fdd;
+      background-image: linear-gradient(183deg, #1d6581 0%, #55a2a7 100%);   
+          
+      color: #fff;
+      width: 46rem;
+      margin-top: 12rem;
+      margin-bottom: 26rem;
+      padding: 0 1rem;
+      font-size: 18px;
+      border: 2px solid #ccc;
+      border-radius: 5%;
+  
+      .tabs {
+        display: flex;
+        justify-content:space-around;
+        position: relative;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+
+        #opacity-login-form, #opacity-register-form {
+          opacity: 1;
+        }
+      }
+      .tabs .line {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 6px;
+        border-radius: 15px;
+        background-color: #c23564;
+        transition: all 0.5s ease;
+      }
+      .tab-item {
+        min-width: 80px;
+        padding: 16px 20px 11px 20px;
+        font-size: 20px;
+        text-align: center;
+        text-decoration: none;
+        color: #c23564;
+        background-color: #fff;
+        border-radius: 5px;
+        // border-top-left-radius: 5px;
+        // border-top-right-radius: 5px;
+        // border-bottom: 5px solid transparent;
+        opacity: 0.6;
+        cursor: pointer;
+        transition: all 0.5s ease;
+        flex: 1;
+  
+        svg + span {
+          margin-left: 4px;
+        }
+      }
+      .tab-item + .tab-item {
+        margin-left: 1rem;
+      }
+      .tab-icon {
+        font-size: 24px;
+        width: 32px;
+        position: relative;
+        top: 2px;
+      }
+      .tab-item:hover {
+        opacity: 1;
+        background-color: rgba(241, 202, 215, 1);
+        border-color: rgba(194, 53, 100, 0.1);
+      }
+      
+      .tab-content {
+        padding: 28px 0;
+      }
+      .tab-pane {
+        color: #333;
+        display: none;
+      }
+      .tab-pane h2 {
+        font-size: 24px;
+        margin-bottom: 8px;
+      }
+  
+      button, input {
+        font-size: 1.8rem;
+        width: 100%;
+      }
+  
+    }
+
+  }

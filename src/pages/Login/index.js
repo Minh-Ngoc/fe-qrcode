@@ -1,14 +1,23 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
+import classNames from 'classnames/bind';
+import styles from './Login.module.scss';
 import Cookies from "universal-cookie";
+import config from '../../config';
+
 const cookies = new Cookies();
+const cx = classNames.bind(styles);
 
 export default function Login() {
     // initial state
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [login, setLogin] = useState(false);
+
+    const navigate = useNavigate();
+
 
     const handleSubmit = (e) => {
         // prevent the form from refreshing the whole page
@@ -27,45 +36,40 @@ export default function Login() {
         // make the API call
         axios(configuration)
             .then((result) => {
+            // set the cookie
+                cookies.set("TOKEN", result.data.token, {
+                    path: "/",
+                });
+                // redirect user to the auth page
+                navigate(config.routes.auth);
+
                 setLogin(true);
-            })
+                })
             .catch((error) => {
                 error = new Error();
-            })
-    
-        //     // set the cookie
-        //     cookies.set("TOKEN", result.data.token, {
-        //         path: "/",
-        //     });
-        //     // redirect user to the auth page
-        //     window.location.href = "/auth";
-
-        //     setLogin(true);
-        // })
-        // .catch((error) => {
-        //     error = new Error();
-        // });
+            });
     };
 
     return (
         <>
-            <h2>Login</h2>
             <Form onSubmit={(e) => handleSubmit(e)}>
                 {/* username */}
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Username address</Form.Label>
+                <Form.Group controlId="formBasicEmail" className={cx('form-group')}>
+                    <Form.Label>Tên đăng nhập:</Form.Label>
                     <Form.Control
                         type="text"
                         name="username"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => {
+                            setUsername(e.target.value)
+                        }}
                         placeholder="Enter username"
                     />
                 </Form.Group>
 
                 {/* password */}
-                <Form.Group controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
+                <Form.Group controlId="formBasicPassword" className={cx('form-group')}>
+                    <Form.Label>Mật khẩu:</Form.Label>
                     <Form.Control
                         type="password"
                         name="password"
@@ -76,20 +80,20 @@ export default function Login() {
                 </Form.Group>
                 {/* submit button */}
                 <Button
-                    variant="primary"
+                    className={cx('btn-submit-login')}
+                    variant="danger"
                     type="submit"
                     onClick={(e) => handleSubmit(e)}
                 >
-                    Login
+                    Đăng nhập
                 </Button>
-                 {/* display success message */}
+                
+                {/* display success message */}
                 {login ? (
-                <p className="text-success">You Are Logged in Successfully</p>
+                <p className={cx('form-text-message')}>You Are Logged in Successfully!</p>
                 ) : (
-                <p className="text-danger">You Are Not Logged in</p>
+                <p className={cx('form-text-message')}>You Are Not Logged in!</p>
                 )}
-                
-                
             </Form>
         </>
     );

@@ -1,16 +1,11 @@
 import { Fragment } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from './routes';
 import DefaultLayout from './layouts';
 import AuthComponent from './components/AuthComponent';
-
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
+import ProtectedRoutes from './pages/ProtectedRoutes';
 
 function App() {
-    
-    const token = cookies.get("TOKEN");
-
     return (
         <Router>
             <div className="App">
@@ -42,15 +37,11 @@ function App() {
                             );
                         } else {
                             return (
-                                <Route 
+                                <Route
                                     key={index} 
-                                    path={route.path} 
+                                    path={route.path}
                                     element={
-                                        token ? (
-                                          <AuthComponent />
-                                        ) : (
-                                          <Navigate to="/login" replace />
-                                        )
+                                        <ProtectedRoutes element={AuthComponent}/>
                                     }
                                 />
                             );
