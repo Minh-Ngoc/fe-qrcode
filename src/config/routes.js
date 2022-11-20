@@ -9,8 +9,18 @@ const routes = {
     register: '/register',
     login: '/login',
     logut: '/logout',
-    nongdan: '/nongdan',
     detail: '/detail',
+    
+    cosonuoitrong: '/cosonuoitrong',
+    aonuoi: '/aonuoi',
+    dotnuoi: '/dotnuoi',
+    congiong: '/congiong',
+    ncccongiong: '/ncccongiong',
+    chisomoitruong: '/chisomoitruong',
+    giaidoan: '/giaidoan',
+    thucan: '/thucan',
+    thuonglai: '/thuonglai',
+    thuocthuysan: '/thuocthuysan',
 };
 
 export default routes;

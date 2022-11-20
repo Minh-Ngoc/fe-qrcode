@@ -51,12 +51,13 @@ export default function AuthComponent({children}) {
       <div className={cx('body_container')}>
         <div className="container-fluid">
             <div className="titlePage text-center">
-              <h1>Auth Component</h1>
+              <h1>TRANG QUẢN LÝ QUÁ TRÌNH NUÔI TRỒNG THỦY SẢN</h1>
             </div>
+            <hr/>
 
             {/* displaying our message from our API call */}
             {/* <h3 className="text-danger">{message}</h3> */}
-            {children}
+            <div className={ 'overflow-auto ' + cx('content-container')}> {children} </div>
             
         </div>
       </div>

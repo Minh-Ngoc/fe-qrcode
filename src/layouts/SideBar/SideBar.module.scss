@@ -1,6 +1,7 @@
 
 .sidebar_container {
   height: 100vh;
+  padding: 1rem 0;
   position: sticky;
   top: 0;
   left:0;
@@ -10,7 +11,7 @@
 }
 .sidebar{
   display: flex;
-  width: 20rem;
+  width: 100%;
   height: 100%;
   justify-content: space-between;
   align-items: start;

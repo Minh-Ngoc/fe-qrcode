@@ -62,10 +62,9 @@ export default function SideBar() {
                 backgroundColor: "rgba(255, 255, 255, 0.3)",
                 backdropFilter: "blur(3.5px)",
                 WebkitBackdropFilter: "blur(3.5px)",
-                border: "1px solid rgba( 255, 255, 255, 0.18 )",
                 transition: {
-                  delay: 0.2,
-                  duration: 0.4,
+                  delay: 0.1,
+                  duration: 0.2,
                 },
               }}
               onClick={handleToggle}
@@ -92,11 +91,12 @@ export default function SideBar() {
                 }}
               >
                   <img
-                    src="https://cdn2.iconfinder.com/data/icons/business-colored-2/128/1-1024.png"
+                    src="https://w7.pngwing.com/pngs/907/970/png-transparent-white-house-logo-computer-icons-home-house-home-blue-angle-text.png"
                     alt="profile_img"
                   />
               </motion.div>
             </Link>
+            <hr/>
             {/* groups */}
             <div className={cx('groups')}>
               {/* group 1 */}
@@ -112,6 +112,7 @@ export default function SideBar() {
             
           {/* group 3 */}
           <div className={cx('group')} onClick={() => logout() }>
+            <hr/>
             <ItemSideBar icon={faRightToBracket} name="Logout" />
           </div>
         </motion.div>

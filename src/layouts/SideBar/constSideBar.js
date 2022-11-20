@@ -1,24 +1,29 @@
 // for collpsing sidebar
 
 export const sideContainerVariants = {
-true: {
-    width: "20rem",
-},
-false: {
-    transition: {
-    delay: 0.6,
+    true: {
+        width: "21rem",
     },
-},
+    false: {
+        width: "6rem",
+        transition: {
+        delay: 0.6,
+        },
+    },
 };
 
 export const sidebarVariants = {
-true: {},
-false: {
-    width: "6rem",
-    transition: {
-    delay: 0.4,
+    true: {
+        transition: 
+            "width 2s linear 2s"
+        ,
     },
-},
+    false: {
+        width: "6rem",
+        transition: 
+            "width 1s linear 1s"
+        ,
+    },
 };
 
 export const profileVariants = {
