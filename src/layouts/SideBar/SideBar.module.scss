@@ -1,0 +1,81 @@
+
+.sidebar_container {
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  left:0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.sidebar{
+  display: flex;
+  width: 20rem;
+  height: 100%;
+  justify-content: space-between;
+  align-items: start;
+  flex-direction: column;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(5.5px);
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+
+  .sidebar-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  a {
+    text-decoration: none;
+    color: #fff;
+  }
+}
+.lines_icon{
+  display: flex;
+  align-self: flex-end;
+  border-radius: 5px;
+}
+
+.profile{
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  margin: 0 auto 3rem auto;
+}
+
+.profile>img{
+  width: 100%;
+  border-radius: 50%;
+}
+
+.groups{
+  display: flex;
+  flex-direction: column;
+  width: 100%
+}
+.group{
+  display: flex;
+  flex-direction: column;
+  width: 100%
+}
+
+.item{
+  display: flex;
+  padding: 6px 10px 6px 10px;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 10px;
+
+}
+
+.icon{
+  margin-right: 0.5rem;
+  margin-top: 6px
+}
+
+h3{
+  font-size: 1rem;
+  margin: 10px 0px 10px 0px
+}

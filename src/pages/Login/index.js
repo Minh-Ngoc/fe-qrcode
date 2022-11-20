@@ -90,9 +90,9 @@ export default function Login() {
                 
                 {/* display success message */}
                 {login ? (
-                <p className={cx('form-text-message')}>You Are Logged in Successfully!</p>
+                    <p className={cx('form-text-message')}>You Are Logged in Successfully!</p>
                 ) : (
-                <p className={cx('form-text-message')}>You Are Not Logged in!</p>
+                    <p className={cx('form-text-message')}></p>
                 )}
             </Form>
         </>

@@ -1,20 +1,25 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import { Button } from "react-bootstrap";
+import styles from './AuthComponent.module.scss';
+import classNames from 'classnames/bind';
+
 import axios from "axios";
 import Cookies from "universal-cookie";
-import config from '../../config';
 
-const cookies = new Cookies();
+import SideBar from "../../layouts/SideBar";
+
+
+const cx = classNames.bind(styles);
 
 // get token generated on login
+const cookies = new Cookies();
 const token = cookies.get("TOKEN");
 
-export default function AuthComponent() {
+export default function AuthComponent({children}) {
+
   // set an initial state for the message we will receive after the API call
   const [message, setMessage] = useState("");
 
-  const navigate = useNavigate();
 
   // useEffect automatically executes once the page is fully loaded
   useEffect(() => {
@@ -38,25 +43,24 @@ export default function AuthComponent() {
       });
   }, []);
 
-  // logout
-  const logout = () => {
-    // destroy the cookie
-    cookies.remove("TOKEN", { path: "/" });
-    // redirect user to the landing page
-    navigate(config.routes.login)
-  }
-
   return (
-    <div className="text-center">
-      <h1>Auth Component</h1>
+    <div id={cx('Administrator')}>
 
-      {/* displaying our message from our API call */}
-      <h3 className="text-danger">{message}</h3>
+      <SideBar />
 
-      {/* logout */}
-      <Button type="submit" variant="danger" onClick={() => logout()}>
-        Logout
-      </Button>
+      <div className={cx('body_container')}>
+        <div className="container-fluid">
+            <div className="titlePage text-center">
+              <h1>Auth Component</h1>
+            </div>
+
+            {/* displaying our message from our API call */}
+            {/* <h3 className="text-danger">{message}</h3> */}
+            {children}
+            
+        </div>
+      </div>
     </div>
+    
   );
 }

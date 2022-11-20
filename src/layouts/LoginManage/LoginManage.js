@@ -5,6 +5,7 @@ import config from '../../config';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightToBracket, faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import styles from './LoginManage.module.scss';
+import GlobalStyles from '../../components/GlobalStyles';
 
 const cx = classNames.bind(styles);
 
@@ -35,12 +36,13 @@ function LoginManage({ children }) {
 
     const navLinkStyle = ({ isActive }) => ({
         opacity: isActive ? 1 : '',
+        cursor: isActive ? 'pointer' : '',
       })
 
     return (
         <div className="container-fluid">
             <div className={'d-flex justify-content-center ' + cx('container-login')}>
-                <div className={'row align-content-center ' + cx('container-form')}>
+                <div className={'row flex-column align-content-center ' + cx('container-form')}>
                     <div className={cx('tabs')}>
                         <NavLink style={navLinkStyle} to={config.routes.login} className={'nav-link ' + cx('tab-item')}>
                             <FontAwesomeIcon icon={faRightToBracket} className={cx('tab-icon')} />

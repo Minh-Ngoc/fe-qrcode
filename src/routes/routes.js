@@ -9,7 +9,7 @@ import Home from '../pages/Home';
 import Upload from '../pages/Upload';
 import Register from '../pages/Register';
 import Login from '../pages/Login';
-import AuthComponent from '../components/AuthComponent';
+import AuthComponent from '../pages/AuthComponent';
 import FreeComponent from '../components/FreeComponent';
 
 // Public routes
