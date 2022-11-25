@@ -2,12 +2,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
+// Nhan data { userId: result.data.userId } tu '/login' qua useLocation
+import { useLocation } from "react-router-dom";
+
 import { Link } from 'react-router-dom';
 import ItemSideBar from "../../components/ItemSideBar";
 import styles from './SideBar.module.scss';
 import classNames from 'classnames/bind';
 import { motion } from "framer-motion";
-import { faRightToBracket, faListUl, faTableList } from '@fortawesome/free-solid-svg-icons';
+import { faRightToBracket, faListUl } from '@fortawesome/free-solid-svg-icons';
+
 import Cookies from "universal-cookie";
 import config from '../../config';
 import { linkItems } from './linkItems';
@@ -15,13 +19,26 @@ import { linkItems } from './linkItems';
 import {
   sideContainerVariants,
   sidebarVariants,
-  profileVariants
+  profileVariants,
+  FucUserName
 } from './constSideBar';
 
 const cx = classNames.bind(styles);
 const cookies = new Cookies();
 
 export default function SideBar() {
+
+  // get data from /login
+  const location = useLocation();
+
+  let userId = location.state.userId;
+  let nameUser = location.state.user;
+  
+  // Send userId to children
+  const [userData, setUserData] = useState(userId);
+  const [userName, setUserName] = useState(nameUser);
+  
+    // console.log(userId)
 
   const navigate = useNavigate();
 
@@ -40,7 +57,7 @@ export default function SideBar() {
 
   return (
       <motion.div
-        data-Open={open}
+        data-open={open}
         variants={sideContainerVariants}
         initial={`${open}`}
         animate={`${open}`}
@@ -73,7 +90,7 @@ export default function SideBar() {
               <ItemSideBar icon={faListUl} />
             </motion.div>
             {/* profile */}
-            <Link to={config.routes.auth}>
+            <Link to={config.routes.auth} state={{userId: userData, user: userName}}>
               <motion.div
                 layout
                 initial={`${open}`}
@@ -96,14 +113,22 @@ export default function SideBar() {
                   />
               </motion.div>
             </Link>
+            <motion.div
+              className="text-center userName"
+              initial={`${open}`}
+              animate={`${open}`}
+              variants={FucUserName}
+            >
+             {userName}
+            </motion.div>
             <hr/>
             {/* groups */}
             <div className={cx('groups')}>
               {/* group 1 */}
-                {linkItems.map(linkItem => {
+                {linkItems.map((linkItem, index) => {
                   return (
-                  <Link to={linkItem.path}> 
-                    <ItemSideBar icon={faTableList} name={linkItem.name} /> 
+                  <Link to={linkItem.path} key={index} state={{userId: userData, user: userName}}> 
+                    <ItemSideBar icon={ linkItem.icon } name={linkItem.name} /> 
                   </Link>
                   )
                 })}

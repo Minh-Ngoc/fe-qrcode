@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
@@ -8,11 +8,21 @@ import classNames from 'classnames/bind';
 import styles from './Register.module.scss';
 import config from '../../config';
 
+//Library react toastify
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // import { toast } from './HandleMessage'
 const cx = classNames.bind(styles);
 
 
 export default function Register() {
+
+  useEffect(() => {
+    document.title = "Đăng ký"
+ }, []);
+
+  const [modal, setModal] = useState(false);
 
   // initial state
   const [username, setUsername] = useState("");
@@ -29,10 +39,22 @@ export default function Register() {
     // prevent the form from refreshing the whole page
     e.preventDefault();
 
+    if(
+        !username || 
+        !password ||
+        !ten ||
+        !sdt ||
+        !diachi 
+      ) {
+      return toast.error("Vui lòng nhập đầy đủ thông tin!", {
+              position: toast.POSITION.TOP_RIGHT
+      })
+  }
+
     // set configurations
     const configuration = {
       method: "post",
-      url: "http://localhost:4000/api/register",
+      url: "http://localhost:3000/api/register",
       data: {
         username,
         password,
@@ -44,14 +66,24 @@ export default function Register() {
 
     // make the API call
     axios(configuration)
-      .then((result) => {
+      .then(async (result) => {
+          setTimeout(() => { 
+                setModal(toast.success("Đăng ký tài khoản thành công!", {
+                  position: toast.POSITION.TOP_RIGHT,
+                }))
+          }, 100);
+
         // redirect user to the auth page
         navigate(config.routes.login);
         
         setRegister(true);
       })
       .catch((error) => {
-        error = new Error();
+        if(error.request.status === 505){
+          return toast.error("Tài khoản đã tồn tại!", {
+              position: toast.POSITION.TOP_RIGHT,
+          })
+        }
       });
   };
 
@@ -122,21 +154,16 @@ export default function Register() {
 
         {/* submit button */}
         <Button
-          className={cx('btn-submit-login', 'btn', 'btn--success') }
+          className={cx('btn-submit-register', 'btn', 'btn--success') }
           variant="danger"
           type="submit"
           onClick={(e) => handleSubmit(e)}
         >
           Đăng ký
         </Button>
+      </Form>    
 
-        {/* display success message */}
-        {register ? (
-          <p className={cx('form-text-message')}>You Are Registered Successfully</p>
-        ) : (
-          <p className={cx('form-text-message')}></p>
-        )}
-      </Form>                                    
+      <ToastContainer bodyClassName={cx('toastBody')} />
     </>
   );
 }

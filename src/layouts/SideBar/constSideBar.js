@@ -26,6 +26,16 @@ export const sidebarVariants = {
     },
 };
 
+export const FucUserName = {
+    true: {
+        fontSize: "18px",
+        width: "100%"
+    },
+    false: {
+        display: 'none'
+    },
+};
+
 export const profileVariants = {
     true: {
         alignSelf: "center",

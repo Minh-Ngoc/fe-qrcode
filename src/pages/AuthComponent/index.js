@@ -1,10 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
+
 import styles from './AuthComponent.module.scss';
 import classNames from 'classnames/bind';
 
 import axios from "axios";
 import Cookies from "universal-cookie";
+
+import { Scrollbars } from 'react-custom-scrollbars-2';
 
 import SideBar from "../../layouts/SideBar";
 
@@ -23,10 +26,11 @@ export default function AuthComponent({children}) {
 
   // useEffect automatically executes once the page is fully loaded
   useEffect(() => {
+
     // set configurations for the API call here
     const configuration = {
       method: "get",
-      url: "http://localhost:4000/api/auth-endpoint",
+      url: "http://localhost:3000/api/auth-endpoint",
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -57,7 +61,11 @@ export default function AuthComponent({children}) {
 
             {/* displaying our message from our API call */}
             {/* <h3 className="text-danger">{message}</h3> */}
-            <div className={ 'overflow-auto ' + cx('content-container')}> {children} </div>
+            <div className={cx('content-container')}>
+              <Scrollbars style={{ height: 626 }}>
+                {children} 
+              </Scrollbars>
+            </div>
             
         </div>
       </div>

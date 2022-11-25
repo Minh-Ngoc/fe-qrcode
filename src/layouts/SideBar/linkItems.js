@@ -1,53 +1,66 @@
+import { 
+  faPrescriptionBottleMedical, 
+  faAreaChart, 
+  faSquare, 
+  faQrcode, 
+  faShrimp,
+  faUniversalAccess,
+  faSnowflake, 
+  faSpinner,
+  faTablets,
+  faAddressCard,
+} from '@fortawesome/free-solid-svg-icons';
+
 export const linkItems = [
     {
       name: 'Cơ sở nuôi trồng',
       path: '/cosonuoitrong',
-      icon: '',
+      icon: faAreaChart,
     },
     {
       name: 'Ao nuôi',
       path: '/aonuoi',
-      icon: '',
+      icon: faSquare,
     },
     {
       name: 'Đợt nuôi',
       path: '/dotnuoi',
-      icon: '',
+      icon: faQrcode,
     },
     {
       name: 'Con giống',
       path: '/congiong',
-      icon: '',
+      icon: faShrimp,
     },
     {
       name: 'NCC con giống',
       path: '/ncccongiong',
-      icon: '',
+      icon: faUniversalAccess,
     },
     {
       name: 'Chỉ số môi trường',
       path: '/chisomoitruong',
-      icon: '',
+      icon: faSnowflake,
     },
     {
       name: 'Giai đoạn',
       path: '/giaidoan',
-      icon: '',
+      icon: faSpinner,
     },
     {
       name: 'Thức ăn',
       path: '/thucan',
-      icon: '',
+      icon: faTablets,
     },
     {
       name: 'Thương lái',
       path: '/thuonglai',
-      icon: '',
+      icon: faAddressCard,
     },
     {
       name: 'Thuốc thủy sản',
       path: '/thuocthuysan',
-      icon: '',
+      icon: faPrescriptionBottleMedical,
     },
 
   ]

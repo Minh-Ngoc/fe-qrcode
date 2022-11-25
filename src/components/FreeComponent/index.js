@@ -10,7 +10,7 @@ export default function FreeComponent() {
     // set configurations for the API call here
     const configuration = {
       method: "get",
-      url: "http://localhost:4000/api/free-endpoint",
+      url: "http://localhost:3000/api/free-endpoint",
     };
 
     // make the API call
