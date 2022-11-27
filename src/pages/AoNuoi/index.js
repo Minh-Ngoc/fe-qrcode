@@ -16,7 +16,7 @@ import GetAoNuoiList from './getAoNuoiList';
 const cx = classNames.bind(styles);
 
 
-function CoSoNuoiTrong() {
+function AoNuoi() {
 
     useEffect(() => {
         document.title = "Ao nuôi"
@@ -46,4 +46,4 @@ function CoSoNuoiTrong() {
     );
 }
 
-export default CoSoNuoiTrong;
+export default AoNuoi;

@@ -30,7 +30,6 @@ function EditAoNuoi(props) {
     const [dientich, setDienTich] = useState("");
     const [csntId, setCSNTId] = useState("");
 
-
     const [aonuoi, setAoNuoi] = useState(false);
 
     const navigate = useNavigate();
@@ -41,6 +40,8 @@ function EditAoNuoi(props) {
         setCSNTId(props.dataSend.csntId)
     },[props.dataSend])
 
+    console.log(csntId)
+
     const handleSubmit = (e) => {
     // prevent the form from refreshing the whole page
         e.preventDefault();
@@ -48,7 +49,7 @@ function EditAoNuoi(props) {
         if(
             !ten ||
             !dientich ||
-            !csntId
+            !csntId 
         ) {
             setErrorMessage(
                 toast.error("Vui lòng nhập đầy đủ thông tin !", {
@@ -85,7 +86,6 @@ function EditAoNuoi(props) {
                 // redirect user to the auth page
                 // console.log(result.data.errCode)
                 if(result.data.errCode === 201) { 
-                    props.handleClickFrom(false, result.data.aonuoi)
                     setSuccessMessage(
                         toast.success("Cập nhật thành công !", {
                             position: toast.POSITION.TOP_RIGHT
@@ -98,17 +98,21 @@ function EditAoNuoi(props) {
                         })
                     )
                 }
-                
+                props.handleClickFrom(false)
                 setAoNuoi(true);
                 
             })
             .catch((error) => {
-                console.log(error)
+                // console.log(error)
                 if(error && error.request.status === 505){
                     return toast.error("Ao nuôi đã tồn tại!", {
                         position: toast.POSITION.TOP_RIGHT,
                     })
-                } 
+                } else {
+                    return toast.error("Cập nhật ao nuôi không thành công!", {
+                        position: toast.POSITION.TOP_RIGHT,
+                    })
+                }
             });
         }
     };
@@ -150,7 +154,9 @@ function EditAoNuoi(props) {
                                 <Form.Label>Cơ sở nuôi trồng:</Form.Label>
                                 <Form.Select size="lg" name="csntId" onChange={(e) => setCSNTId(e.target.value)}>
                                     <option disabled>Chọn cơ sở nuôi trồng...</option>
-                                    <option value="1">Large select</option>
+                                    {props.csntList.map(csnt => (
+                                        <option key={csnt._id} value={csnt._id}> {csnt.ten} </option>
+                                    ))}
                                 </Form.Select>
                             </Form.Group>
 
@@ -158,7 +164,7 @@ function EditAoNuoi(props) {
                     </div>
 
                     {/* submit button */}
-                    <div className={'text-center ' + cx('btn-addAoNuoi')}>
+                    <div className={'d-flex justify-content-center ' + cx('btn-editAoNuoi')}>
                         <Button
                             className={cx('btn-submit-addAoNuoi', 'btn', 'btn--success') }
                             variant="danger"
@@ -168,7 +174,15 @@ function EditAoNuoi(props) {
                                 }
                             }
                         >
-                            THÊM
+                            CẬP NHẬT
+                        </Button>
+                        <Button
+                            className={cx('btn-submit-login', 'btn', 'btn--success') }
+                            variant="primary"
+                            type="button"
+                            onClick={() => props.handleClickFrom(false)}
+                        >
+                            TRỞ VỀ
                         </Button>
                     </div>
                 </Form>  

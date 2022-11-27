@@ -47,6 +47,7 @@ function GetCSNTList() {
             axios(configuration)
                 .then((result) => {
                     // redirect user to the auth page
+                    // console.log(result.data.csnt)
                     setCSNTLists(result.data.csnt);
                 })
                 .catch((error) => {
@@ -136,9 +137,8 @@ function GetCSNTList() {
     }
 
 
-    const handleClickFrom = (e, data) => {
+    const handleClickFrom = (e) => {
         // 👇️ take parameter passed from Child component
-        setCSNTLists(data)
         setFormEdit(e);
       };
 

@@ -81,6 +81,18 @@
   }
 }
 
+.btn-editAoNuoi {
+  margin-top: 3rem;
+  width: 100%;
+
+  button {
+    width: 22rem;
+  }
+  button + button {
+    margin-left: 2rem;
+  }
+}
+
 .btn-submit-edit {
   width: 40px;
   font-size: 14px;

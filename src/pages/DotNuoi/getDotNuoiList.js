@@ -13,14 +13,14 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Table from 'react-bootstrap/Table';
 
-import EditAoNuoi from './editAoNuoi'
+import EditDotNuoi from './editDotNuoi'
 
 import classNames from 'classnames/bind';
-import styles from './AoNuoi.module.scss';
+import styles from './DotNuoi.module.scss';
 
 const cx = classNames.bind(styles);
 
-function GetAoNuoiList() {
+function GetDotNuoiList() {
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -28,45 +28,45 @@ function GetAoNuoiList() {
     const location = useLocation();
     const userData = location.state.userId;
 
+    const [dotnuoiLists, setDotNuoiLists] = useState([]);
     const [aonuoiLists, setAoNuoiLists] = useState([]);
-    const [cosonuoitrongLists, setCoSoNuoiTrongLists] = useState([]);
 
-    const [aonuoiEdit, setAoNuoiEdit] = useState(false);
+    const [dotnuoiEdit, setDotNuoiEdit] = useState(false);
     const [formEdit, setFormEdit] = useState(false);
     const [dataEdit, setDataEdit] = useState('');
 
-    const [aonuoiDelete, setAoNuoiDelete] = useState(false);
+    const [dotnuoiDelete, setDotNuoiDelete] = useState(false);
 
 
     useEffect(() => {
-        async function getAoNuoi(){
+        async function getDotNuoi(){
             // console.log(userData)
             const configuration = {
                 method: "GET",
-                url: `http://localhost:3000/api/aonuoi/${userData}/list`,
+                url: `http://localhost:3000/api/dotnuoi/${userData}/list`,
             };
             // make the API call
             axios(configuration)
                 .then((result) => {
                     // redirect user to the auth page
                     // console.log(result.data.dataLists)
-                    setAoNuoiLists(result.data.dataLists);
+                    setDotNuoiLists(result.data.dotnuoi);
                 })
                 .catch((error) => {
                     if(error){
-                        return toast.error("Không có ao nuôi nào được tạo!", {
+                        return toast.error("Không có đợt nuôi nào được tạo!", {
                             position: toast.POSITION.TOP_RIGHT,
                         })
                     }
                 });
         } 
-        getAoNuoi();
+        getDotNuoi();
       },[]);
       
-    const datas = aonuoiLists;
+    const datas = dotnuoiLists;
 
-    let idAoNuoi, idCSNT;
-    const getIdAoNuoi = (id) => idAoNuoi = id;
+    let idDotNuoi;
+    const getIdDotNuoi = (id) => idDotNuoi = id;
 
     const handleSubmit = (e) => {
         // prevent the form from refreshing the whole page
@@ -77,7 +77,7 @@ function GetAoNuoiList() {
         // set configurations
         const configuration = {
             method: "get",
-            url: `http://localhost:3000/api/aonuoi/${idAoNuoi}/edit`,
+            url: `http://localhost:3000/api/aonuoi/${idDotNuoi}/edit`,
             params: {
                 tkId: userData,
             },
@@ -86,13 +86,13 @@ function GetAoNuoiList() {
         // make the API call
         axios(configuration)
         .then((result) => {
-            setCoSoNuoiTrongLists(result.data.csnt)
-            setDataEdit(result.data.aonuoi);
-            setAoNuoiEdit(true);
+            setAoNuoiLists(result.data.aonuoi)
+            setDataEdit(result.data.dotnuoi);
+            setDotNuoiEdit(true);
         })
         .catch((error) => {
             if(error.request.status === 505){
-                return toast.error("Không thể cập nhật ao nuôi!", {
+                return toast.error("Không thể cập nhật đợt nuôi!", {
                     position: toast.POSITION.TOP_RIGHT,
                     })
                 }
@@ -105,9 +105,9 @@ function GetAoNuoiList() {
         // set configurations
         const configuration = {
             method: "delete",
-            url: `http://localhost:3000/api/aonuoi/${idAoNuoi}`,
+            url: `http://localhost:3000/api/aonuoi/${idDotNuoi}`,
             params: {
-                csntId: userData,
+                aonuoiId: userData,
             },
         };
 
@@ -127,11 +127,11 @@ function GetAoNuoiList() {
                     })
                 )
             }
-            setAoNuoiDelete(true);
+            setDotNuoiDelete(true);
         })
         .catch((error) => {
             if(error.request.status === 505){
-                return toast.error("Không thể xóa ao nuôi!", {
+                return toast.error("Không thể xóa đợt nuôi!", {
                     position: toast.POSITION.TOP_RIGHT,
                     })
                 }
@@ -145,41 +145,52 @@ function GetAoNuoiList() {
       };
 
     // console.log(dataEdit);
-    let indexx = 1;
 
     return (
         <>  
                 {formEdit ? (
-                    <EditAoNuoi dataSend={dataEdit} csntList={cosonuoitrongLists} handleClickFrom={handleClickFrom} />
+                    <EditDotNuoi dataSend={dataEdit} aonuoiList={aonuoiLists} handleClickFrom={handleClickFrom} />
                 ) : (
                     <div className={cx('AoNuoi-container-list')}>
-                        <div className={cx('title-aonuoi-list')}>Danh sách ao nuôi</div>
+                        <div className={cx('title-aonuoi-list')}>Danh sách đợt nuôi</div>
                         <Table responsive hover>
                             <thead>
                                 <tr className="align-middle">
                                     <th>#</th>
-                                    <th>Tên ao nuôi</th>
-                                    <th>Diện tích</th>
-                                    <th>Tên cơ sở nuôi trồng</th>
+                                    <th>Tên đợt nuôi</th>
+                                    <th>Năm nuôi</th>
+                                    <th>Thời điểm</th>
+                                    <th>Trạng thái</th>
+                                    <th>Tình trạng</th>
+                                    <th>Ao nuôi</th>
+                                    <th>Mã QR</th>
                                     <th className="text-center" colSpan="2">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {datas.map(data => {
-                                    const csntName = data.ten;
-                                    return data.aonuois.map((aonuoi) => (
-                                        <tr key={aonuoi._id} className="align-middle">
-                                            <td> {indexx++} </td>
-                                            <td> {aonuoi.ten} </td>
-                                            <td> {aonuoi.dientich} </td>
-                                            <td> {csntName} </td>
+                                {datas.map((data, index) => {
+                                    return (
+                                        <tr key={data._id} className="align-middle">
+                                            <td> {index + 1 } </td>
+                                            <td> {data.ten} </td>
+                                            <td> {data.namnuoi} </td>
+                                            <td> {data.thoidiem} </td>
+                                            <td> {data.trangthai} </td>
+                                            <td> {data.tinhtrang} </td>
+                                            <td> {data.aonuoiId} </td>
+                                            <td> 
+                                                {(data.qrImage) ? (
+                                                    <img style={{width: "100px"}} src={data.qrImage} class="img-thumbnail" alt="..."></img>
+                                                ) : 'Chưa cấp mã QR'
+                                                } 
+                                            </td>
                                             <td className="text-center"> 
                                                 <Button
                                                     className={cx('btn-submit-edit', 'btn', 'btn--primary') }
                                                     variant="primary"
                                                     type="submit"
                                                     onClick={(e) => {
-                                                        getIdAoNuoi(aonuoi._id);
+                                                        getIdDotNuoi(data._id);
                                                         handleSubmit(e);
                                                         }
                                                     }
@@ -193,7 +204,7 @@ function GetAoNuoiList() {
                                                     variant="danger"
                                                     type="submit"
                                                     onClick={(e) => {
-                                                        getIdAoNuoi(aonuoi._id);
+                                                        getIdDotNuoi(data._id);
                                                         handleDeleteAoNuoi(e);
                                                         }
                                                     }
@@ -202,7 +213,7 @@ function GetAoNuoiList() {
                                                 </Button> 
                                             </td>
                                         </tr>
-                                )   )})}
+                                )   })}
                             </tbody>
                         </Table>
                     </div>
@@ -211,4 +222,4 @@ function GetAoNuoiList() {
     );
 }
 
-export default GetAoNuoiList;
+export default GetDotNuoiList;

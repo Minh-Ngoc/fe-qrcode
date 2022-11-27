@@ -77,11 +77,11 @@ function AddCSNT() {
             .then((result) => {
                 // redirect user to the auth page
                 (result.data.errCode === 201) ? setSuccessMessage(
-                    toast.success("Thêm thành công !", {
+                    toast.success("Thêm cơ sở nuôi trồng thành công !", {
                         position: toast.POSITION.TOP_RIGHT
                     })
                 ) : setErrorMessage(
-                    toast.error("Không thành công !", {
+                    toast.error("Thêm cơ sở nuôi trồng không thành công !", {
                         position: toast.POSITION.TOP_RIGHT
                     })
                 )
