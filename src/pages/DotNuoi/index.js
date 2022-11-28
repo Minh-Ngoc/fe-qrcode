@@ -16,7 +16,7 @@ import GetDotNuoiList from './getDotNuoiList';
 const cx = classNames.bind(styles);
 
 
-function DotNuoi1() {
+function DotNuoi() {
 
     useEffect(() => {
         document.title = "Đợt nuôi"
@@ -46,4 +46,4 @@ function DotNuoi1() {
     );
 }
 
-export default DotNuoi1;
+export default DotNuoi;

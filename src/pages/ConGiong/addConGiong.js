@@ -10,12 +10,12 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import classNames from 'classnames/bind';
-import styles from './DotNuoi.module.scss';
+import styles from './ConGiong.module.scss';
 
 const cx = classNames.bind(styles);
 
 
-function AddDotNuoi() {
+function AddConGiong() {
     const [aonuoiLists, setAoNuoiLists] = useState([]);
 
     const [successMessage, setSuccessMessage] = useState("");
@@ -97,7 +97,7 @@ function AddDotNuoi() {
             // set configurations
             const configuration = {
                 method: "post",
-                url: "http://localhost:3000/api/dotnuoi/create",
+                url: "http://localhost:3000/api/congiong/create",
                 data: {
                     ten,
                     namnuoi,
@@ -291,4 +291,4 @@ function AddDotNuoi() {
     );
 }
 
-export default AddDotNuoi;
+export default AddConGiong;

@@ -11,6 +11,8 @@ import Register from '../pages/Register';
 import Login from '../pages/Login';
 import AuthComponent from '../pages/AuthComponent';
 
+import ScanQRCode from '../pages/ScanQRCode';
+
 import CoSoNuoiTrong from '../pages/CoSoNuoiTrong';
 import AoNuoi from '../pages/AoNuoi';
 import DotNuoi from '../pages/DotNuoi';
@@ -32,6 +34,8 @@ const publicRoutes = [
     { path: config.routes.register, component: Register, layout: LoginManage },
     { path: config.routes.login, component: Login, layout: LoginManage },
     { path: config.routes.auth, component: AuthComponent, layout: null },
+
+    { path: config.routes.scanqrcode + '/:id', component: ScanQRCode, layout: null },
 
     { path: config.routes.cosonuoitrong, component: CoSoNuoiTrong, layout: AuthComponent },
     { path: config.routes.aonuoi, component: AoNuoi, layout: AuthComponent },

@@ -5,7 +5,8 @@ import DefaultLayout from './layouts';
 import AuthComponent from './pages/AuthComponent';
 import ProtectedRoutes from './pages/ProtectedRoutes';
 
-function App() {
+function App() {    
+
     return (
         <Router>
             <div className="App">
@@ -35,7 +36,7 @@ function App() {
                                     }
                                 />
                             );
-                        } else {
+                        } else if(route.path === '/auth') {
                             return (
                                 <Route
                                     key={index} 

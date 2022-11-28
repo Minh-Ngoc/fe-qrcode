@@ -1,0 +1,47 @@
+#Scan-qrcode {
+    display: flex;
+    font-size: 16px;
+    color: white;
+    // background: linear-gradient(179deg, #176eb5, #d545d7);
+    background: linear-gradient(179deg, #176eb5, #560dcb);
+    text-shadow: 1px 0px 2px #8dc4f0;
+    min-height: 100vh;
+  }
+  
+  .body_container {
+    flex: 1;
+    width: 100%;
+    margin: 1rem;
+    padding: 1rem 0;
+    background-color: rgba(255, 255, 255, 0.562);
+  }
+
+#content {
+  // background-color: #fff;
+  // color: #000;
+
+  .container {
+    padding: 1rem;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.87);
+    border-radius: 4px;
+  
+    table th {
+      font-weight: 600;
+      font-size: 17px;
+    }
+    table td button {
+      font-size: 14px;
+    }
+  
+    .title-aonuoi-list {
+      text-align: center;
+      color: black;
+      font-weight: 600;
+      font-size: 22px;
+      margin-bottom: 1rem;
+    }
+  
+  }
+
+}
