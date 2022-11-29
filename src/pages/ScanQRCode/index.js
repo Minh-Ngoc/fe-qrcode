@@ -84,9 +84,9 @@ function ScanQRCode() {
                                         <td> {data.thoidiem} </td>
                                         <td> {data.trangthai} </td>
                                         <td> {data.tinhtrang} </td>
-                                        <td> {data.aonuoiId} </td>
+                                        <td> {data.aonuoi} </td>
                                         <td>
-                                            <img style={{width: "100px"}} src={data.qrImage} class="img-thumbnail" alt="..."></img>
+                                            <img style={{width: "100px"}} src={data.qrImage} className="img-thumbnail" alt="..."></img>
                                         </td>
                                     </tr>
                                 </tbody>

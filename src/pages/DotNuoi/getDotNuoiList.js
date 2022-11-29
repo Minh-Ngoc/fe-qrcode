@@ -180,7 +180,7 @@ function GetDotNuoiList() {
                                             <td> {data.aonuoiId} </td>
                                             <td> 
                                                 {(data.qrImage) ? (
-                                                    <img style={{width: "100px"}} src={data.qrImage} class="img-thumbnail" alt="..."></img>
+                                                    <img style={{width: "100px"}} src={data.qrImage} className="img-thumbnail" alt="..."></img>
                                                 ) : 'Chưa cấp mã QR'
                                                 } 
                                             </td>

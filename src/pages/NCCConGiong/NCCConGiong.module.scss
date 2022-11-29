@@ -1,8 +1,7 @@
 .form-group {
-  select, input {
+  input {
     width: 46rem;
     font-size: 16px;
-    line-height: 26px;
   }
 }
 
@@ -19,11 +18,9 @@
   width: 30rem;
   font-size: 16px!important;
 }
-.btn-submit-addAoNuoi { 
+.btn-submit-addCSNT { 
   width: 30rem;
   font-size: 16px!important;
-  margin-left: 7.6rem;
-
 }
 
 .form-text-message {
@@ -49,7 +46,7 @@
   }
 }
 
-.AoNuoi-container-list {
+.CSNT-container-list {
   padding: 1rem;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.87);
@@ -63,7 +60,7 @@
     font-size: 14px;
   }
 
-  .title-aonuoi-list {
+  .title-csnt-list {
     text-align: center;
     color: black;
     font-weight: 600;
@@ -73,7 +70,7 @@
 
 }
 
-.btn-addAoNuoi {
+.btn-addCSNT {
   margin-top: 3rem;
   width: 100%;
 
@@ -82,7 +79,7 @@
   }
 }
 
-.btn-editAoNuoi {
+.btn-editNCCConGiong {
   margin-top: 3rem;
   width: 100%;
 
