@@ -1,11 +1,10 @@
 import { useLocation } from "react-router-dom";
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 
-//Library react toastify
+// Library react toastify
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -16,6 +15,7 @@ const cx = classNames.bind(styles);
 
 
 function AddDotNuoi() {
+    const [congiongLists, setConGiongLists] = useState([]);
     const [aonuoiLists, setAoNuoiLists] = useState([]);
 
     const [successMessage, setSuccessMessage] = useState("");
@@ -40,19 +40,19 @@ function AddDotNuoi() {
     const [congiongId, setConGiongId] = useState("");
     const [aonuoiId, setAoNuoiId] = useState("");
 
-    const [aonuoi, setAoNuoi] = useState(false);
-
-    const navigate = useNavigate();
-
     useEffect(() => {
         async function getAoNuoi(){
             const configuration = {
                 method: "GET",
                 url: `http://localhost:3000/api/aonuoi/${userData}/list`,
             };
+            const getConGiongList = {
+                method: "GET",
+                url: `http://localhost:3000/api/congiong/${userData}/list`,
+            };
             // make the API call
-            axios(configuration)
-                .then((result) => {
+            await Promise.all([axios(configuration), axios(getConGiongList)])
+                .then(([result, result2]) => {
                     // redirect user to the auth page
                     if(result.data.dataLists.length === 0) {
                         return toast.error("Bạn chưa có ao nuôi nào. Vui lòng thêm ao nuôi để tạo đợt nuôi!", {
@@ -60,9 +60,10 @@ function AddDotNuoi() {
                         })
                     }
                     setAoNuoiLists(result.data.dataLists);
+                    setConGiongLists(result2.data.congiong);
                 })
                 .catch((error) => {
-                    if(error.request.status === 505){
+                    if(error){
                         return toast.error("Không có ao nuôi nào được tạo!", {
                             position: toast.POSITION.TOP_RIGHT,
                         })
@@ -70,7 +71,7 @@ function AddDotNuoi() {
                 });
         } 
         getAoNuoi();
-      },[]);
+    }, []);
 
     const handleSubmit = (e) => {
     // prevent the form from refreshing the whole page
@@ -127,14 +128,17 @@ function AddDotNuoi() {
                     })
                 )
                 
-                setAoNuoi(true);
                 setTimeout(() => {
-                    setTen('')
-                    setNamNuoi('')
-                    setThoiDiem('')
-                    setTrangThai('')
-                    setTinhTrang('')
-                    setAoNuoiId('')
+                    setTen('');
+                    setNamNuoi('');
+                    setThoiDiem('');
+                    setTrangThai('');
+                    setTinhTrang('');
+                    setSoLuong('');
+                    setNgayTuoi('');
+                    setChatLuong('');
+                    setAoNuoiId('');
+                    setConGiongId('');
                 },100)
             })
             .catch((error) => {
@@ -258,15 +262,25 @@ function AddDotNuoi() {
                                 />
                             </Form.Group>                            
 
-                            {/* <Form.Group controlId="formBasicDiaChi" className={cx('form-group')}>
+                            <Form.Group controlId="formBasicDiaChi" className={cx('form-group')}>
                                 <Form.Label>Con giống:</Form.Label>
-                                <Form.Select  defaultValue="Chọn ao nuôi..." size="lg" name="csntId" onChange={(e) => setAoNuoiId(e.target.value)}>
+                                <Form.Select  defaultValue="Chọn con giống..." size="lg" name="congiongId" onChange={(e) => setConGiongId(e.target.value)}>
+                                    <option disabled>Chọn con giống...</option>
+                                    {congiongLists.map(data =>  (
+                                        <option key={data._id} value={data._id}> {data.ten} </option>
+                                    ))}
+                                </Form.Select>
+                            </Form.Group>
+
+                            <Form.Group controlId="formBasicDiaChi" className={cx('form-group')}>
+                                <Form.Label>Con giống:</Form.Label>
+                                <Form.Select  defaultValue="Chọn ao nuôi..." size="lg" name="aonuoiId" onChange={(e) => setAoNuoiId(e.target.value)}>
                                     <option disabled>Chọn ao nuôi...</option>
                                     {aonuoiLists.map(data => data.aonuois.map(aonuoi => (
                                         <option key={aonuoi._id} value={aonuoi._id}> {aonuoi.ten} </option>
                                     )))}
                                 </Form.Select>
-                            </Form.Group> */}
+                            </Form.Group>
 
                         </div>
                     </div>

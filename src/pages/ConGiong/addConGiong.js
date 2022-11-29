@@ -34,9 +34,7 @@ function AddConGiong() {
     const [loaicongiongLists, setLoaiConGiongLists] = useState([]);
     const [ncccongiongLists, setNCCConGiongLists] = useState([]);
 
-    const [congiongId, setConGiongId] = useState("");
-
-    const [aonuoi, setAoNuoi] = useState(false);
+    const [congiong, setConGiong] = useState(false);
 
     const navigate = useNavigate();
 
@@ -119,7 +117,7 @@ function AddConGiong() {
                     })
                 )
                 
-                setAoNuoi(true);
+                setConGiong(true);
                 setTimeout(() => {
                     setTen('');
                     setMoTa('');
@@ -187,7 +185,7 @@ function AddConGiong() {
                         <div>                          
                             <Form.Group controlId="formBasicDiaChi" className={cx('form-group')}>
                                 <Form.Label>Loại con giống:</Form.Label>
-                                <Form.Select  defaultValue="Chọn ..." size="lg" name="lcgId" onChange={(e) => setLoaiConGiong(e.target.value)}>
+                                <Form.Select  defaultValue="Chọn Loại con giống..." size="lg" name={lcgId} onChange={(e) => setLoaiConGiong(e.target.value)}>
                                     <option disabled>Chọn Loại con giống...</option>
                                     {loaicongiongLists.map(data => (
                                         <option key={data._id} value={data._id}> {data.ten} </option>
@@ -197,7 +195,7 @@ function AddConGiong() {
 
                             <Form.Group controlId="formBasicDiaChi" className={cx('form-group')}>
                                 <Form.Label>Nhà cung cấp con giống:</Form.Label>
-                                <Form.Select  defaultValue="Chọn đợt nuôi..." size="lg" name="ncccgId" onChange={(e) => setLoaiConGiong(e.target.value)}>
+                                <Form.Select  defaultValue="Chọn nhà cung cấp con giống..." size="lg" name={ncccgId} onChange={(e) => setNhaCungCap(e.target.value)}>
                                     <option disabled>Chọn nhà cung cấp con giống...</option>
                                     {ncccongiongLists.map(data => (
                                         <option key={data._id} value={data._id}> {data.ten} </option>

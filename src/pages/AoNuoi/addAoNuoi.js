@@ -157,7 +157,7 @@ function AddAoNuoi() {
                             {/* Dia chi */}
                             <Form.Group controlId="formBasicDiaChi" className={cx('form-group')}>
                                 <Form.Label>Cơ sở nuôi trồng:</Form.Label>
-                                <Form.Select  defaultValue="Chọn cơ sở nuôi trồng..." size="lg" name="csntId" onChange={(e) => setCSNTId(e.target.value)}>
+                                <Form.Select  defaultValue="Chọn cơ sở nuôi trồng..." size="lg" name={csntId} onChange={(e) => setCSNTId(e.target.value)}>
                                     <option disabled>Chọn cơ sở nuôi trồng...</option>
                                     {csntLists.map(csnt => (
                                         <option key={csnt._id} value={csnt._id}> {csnt.ten} </option>

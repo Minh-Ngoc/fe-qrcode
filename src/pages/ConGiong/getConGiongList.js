@@ -153,17 +153,15 @@ function GetConGiongList() {
                 ) : (
                     <div className={cx('AoNuoi-container-list')}>
                         <div className={cx('title-aonuoi-list')}>Danh sách đợt nuôi</div>
-                        <Table responsive hover>
+                        <Table responsive hover className="text-center">
                             <thead>
                                 <tr className="align-middle">
                                     <th>#</th>
-                                    <th>Tên đợt nuôi</th>
-                                    <th>Năm nuôi</th>
-                                    <th>Thời điểm</th>
-                                    <th>Trạng thái</th>
-                                    <th>Tình trạng</th>
-                                    <th>Ao nuôi</th>
-                                    <th>Mã QR</th>
+                                    <th>Tên con giống</th>
+                                    <th>Mô tả</th>
+                                    <th>Loại con giống</th>
+                                    <th>Nhà cung cấp</th>
+                                    <th>Hình ảnh</th>
                                     <th className="text-center" colSpan="2">Action</th>
                                 </tr>
                             </thead>
@@ -173,15 +171,17 @@ function GetConGiongList() {
                                         <tr key={data._id} className="align-middle">
                                             <td> {index + 1 } </td>
                                             <td> {data.ten} </td>
-                                            <td> {data.namnuoi} </td>
-                                            <td> {data.thoidiem} </td>
-                                            <td> {data.trangthai} </td>
-                                            <td> {data.tinhtrang} </td>
-                                            <td> {data.aonuoiId} </td>
+                                            <td> {data.mota} </td>
                                             <td> 
-                                                {(data.qrImage) ? (
-                                                    <img style={{width: "100px"}} src={data.qrImage} class="img-thumbnail" alt="..."></img>
-                                                ) : 'Chưa cấp mã QR'
+                                                {data.loaicongiongs.map(loaicongiong => loaicongiong.ten)}     
+                                            </td>
+                                            <td>
+                                                {data.ncccongiongs.map(ncccongiong => ncccongiong.ten)}
+                                            </td>
+                                            <td> 
+                                                {(data.hinhanh) ? (
+                                                    <img style={{width: "100px"}} src={data.hinhanh} class="img-thumbnail" alt="..."></img>
+                                                ) : 'Chưa chọn hình con giống!'
                                                 } 
                                             </td>
                                             <td className="text-center"> 
