@@ -30,6 +30,7 @@ function GetDotNuoiList() {
 
     const [dotnuoiLists, setDotNuoiLists] = useState([]);
     const [aonuoiLists, setAoNuoiLists] = useState([]);
+    const [congiongLists, setConGiongLists] = useState([]);
 
     const [dotnuoiEdit, setDotNuoiEdit] = useState(false);
     const [formEdit, setFormEdit] = useState(false);
@@ -49,8 +50,10 @@ function GetDotNuoiList() {
             axios(configuration)
                 .then((result) => {
                     // redirect user to the auth page
-                    // console.log(result.data.dataLists)
+                    // console.log(result.data.aonuoi)
                     setDotNuoiLists(result.data.dotnuoi);
+                    setAoNuoiLists(result.data.aonuoi);
+                    setConGiongLists(result.data.congiong);
                 })
                 .catch((error) => {
                     if(error){
@@ -86,7 +89,7 @@ function GetDotNuoiList() {
         // make the API call
         axios(configuration)
         .then((result) => {
-            setAoNuoiLists(result.data.aonuoi)
+            // setAoNuoiLists(result.data.aonuoi)
             setDataEdit(result.data.dotnuoi);
             setDotNuoiEdit(true);
         })
@@ -144,7 +147,7 @@ function GetDotNuoiList() {
         setFormEdit(e);
       };
 
-    // console.log(dataEdit);
+    // console.log(datas.ctcongiong);
 
     return (
         <>  
@@ -153,7 +156,7 @@ function GetDotNuoiList() {
                 ) : (
                     <div className={cx('AoNuoi-container-list')}>
                         <div className={cx('title-aonuoi-list')}>Danh sách đợt nuôi</div>
-                        <Table responsive hover>
+                        <Table responsive hover className="text-center">
                             <thead>
                                 <tr className="align-middle">
                                     <th>#</th>
@@ -163,6 +166,7 @@ function GetDotNuoiList() {
                                     <th>Trạng thái</th>
                                     <th>Tình trạng</th>
                                     <th>Ao nuôi</th>
+                                    <th>Con giống</th>
                                     <th>Mã QR</th>
                                     <th className="text-center" colSpan="2">Action</th>
                                 </tr>
@@ -177,7 +181,12 @@ function GetDotNuoiList() {
                                             <td> {data.thoidiem} </td>
                                             <td> {data.trangthai} </td>
                                             <td> {data.tinhtrang} </td>
-                                            <td> {data.aonuoiId} </td>
+                                            <td> 
+                                                {aonuoiLists.map(aonuoi => (aonuoi._id !== data.aonuoiId) ? '' : aonuoi.ten )} 
+                                            </td>
+                                            <td> 
+                                                {data.ctcongiong.map(congiong => congiongLists.map(congiongList => (congiongList._id !== congiong.congiongId) ? '' : congiongList.ten))} 
+                                            </td>
                                             <td> 
                                                 {(data.qrImage) ? (
                                                     <img style={{width: "100px"}} src={data.qrImage} className="img-thumbnail" alt="..."></img>

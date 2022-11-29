@@ -154,7 +154,7 @@ function GetAoNuoiList() {
                 ) : (
                     <div className={cx('AoNuoi-container-list')}>
                         <div className={cx('title-aonuoi-list')}>Danh sách ao nuôi</div>
-                        <Table responsive hover>
+                        <Table responsive hover className="text-center">
                             <thead>
                                 <tr className="align-middle">
                                     <th>#</th>

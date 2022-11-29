@@ -25,6 +25,16 @@
     width: 100%;
     background-color: rgba(255, 255, 255, 0.87);
     border-radius: 4px;
+
+    .table + .table {
+      margin-top: 2rem;
+    }
+
+    .congiong {
+      td {
+        padding: 20px 0;
+      }
+    }
   
     table th {
       font-weight: 600;
