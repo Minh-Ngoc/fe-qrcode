@@ -20,6 +20,7 @@ import ConGiong from '../pages/ConGiong';
 import NCCConGiong from '../pages/NCCConGiong';
 import ChiSoMoiTruong from '../pages/ChiSoMoiTruong';
 import GiaiDoan from '../pages/GiaiDoan';
+import ThucAnSD from '../pages/GiaiDoan/addThucAnSD';
 import ThucAn from '../pages/ThucAn';
 import ThuongLai from '../pages/ThuongLai';
 import ThuocThuySan from '../pages/ThuocThuySan';
@@ -29,7 +30,7 @@ import FreeComponent from '../components/FreeComponent';
 
 // Public routes
 const publicRoutes = [
-    { path: config.routes.home, component: Home },
+    { path: config.routes.home, component: Login, layout: LoginManage },
     { path: config.routes.upload, component: Upload, layout: HeaderOnly },
     { path: config.routes.register, component: Register, layout: LoginManage },
     { path: config.routes.login, component: Login, layout: LoginManage },
@@ -43,7 +44,10 @@ const publicRoutes = [
     { path: config.routes.congiong, component: ConGiong, layout: AuthComponent },
     { path: config.routes.ncccongiong, component: NCCConGiong, layout: AuthComponent },
     { path: config.routes.chisomoitruong, component: ChiSoMoiTruong, layout: AuthComponent },
+
     { path: config.routes.giaidoan, component: GiaiDoan, layout: AuthComponent },
+    { path: config.routes.thucansd, component: ThucAnSD, layout: AuthComponent },
+
     { path: config.routes.thucan, component: ThucAn, layout: AuthComponent },
     { path: config.routes.thuonglai, component: ThuongLai, layout: AuthComponent },
     { path: config.routes.thuocthuysan, component: ThuocThuySan, layout: AuthComponent },

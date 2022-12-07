@@ -13,14 +13,14 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Table from 'react-bootstrap/Table';
 
-import EditNCCConGiong from './editNCCConGiong'
+import EditThucAn from './editThucAn'
 
 import classNames from 'classnames/bind';
-import styles from './NCCConGiong.module.scss';
+import styles from './ThucAn.module.scss';
 
 const cx = classNames.bind(styles);
 
-function GetNCCConGiongList() {
+function GetThucAnList() {
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -28,12 +28,12 @@ function GetNCCConGiongList() {
     const location = useLocation();
     const userData = location.state.userId;
 
-    const [ncccongiongLists, setNCCConGiongLists] = useState([]);
-    const [ncccongiong, setNCCConGiongEdit] = useState(false);
+    const [thucanLists, setThucAnLists] = useState([]);
+    const [thucan, setThucAnEdit] = useState(false);
     const [formEdit, setFormEdit] = useState(false);
     const [dataEdit, setDataEdit] = useState('');
 
-    const [ncccongiongDelete, setNCCConGiongDelete] = useState(false);
+    const [thucanDelete, setThucAnDelete] = useState(false);
 
 
     useEffect(() => {
@@ -41,18 +41,18 @@ function GetNCCConGiongList() {
             console.log(userData)
             const configuration = {
                 method: "GET",
-                url: `http://localhost:3000/api/nhacungcapcongiong/${userData}/list`,
+                url: `http://localhost:3000/api/thucan/${userData}/list`,
             };
             // make the API call
             axios(configuration)
                 .then((result) => {
                     // redirect user to the auth page
-                    console.log(result.data.ncccongiong)
-                    setNCCConGiongLists(result.data.ncccongiong);
+                    console.log(result.data.thucan)
+                    setThucAnLists(result.data.thucan);
                 })
                 .catch((error) => {
                     if(error.request.status === 505){
-                        return toast.error("Không có nhà cung cấp nào được tạo!", {
+                        return toast.error("Không có thức ăn nào được tạo!", {
                             position: toast.POSITION.TOP_RIGHT,
                         })
                         }
@@ -61,7 +61,7 @@ function GetNCCConGiongList() {
         getNCCConGiong();
       },[]);
       
-    const datas = ncccongiongLists;
+    const datas = thucanLists;
 
     let idNCCConGiong;
     const getIdNCCConGiong = (id) => idNCCConGiong = id;
@@ -81,12 +81,12 @@ function GetNCCConGiongList() {
         // make the API call
         axios(configuration)
         .then((result) => {
-            setDataEdit(result.data.ncccongiong);
-            setNCCConGiongEdit(true);
+            setDataEdit(result.data.thucan);
+            setThucAnEdit(true);
         })
         .catch((error) => {
             if(error.request.status === 505){
-                return toast.error("Không thể cập nhật nhà cung cấp con giống!", {
+                return toast.error("Không thể cập nhật thức ăn!", {
                     position: toast.POSITION.TOP_RIGHT,
                     })
                 }
@@ -118,12 +118,12 @@ function GetNCCConGiongList() {
                     })
                 )
             }
-            setNCCConGiongLists(result.data.ncccongiong)
-            setNCCConGiongDelete(true);
+            setThucAnLists(result.data.thucan)
+            setThucAnDelete(true);
         })
         .catch((error) => {
             if(error.request.status === 505){
-                return toast.error("Không thể xóa nhà cung cấp con giống!", {
+                return toast.error("Không thể xóa thức ăn!", {
                     position: toast.POSITION.TOP_RIGHT,
                     })
                 }
@@ -141,17 +141,18 @@ function GetNCCConGiongList() {
     return (
         <>  
                 {formEdit ? (
-                    <EditNCCConGiong dataSend={dataEdit} handleClickFrom={handleClickFrom} />
+                    <EditThucAn dataSend={dataEdit} handleClickFrom={handleClickFrom} />
                 ) : (
                     <div className={cx('CSNT-container-list')}>
-                        <div className={cx('title-csnt-list')}>Danh sách nhà cung cấp con giống</div>
+                        <div className={cx('title-csnt-list')}>Danh sách thức ăn</div>
                         <Table responsive hover>
                             <thead>
                                 <tr className="align-middle">
                                     <th>#</th>
-                                    <th>Tên nhà cung cấp</th>
-                                    <th>Địa chỉ</th>
-                                    <th>Số điện thoại</th>
+                                    <th className="text-center">Tên thức ăn</th>
+                                    <th>Loại thức ăn</th>
+                                    <th>Nhà cung cấp</th>
+                                    <th>Ghi chú</th>
                                     <th className="text-center" colSpan="2">Action</th>
                                 </tr>
                             </thead>
@@ -160,8 +161,9 @@ function GetNCCConGiongList() {
                                     <tr key={data._id} className="align-middle">
                                         <td> {index + 1} </td>
                                         <td> {data.ten} </td>
-                                        <td> {data.diachi} </td>
-                                        <td> {data.sdt} </td>
+                                        <td> {data.loaithucan} </td>
+                                        <td> {data.ncc} </td>
+                                        <td> {(data.ghichu && data.ghichu !== '') ? data.ghichu : 'Không có ghi chú'} </td>
                                         <td className="text-center"> 
                                             <Button
                                                 className={cx('btn-submit-edit', 'btn', 'btn--primary') }
@@ -200,4 +202,4 @@ function GetNCCConGiongList() {
     );
 }
 
-export default GetNCCConGiongList;
+export default GetThucAnList;

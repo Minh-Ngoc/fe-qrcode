@@ -1,0 +1,115 @@
+.form-group {
+  select, input {
+    width: 46rem;
+    font-size: 16px;
+  }
+}
+
+.form-group + .form-group {
+  margin-top: 1rem;
+} 
+
+.form-group + button {
+  margin-top: 2rem;
+}
+
+
+.btn-submit-login {
+  width: 30rem;
+  font-size: 16px!important;
+}
+.btn-submit-addAoNuoi { 
+  width: 30rem;
+  font-size: 16px!important;
+
+
+}
+
+.form-text-message {
+  text-decoration: underline;
+  text-align: center;
+  font-weight: 600;
+  color: #ffc800;
+  text-decoration-color: red;
+  margin-top: 2rem;
+}
+.nav-bar-btn {
+  width: 100%;
+
+  > ul {
+    padding: 0 20%;
+  }
+
+  ul > li > button {
+    color: #0008ff;
+    font-weight: 600;
+    font-size: 18px;
+    border: none!important;
+  }
+}
+
+.AoNuoi-container-list {
+  padding: 1rem;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.87);
+  border-radius: 4px;
+
+  table th {
+    font-weight: 600;
+    font-size: 17px;
+  }
+  table td button {
+    font-size: 14px;
+  }
+
+  .title-aonuoi-list {
+    text-align: center;
+    color: black;
+    font-weight: 600;
+    font-size: 22px;
+    margin-bottom: 1rem;
+  }
+
+}
+
+.btn-addAoNuoi {
+  margin-top: 3rem;
+  width: 100%;
+
+  button {
+    width: 46rem;
+  }
+}
+
+.btn-editAoNuoi {
+  margin-top: 3rem;
+  width: 100%;
+
+  button {
+    width: 22rem;
+  }
+  button + button {
+    margin-left: 2rem;
+  }
+}
+
+.btn-submit-edit {
+  width: 40px;
+  font-size: 14px;
+}
+.thucanDetail {
+  // min-width: 35rem;
+  z-index: 100;
+  background-color: none!important;
+}
+
+span + .item-style-list {
+  border-left: 1px solid #ccc;
+  padding-left: 1rem;
+}
+.item-style-list {
+  flex: 1;
+  margin-left: 1rem;
+  // list-style-type: none;
+  text-align: left;
+}

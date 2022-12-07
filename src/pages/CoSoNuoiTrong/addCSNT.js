@@ -170,7 +170,7 @@ function AddCSNT() {
                         <div>
                             {/* dientich */}
                             <Form.Group controlId="formBasicSDT" className={cx('form-group')}>
-                                <Form.Label>Diện tích cơ sở nuôi trồng:</Form.Label>
+                                <Form.Label>Diện tích cơ sở nuôi trồng (m<sup>2</sup>):</Form.Label>
                                 <Form.Control
                                     size="lg"
                                     type="text"
@@ -183,14 +183,14 @@ function AddCSNT() {
 
                             {/* dtmatnuoc */}
                             <Form.Group controlId="formBasicSDT" className={cx('form-group')}>
-                                <Form.Label>Diện tích mặt nước:</Form.Label>
+                                <Form.Label>Thể tích mặt nước (m<sup>3</sup>) :</Form.Label>
                                 <Form.Control
                                     size="lg"
                                     type="text"
                                     name="dtmatnuoc"
                                     value={dtmatnuoc}
                                     onChange={(e) => setDtMatNuoc(e.target.value)}
-                                    placeholder="Nhập diện tích mặt nước..."
+                                    placeholder="Nhập thể tích mặt nước..."
                                 />
                             </Form.Group>
 

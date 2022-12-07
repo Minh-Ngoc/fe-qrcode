@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 /* eslint-disable no-unused-vars */
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Button } from "react-bootstrap";
 //Library react toastify
 import { toast } from 'react-toastify';
@@ -13,14 +13,19 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Table from 'react-bootstrap/Table';
 
-import EditDotNuoi from './editDotNuoi'
+import EditGiaiDoan from './editGiaiDoan'
+
+import Scrollbars from "react-custom-scrollbars-2";
+
+import config from '../../config';
 
 import classNames from 'classnames/bind';
-import styles from './DotNuoi.module.scss';
+import styles from './GiaiDoan.module.scss';
 
 const cx = classNames.bind(styles);
 
-function GetDotNuoiList() {
+function GetGiaiDoanList() {
+    const navigate = useNavigate();
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -28,47 +33,46 @@ function GetDotNuoiList() {
     const location = useLocation();
     const userData = location.state.userId;
 
-    const [dotnuoiLists, setDotNuoiLists] = useState([]);
-    const [aonuoiLists, setAoNuoiLists] = useState([]);
-    const [congiongLists, setConGiongLists] = useState([]);
+    const [giaidoanLists, setGiaiDoanLists] = useState([]);
+    const [thucanLists, setThucAnLists] = useState([]);
 
+    const [giaidoanEdit, setGiaiDoanEdit] = useState(false);
     const [formEdit, setFormEdit] = useState(false);
     const [dataEdit, setDataEdit] = useState('');
 
-    const [dotnuoiDelete, setDotNuoiDelete] = useState(false);
+    const [giaidoanDelete, setGiaiDoanDelete] = useState(false);
 
 
     useEffect(() => {
-        async function getDotNuoi(){
+        async function getAoNuoi(){
             // console.log(userData)
             const configuration = {
                 method: "GET",
-                url: `http://localhost:3000/api/dotnuoi/${userData}/list`,
+                url: `http://localhost:3000/api/giaidoan/${userData}/list`,
             };
             // make the API call
             axios(configuration)
                 .then((result) => {
                     // redirect user to the auth page
-                    // console.log(result.data.aonuoi)
-                    setDotNuoiLists(result.data.dotnuoi);
-                    setAoNuoiLists(result.data.aonuoi);
-                    setConGiongLists(result.data.congiong);
+                    // console.log(result.data.dataLists)
+                    setGiaiDoanLists(result.data.giaidoan);
+                    setThucAnLists(result.data.thucan);
                 })
                 .catch((error) => {
                     if(error){
-                        return toast.error("Không có đợt nuôi nào được tạo!", {
+                        return toast.error("Không có giai đoạn nuôi nào được tạo!", {
                             position: toast.POSITION.TOP_RIGHT,
                         })
                     }
                 });
         } 
-        getDotNuoi();
+        getAoNuoi();
       },[]);
       
-    const datas = dotnuoiLists;
+    const datas = giaidoanLists;
 
-    let idDotNuoi;
-    const getIdDotNuoi = (id) => idDotNuoi = id;
+    let idGiaiDoan;
+    const getIdGiaiDoan = (id) => idGiaiDoan = id;
 
     const handleSubmit = (e) => {
         // prevent the form from refreshing the whole page
@@ -79,7 +83,7 @@ function GetDotNuoiList() {
         // set configurations
         const configuration = {
             method: "get",
-            url: `http://localhost:3000/api/dotnuoi/${idDotNuoi}/edit`,
+            url: `http://localhost:3000/api/aonuoi/${idGiaiDoan}/edit`,
             params: {
                 tkId: userData,
             },
@@ -88,12 +92,12 @@ function GetDotNuoiList() {
         // make the API call
         axios(configuration)
         .then((result) => {
-            // setAoNuoiLists(result.data.aonuoi)
-            setDataEdit(result.data.dotnuoi);
+            setDataEdit(result.data.giaidoan);
+            setGiaiDoanEdit(true);
         })
         .catch((error) => {
             if(error.request.status === 505){
-                return toast.error("Không thể cập nhật đợt nuôi!", {
+                return toast.error("Không thể cập nhật giai đoạn nuôi!", {
                     position: toast.POSITION.TOP_RIGHT,
                     })
                 }
@@ -106,9 +110,9 @@ function GetDotNuoiList() {
         // set configurations
         const configuration = {
             method: "delete",
-            url: `http://localhost:3000/api/aonuoi/${idDotNuoi}`,
+            url: `http://localhost:3000/api/aonuoi/${idGiaiDoan}`,
             params: {
-                aonuoiId: userData,
+                csntId: userData,
             },
         };
 
@@ -128,76 +132,106 @@ function GetDotNuoiList() {
                     })
                 )
             }
-            setDotNuoiDelete(true);
+            setGiaiDoanDelete(true);
         })
         .catch((error) => {
             if(error.request.status === 505){
-                return toast.error("Không thể xóa đợt nuôi!", {
+                return toast.error("Không thể xóa giai đoạn nuôi!", {
                     position: toast.POSITION.TOP_RIGHT,
                     })
                 }
         });
     }
 
+    const handleSubmitAdd = (e) => {
+        // 👇️ take parameter passed from Child component
+        navigate(config.routes.thucansd, { state: {
+            userId: userData,
+            giaiDoanId: idGiaiDoan,
+            } 
+        })
+    };
 
     const handleClickFrom = (e) => {
         // 👇️ take parameter passed from Child component
         setFormEdit(e);
-      };
+    };
 
-    // console.log(datas.ctcongiong);
+
+    console.log(thucanLists);
 
     return (
         <>  
                 {formEdit ? (
-                    <EditDotNuoi dataSend={dataEdit} congiongLists={congiongLists} aonuoiLists={aonuoiLists} handleClickFrom={handleClickFrom} />
+                    <EditGiaiDoan dataSend={dataEdit} handleClickFrom={handleClickFrom} />
                 ) : (
                     <div className={cx('AoNuoi-container-list')}>
-                        <div className={cx('title-aonuoi-list')}>Danh sách đợt nuôi</div>
+                        <div className={cx('title-aonuoi-list')}>Danh sách giai đoạn nuôi</div>
                         <Table responsive hover className="text-center">
                             <thead>
                                 <tr className="align-middle">
                                     <th>#</th>
-                                    <th>Tên đợt nuôi</th>
-                                    <th>Năm nuôi</th>
-                                    <th>Thời điểm</th>
-                                    <th>Trạng thái</th>
-                                    <th>Tình trạng</th>
+                                    <th>Tên giai đoạn nuôi</th>
                                     <th>Ao nuôi</th>
-                                    <th>Con giống</th>
-                                    <th>Mã QR</th>
+                                    <th>Thời điểm</th>
+                                    <th className={cx('thucanDetail')}>Thức ăn sử dụng</th>
+                                    <th>Ghi chú</th>
                                     <th className="text-center" colSpan="2">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {datas.map((data, index) => {
-                                    return (
+                                {!datas ? '' : datas.map((data, index) => (
                                         <tr key={data._id} className="align-middle">
-                                            <td> {index + 1 } </td>
+                                            <td> {++index} </td>
                                             <td> {data.ten} </td>
-                                            <td> {data.namnuoi} </td>
+                                            <td> 
+                                                {data.aonuois.map(aonuoi => aonuoi.ten )} 
+                                            </td>
                                             <td> {data.thoidiem} </td>
-                                            <td> {data.trangthai} </td>
-                                            <td> {data.tinhtrang} </td>
-                                            <td> 
-                                                {aonuoiLists.map(aonuoi => (aonuoi._id !== data.aonuoiId) ? '' : aonuoi.ten )} 
+                                            <td>
+                                                <div className="d-flex align-items-center">
+                                                    <Scrollbars style={{ height: 200, width: 350 }}>
+                                                        <div className={'list-group ' + cx('thucanDetail')}>
+                                                            {data.thucan ? data.thucan.map((thucan, index) => (
+                                                                <div className="d-flex align-items-center list-group-item">
+                                                                    <span>{++index}</span>
+                                                                    <div className={cx('item-style-list')}>
+                                                                        <li>Thời điểm cho ăn: {thucan.thoidiem} </li>    
+                                                                        <li>Lượng thức ăn: {thucan.luongthucan} kg</li> 
+                                                                        {thucanLists.map(list => (list._id === thucan.thucanId) ? (
+                                                                            <li>Tên thức ăn: {list.ten}</li>                                     
+                                                                        ) : '')}
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            )) : ''}
+                                                        </div>
+                                                    </Scrollbars>   
+                                                    <div className="ps-4">
+                                                        <Button
+                                                            className={cx('btn-submit-edit', 'btn', 'btn--success') }
+                                                            variant="success"
+                                                            type="submit"
+                                                            onClick={(e) => {
+                                                                getIdGiaiDoan(data._id);
+                                                                handleSubmitAdd(e);
+                                                            }}
+                                                        >
+                                                            <FontAwesomeIcon icon={faPlus} />
+                                                        </Button>
+                                                    </div>
+                                                    
+                                                </div>
+
                                             </td>
-                                            <td> 
-                                                {data.ctcongiong.map(congiong => congiongLists.map(congiongList => (congiongList._id !== congiong.congiongId) ? '' : congiongList.ten))} 
-                                            </td>
-                                            <td> 
-                                                {(data.qrImage) ? (
-                                                    <img style={{width: "100px"}} src={data.qrImage} className="img-thumbnail" alt="..."></img>
-                                                ) : 'Chưa cấp mã QR'
-                                                } 
-                                            </td>
+                                            <td> {(data.ghichu === '') ? 'Không có ghi chú' : data.ghichu} </td>
                                             <td className="text-center"> 
                                                 <Button
                                                     className={cx('btn-submit-edit', 'btn', 'btn--primary') }
                                                     variant="primary"
                                                     type="submit"
                                                     onClick={(e) => {
-                                                        getIdDotNuoi(data._id);
+                                                        getIdGiaiDoan(data._id);
                                                         handleSubmit(e);
                                                         }
                                                     }
@@ -211,7 +245,7 @@ function GetDotNuoiList() {
                                                     variant="danger"
                                                     type="submit"
                                                     onClick={(e) => {
-                                                        getIdDotNuoi(data._id);
+                                                        getIdGiaiDoan(data._id);
                                                         handleDeleteAoNuoi(e);
                                                         }
                                                     }
@@ -220,7 +254,7 @@ function GetDotNuoiList() {
                                                 </Button> 
                                             </td>
                                         </tr>
-                                )   })}
+                                )   )}
                             </tbody>
                         </Table>
                     </div>
@@ -229,4 +263,4 @@ function GetDotNuoiList() {
     );
 }
 
-export default GetDotNuoiList;
+export default GetGiaiDoanList;

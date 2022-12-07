@@ -1,22 +1,24 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 
+import { ToastContainer } from 'react-toastify';
+
 //Library react toastify
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import classNames from 'classnames/bind';
-import styles from './AoNuoi.module.scss';
+import styles from './GiaiDoan.module.scss';
 
 const cx = classNames.bind(styles);
 
 
-function AddAoNuoi() {
-    const [csntLists, setCSNTLists] = useState([]);
+function AddThucAnSD() {
+    const navigate = useNavigate();
+    const [thucanLists, setThucAnLists] = useState([]);
 
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -24,37 +26,34 @@ function AddAoNuoi() {
     // Get userId from Auth Component 
     const location = useLocation();
     const userData = location.state.userId;
-    
+    const giaiDoanId = location.state.giaiDoanId;
     // initial state
 
-    const [ten, setTen] = useState("");
-    const [dientich, setDienTich] = useState("");
-    const [csntId, setCSNTId] = useState("");
-
-    const [aonuoi, setAoNuoi] = useState(false);
-
-    const navigate = useNavigate();
+    const [luongthucan, setLuongThucAn] = useState("");
+    const [thoidiem, setThoiDiem] = useState("");
+    const [thucanId, setThucAnId] = useState("");
 
     useEffect(() => {
         async function getCSNT(){
             const configuration = {
                 method: "GET",
-                url: `http://localhost:3000/api/cosonuoitrong/${userData}/list`,
+                url: `http://localhost:3000/api/thucan/${userData}/list`,
             };
             // make the API call
             axios(configuration)
                 .then((result) => {
                     // redirect user to the auth page
-                    if(result.data.csnt.length === 0) {
-                        return toast.error("Bạn chưa có cơ sở nôi trồng nào. Vui lòng thêm cơ sở nôi trồng để tạo ao nuôi!", {
+                    if(result.data.thucan.length === 0) {
+                        return toast.error("Bạn chưa thêm thức ăn. Vui lòng thêm thức ăn để tạo thức ăn sử dụng!", {
                             position: toast.POSITION.TOP_RIGHT,
                         })
                     }
-                    setCSNTLists(result.data.csnt);
+                    // console.log(result.data.thucan);
+                    setThucAnLists(result.data.thucan);
                 })
                 .catch((error) => {
-                    if(error.request.status === 505){
-                        return toast.error("Không có cơ sở nuôi trồng nào được tạo!", {
+                    if(error){
+                        return toast.error("Không có thức ăn nào được tạo!", {
                             position: toast.POSITION.TOP_RIGHT,
                         })
                     } 
@@ -68,9 +67,9 @@ function AddAoNuoi() {
         e.preventDefault();
 
         if(
-            !ten ||
-            !dientich ||
-            !csntId 
+            !luongthucan ||
+            !thoidiem ||
+            !thucanId 
         ) {
             setErrorMessage(
                 toast.error("Vui lòng nhập đầy đủ thông tin !", {
@@ -80,13 +79,13 @@ function AddAoNuoi() {
         } else {
             // set configurations
             const configuration = {
-                method: "post",
-                url: "http://localhost:3000/api/aonuoi/create",
+                method: "put",
+                url: `http://localhost:3000/api/giaidoan/addthucansd/${giaiDoanId}`,
                 data: {
-                    ten,
-                    dientich,
-                    csntId,
-                    tkId: userData,
+                    luongthucan,
+                    thoidiem,
+                    thucanId,
+                    // tkId: userData,
                 },
             };
 
@@ -94,26 +93,25 @@ function AddAoNuoi() {
             axios(configuration)
             .then((result) => {
                 // redirect user to the auth page
-                (result.data.errCode === 201) ? setSuccessMessage(
-                    toast.success("Thêm ao nuôi thành công !", {
+                (result.data.errCode === 200) ? setSuccessMessage(
+                    toast.success("Thêm thức ăn sử dụng thành công !", {
                         position: toast.POSITION.TOP_RIGHT
                     })
                 ) : setErrorMessage(
-                    toast.error("Thêm ao nuôi không thành công !", {
+                    toast.error("Thêm thức ăn sử dụng không thành công !", {
                         position: toast.POSITION.TOP_RIGHT
                     })
                 )
                 
-                setAoNuoi(true);
                 setTimeout(() => {
-                    setTen('');
-                    setDienTich('');
-                    setCSNTId('');
+                    setLuongThucAn('');
+                    setThoiDiem('');
+                    // setThucAnId('');
                 },100)
             })
             .catch((error) => {
                 if(error){
-                    return toast.error("Ao nuôi đã tồn tại!", {
+                    return toast.error("Thêm thức ăn sử dụng không thành công!", {
                         position: toast.POSITION.TOP_RIGHT,
                     })
                   }
@@ -130,37 +128,37 @@ function AddAoNuoi() {
                     <div className="d-flex justify-content-around">
                         <div>
                             <Form.Group controlId="formBasicEmail" className={cx('form-group')}>
-                                <Form.Label>Tên ao nuôi:</Form.Label>
+                                <Form.Label>Lượng thức ăn (kg):</Form.Label>
                                 <Form.Control
                                     size="lg"
                                     type="text"
-                                    name="ten"
-                                    value={ten}
-                                    onChange={(e) => setTen(e.target.value)}
-                                    placeholder="Nhập tên ao nuôi..."
+                                    name="luongthucan"
+                                    value={luongthucan}
+                                    onChange={(e) => setLuongThucAn(e.target.value)}
+                                    placeholder="Nhập lượng thức ăn..."
                                 />
                             </Form.Group>
 
                             {/* ten */}
                             <Form.Group controlId="formBasicName" className={cx('form-group')}>
-                                <Form.Label>Diện tích ao nuôi (m<sup>2</sup>) :</Form.Label>
+                                <Form.Label>Thời điểm:</Form.Label>
                                 <Form.Control
                                     size="lg"
                                     type="text"
-                                    name="dientich"
-                                    value={dientich}
-                                    onChange={(e) => setDienTich(e.target.value)}
-                                    placeholder="Nhập diện tích ao nuôi..."
+                                    name="thoidiem"
+                                    value={thoidiem}
+                                    onChange={(e) => setThoiDiem(e.target.value)}
+                                    placeholder="Ngày ? tháng ?..."
                                 />
                             </Form.Group>
 
                             {/* Dia chi */}
                             <Form.Group controlId="formBasicDiaChi" className={cx('form-group')}>
-                                <Form.Label>Cơ sở nuôi trồng:</Form.Label>
-                                <Form.Select  defaultValue="Chọn cơ sở nuôi trồng..." size="lg" name={csntId} onChange={(e) => setCSNTId(e.target.value)}>
-                                    <option disabled>Chọn cơ sở nuôi trồng...</option>
-                                    {csntLists.map(csnt => (
-                                        <option key={csnt._id} value={csnt._id}> {csnt.ten} </option>
+                                <Form.Label>Thức ăn:</Form.Label>
+                                <Form.Select  defaultValue="Chọn thức ăn..." size="lg" name={thucanId} onChange={(e) => setThucAnId(e.target.value)}>
+                                    <option disabled>Chọn thức ăn...</option>
+                                    {thucanLists.map(thucan => (
+                                        <option key={thucan._id} value={thucan._id}> {thucan.ten} </option>
                                     ))}
                                 </Form.Select>
                             </Form.Group>
@@ -169,23 +167,33 @@ function AddAoNuoi() {
                     </div>
 
                     {/* submit button */}
-                    <div className={'text-center ' + cx('btn-addAoNuoi')}>
+                    <div className={'d-flex justify-content-center ' + cx('btn-editAoNuoi')}>
                         <Button
-                            className={cx('btn-submit-addAoNuoi', 'btn', 'btn--success') }
+                            className={cx('btn-submit-login', 'btn', 'btn--success') }
                             variant="danger"
                             type="submit"
                             onClick={(e) => {
-                                handleSubmit(e);
+                                    handleSubmit(e);
                                 }
                             }
                         >
                             THÊM
                         </Button>
+
+                        <Button
+                            className={cx('btn-submit-login', 'btn', 'btn--success') }
+                            variant="primary"
+                            type="button"
+                            onClick={() => navigate(-1)}
+                        >
+                            TRỞ VỀ
+                        </Button>
                     </div>
                 </Form>  
             </div>
+            <ToastContainer/>
         </>
     );
 }
 
-export default AddAoNuoi;
+export default AddThucAnSD;

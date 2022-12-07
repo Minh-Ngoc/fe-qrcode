@@ -16,6 +16,7 @@ const routes = {
     ncccongiong: '/ncccongiong',
     chisomoitruong: '/chisomoitruong',
     giaidoan: '/giaidoan',
+    thucansd: '/giaidoan/thucansd',
     thucan: '/thucan',
     thuonglai: '/thuonglai',
     thuocthuysan: '/thuocthuysan',

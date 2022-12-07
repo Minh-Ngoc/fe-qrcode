@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSnowflake } from '@fortawesome/free-solid-svg-icons';
+
+import { Scrollbars } from 'react-custom-scrollbars-2';
+
+import { Table } from "react-bootstrap";
 // Call API
 import axios from "axios";
 
@@ -8,7 +14,7 @@ import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import Table from 'react-bootstrap/Table';
+// import Table from 'react-bootstrap/Table';
 
 import styles from './ScanQRCode.module.scss';
 import classNames from 'classnames/bind';
@@ -24,6 +30,10 @@ function ScanQRCode() {
     const [message, setMessage] = useState('')
 
     const [data, setData] = useState(false);
+    const [cosonuoitrong, setCoSoNuoiTrong] = useState(false);
+    const [aonuoi, setAoNuoi] = useState(false);
+    const [giaidoan, setGiaiDoan] = useState(false);
+    const [thucanLists, setThucAn] = useState(false);
     const [ctcongiong, setCTConGiong] = useState(false);
     const [loaicongiong, setLoaiConGiong] = useState(false);
     const [ncccongiong, setNCCConGiong] = useState(false);
@@ -43,11 +53,16 @@ function ScanQRCode() {
                         position: toast.POSITION.TOP_RIGHT
                     }));
 
+                    document.title = !result.data.dotnuoi[0].ctcongiong[0].congiongs.ten ? 'Quét mã QR' : result.data.dotnuoi[0].ctcongiong[0].congiongs.ten;
+                    setCoSoNuoiTrong(result.data.dotnuoi[0].cosonuoitrongs[0]);
+                    setAoNuoi(result.data.dotnuoi[0].aonuois[0]);
+                    setGiaiDoan(result.data.dotnuoi[0].giaidoans[0]);
+                    setThucAn(result.data.thucan);
                     setData(result.data.dotnuoi[0]);
                     setCTConGiong(result.data.dotnuoi[0].ctcongiong[0]);
-                    setConGiong(result.data.dotnuoi[0].ctcongiong[0].congiongs.ten);
-                    setLoaiConGiong(result.data.dotnuoi[0].loaicongiongs[0].ten);
-                    setNCCConGiong(result.data.dotnuoi[0].ncccongiongs[0].ten);
+                    setConGiong(result.data.dotnuoi[0].ctcongiong[0].congiongs);
+                    setLoaiConGiong(result.data.dotnuoi[0].loaicongiongs[0]);
+                    setNCCConGiong(result.data.dotnuoi[0].ncccongiongs[0]);
                 })
                 .catch((error) => {
                     if(error){
@@ -60,7 +75,7 @@ function ScanQRCode() {
         getData();
       },[]);
 
-    console.log(congiong);
+    // console.log(thucanLists);
 
     return (
         <div id={cx('Scan-qrcode')}>
@@ -71,64 +86,109 @@ function ScanQRCode() {
                     </div>
                     <hr/>
                     <div id={cx('content')} >
-                        {!data ? '' : (
-                            <div className={cx('container')}>
-                            {/* <div className={cx('title-aonuoi-list')}></div> */}
-                                <div className={cx('table')}>
-                                    <Table responsive hover className="text-center">
-                                        <thead>
-                                            <tr className="align-middle">
-                                                <th>Tên đợt nuôi</th>
-                                                <th>Ao nuôi</th>
-                                                <th>Năm nuôi</th>
-                                                <th>Thời điểm</th>
-                                                <th>Trạng thái</th>
-                                                <th>Tình trạng</th>
-                                                <th>Mã QR</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr key={data._id} className="align-middle">
-                                                <td> {data.ten} </td>
-                                                <td> {data.aonuois.map(aonuoi => aonuoi.ten)} </td>
-                                                <td> {data.namnuoi} </td>
-                                                <td> {data.thoidiem} </td>
-                                                <td> {data.trangthai} </td>
-                                                <td> {data.tinhtrang} </td>
-                                                <td>
-                                                    <img style={{width: "100px"}} src={data.qrImage} className="img-thumbnail" alt="..."></img>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </Table>
-                                </div>
-
-                                <div className={cx('table', 'congiong')}>
-                                    <Table responsive hover className="text-center">
-                                        <thead>
-                                            <tr className="align-middle">
-                                                <th>Con giống</th>
-                                                <th>Số lượng</th>
-                                                <th>Ngày tuổi</th>
-                                                <th>Chất lượng</th>
-                                                <th>Loại con giống</th>
-                                                <th>Nhà cung cấp</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr key={data._id} className="align-middle">
-                                                <td> {congiong} </td>
-                                                <td> {ctcongiong.soluong} </td>
-                                                <td> {ctcongiong.ngaytuoi} </td>
-                                                <td> {ctcongiong.chatluong} </td>
-                                                <td> {loaicongiong} </td>
-                                                <td> {ncccongiong} </td>
-                                            </tr>
-                                        </tbody>
-                                    </Table>
-                                </div>
+                        <div className="d-flex">
+                            <div className={cx('content-qr-image')}>
+                                <img style={{width: "180px"}} src={data.qrImage} className="img-thumbnail" alt="..."></img>
                             </div>
-                        )}
+
+                            <Scrollbars style={{ height: 600 }}>
+                                <div className={'d-flex flex-column mt-3 ms-5 me-5 ' + cx('bg-content')}>
+
+                                    <div className={cx('content-text')}>
+                                        <div className={cx('title')}>
+                                            <div className={cx('icon')}><FontAwesomeIcon icon={faSnowflake} /></div>
+                                            Con giống:
+                                        </div>
+                                        <div className={cx('value')}>
+                                            <li>Loại con giống: {loaicongiong.ten}</li>
+                                            <li>Tên con giống: {congiong.ten}</li>
+                                            <li>Số lượng con giống: {ctcongiong.soluong}</li>
+                                            <li>Ngày tuổi: {ctcongiong.ngaytuoi} ngày</li>
+                                            <li>Chất lượng: {ctcongiong.chatluong}</li>
+                                            <li>Nhà cung cấp con giống:</li>
+                                            <ul>
+                                                <li>Tên nhà cung cấp con giống: {ncccongiong.ten}</li>
+                                                <li>Địa chỉ: {ncccongiong.diachi}</li>
+                                                <li>Số điện thoại: {ncccongiong.sdt}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div className={cx('content-text')}>
+                                        <div className={cx('title')}>
+                                            <div className={cx('icon')}><FontAwesomeIcon icon={faSnowflake} /></div>
+                                            Cơ sở nuôi trồng:
+                                        </div>
+                                        <div className={cx('value')}>
+                                            <li>Tên cơ sỏ nuôi trồng: {cosonuoitrong.ten} </li>
+                                            <li>Chủ sở hữu: {cosonuoitrong.chusohuu} </li>
+                                            <li>Địa chỉ: {cosonuoitrong.diachi} </li>
+                                            <li>Số điện thoại: {cosonuoitrong.sdt} </li>
+                                            <li>Diện tích: {cosonuoitrong.dientich} m<sup>2</sup> </li>
+                                            <li>Thể tích mặt nước: {cosonuoitrong.dtmatnuoc} m<sup>3</sup></li>
+                                            <li>Năm đăng ký: {cosonuoitrong.namdangky} </li>
+                                        </div>
+                                    </div>
+
+                                    <div className={cx('content-text')}>
+                                        <div className={cx('title')}>
+                                            <div className={cx('icon')}><FontAwesomeIcon icon={faSnowflake} /></div>
+                                            Ao nuôi:
+                                        </div>
+                                        <div className={cx('value')}>
+                                            <li>Diện tích ao nuôi: {aonuoi.dientich} m<sup>2</sup></li>
+                                        </div>
+                                    </div>
+
+                                    <div className={cx('content-text')}>
+                                        <div className={cx('title')}>
+                                            <div className={cx('icon')}><FontAwesomeIcon icon={faSnowflake} /></div>
+                                            Giai đoạn nuôi:
+                                        </div>
+                                        <div className={cx('value')}>
+                                            <li>{giaidoan.ten}</li>
+                                            <li>Thời điểm: {giaidoan.thoidiem}</li>
+                                            {(giaidoan.ghichu && giaidoan.ghichu !== '') ? (
+                                                <li>Ghi chú: {giaidoan.ghichu}</li>
+                                                ) : ''
+                                            }
+                                            <li>Thức ăn đã sử dụng: (Được thể hiện dưới dạng bảng dưới đây) </li>
+                                            
+                                            <div className={'mt-3 mb-3 ' + cx('table-content')}>
+                                                <Table responsive hover className="text-center">
+                                                    <thead>
+                                                        <tr className="align-middle">
+                                                            <th>#</th>
+                                                            <th>Thời điểm cho ăn </th>
+                                                            <th>Lượng thức ăn</th>
+                                                            <th>Tên thức ăn</th>
+                                                            <th>Loại thức ăn</th>
+                                                            <th>Nhà cung cấp thức ăn</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {giaidoan.thucan ? giaidoan.thucan.map((thucan, index) => 
+                                                        thucanLists.map(list => (list._id === thucan.thucanId) ? (
+                                                        <tr key={data._id} className="align-middle">
+                                                            <td> {++index} </td>
+                                                            <td>{thucan.thoidiem} </td>
+                                                            <td>{thucan.luongthucan} kg</td>
+                                                            <td>{list.ten} kg</td>
+                                                            <td>{list.loaithucan}</td>
+                                                            <td> {list.ncc} </td>
+                                                        </tr>
+                                                        ) : '') 
+                                                    ) : ''}
+
+                                                    </tbody>
+                                                </Table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </Scrollbars>
+                        </div>
                     </div>
                 </div>
             </div>
