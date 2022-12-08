@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Table from 'react-bootstrap/Table';
 
 import EditAoNuoi from './editAoNuoi'
+import AddCSMTDetail from "./addCSMTDetail";
 
 import classNames from 'classnames/bind';
 import styles from './AoNuoi.module.scss';
@@ -60,6 +61,7 @@ function GetAoNuoiList() {
                     // redirect user to the auth page
                     // console.log(result.data.dataLists)
                     setAoNuoiLists(result.data.dataLists);
+                    setCSMTLists(result.data.chisomoitruong);
                 })
                 .catch((error) => {
                     if(error){
@@ -147,6 +149,10 @@ function GetAoNuoiList() {
         });
     }
 
+    const handleSetDisplay = () => {
+        setDisplay((display === 'none') ? 'block' : 'none');
+    }
+
     const handleClickFrom = (e) => {
         // 👇️ take parameter passed from Child component
         setFormEdit(e);
@@ -159,7 +165,7 @@ function GetAoNuoiList() {
         console.log(idAoNuoi);
     };
 
-    // console.log(dataEdit);
+    // console.log(datas);
     let indexx = 1;
 
     return (
@@ -167,98 +173,103 @@ function GetAoNuoiList() {
                 {formEdit ? (
                     <EditAoNuoi dataSend={dataEdit} csntList={cosonuoitrongLists} handleClickFrom={handleClickFrom} />
                 ) : (
-                    <div className={cx('AoNuoi-container-list')}>
-                        <div className={cx('title-aonuoi-list')}>Danh sách ao nuôi</div>
-                        <Table responsive hover className="text-center">
-                            <thead>
-                                <tr className="align-middle">
-                                    <th>#</th>
-                                    <th>Tên ao nuôi</th>
-                                    <th>Tên cơ sở nuôi trồng</th>
-                                    <th>Diện tích</th>
-                                    <th>Chỉ số môi trường</th>
-                                    {/* <th>Thuốc thủy sản sử dụng</th> */}
-                                    <th className="text-center" colSpan="2">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {datas.map(data => {
-                                    const csntName = data.ten;
-                                    return data.aonuois.map((aonuoi) => (
-                                        <tr key={aonuoi._id} className="align-middle">
-                                            <td> {indexx++} </td>
-                                            <td> {aonuoi.ten} </td>
-                                            <td> {csntName} </td>
-                                            <td> {aonuoi.dientich} m<sup>2</sup> </td>
-                                            <td>
-                                                <div className="d-flex align-items-center">
-                                                    <Scrollbars style={{ minHeight: 120, width: 350, flex: 1 }}>
-                                                        {/* <div className={'list-group ' + cx('thucanDetail')}>
-                                                            {data.thucan ? data.thucan.map((thucan, index) => (
-                                                                <div className="d-flex align-items-center list-group-item">
-                                                                    <span>{++index}</span>
-                                                                    <div className={cx('item-style-list')}>
-                                                                        <li>Thời điểm: {thucan.thoidiem} </li>    
-                                                                        <li>Chỉ số: {thucan.luongthucan} kg</li> 
-                                                                        {csmtLists.map(list => (list._id === thucan.thucanId) ? (
-                                                                            <li>Tên thức ăn: {list.ten}</li>                                     
-                                                                        ) : '')}
-                                                                        
-                                                                    </div>
-                                                                </div>
-                                                            )) : ''}
-                                                        </div> */}
-                                                    </Scrollbars>   
-                                                    <div className="ps-2 pe-2">
-                                                        <Button
-                                                            className={cx('btn-submit-edit', 'btn', 'btn--success') }
-                                                            variant="success"
-                                                            type="submit"
-                                                            onClick={async(e) => {
-                                                                await getIdAoNuoi(data._id);
-                                                                handleSubmitAdd(e);
-                                                            }}
-                                                        >
-                                                            <FontAwesomeIcon icon={faPlus} />
-                                                        </Button>
-                                                    </div>
-                                                    
-                                                </div>
+                    <>
+                        {(display === 'none' ? (<AddCSMTDetail dataSend={idSend} handleSetDisplay={handleSetDisplay} />) : '')}
+                        <div style={{display : display}} className={cx('AoNuoi-container-list')}>
+                            <div className={cx('title-aonuoi-list')}>Danh sách ao nuôi</div>
+                            <Table responsive hover className="text-center">
+                                <thead>
+                                    <tr className="align-middle">
+                                        <th>#</th>
+                                        <th>Tên ao nuôi</th>
+                                        <th>Tên cơ sở nuôi trồng</th>
+                                        <th>Diện tích</th>
+                                        <th>Chỉ số môi trường</th>
+                                        {/* <th>Thuốc thủy sản sử dụng</th> */}
+                                        <th className="text-center" colSpan="2">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {!datas ? '' : datas.map(data => {
+                                        const csntName = data.ten;
+                                        return data.aonuois.map((aonuoi) => (
+                                            <tr key={aonuoi._id} className="align-middle">
+                                                <td> {indexx++} </td>
+                                                <td> {aonuoi.ten} </td>
+                                                <td> {csntName} </td>
+                                                <td> {aonuoi.dientich} m<sup>2</sup> </td>
+                                                <td>
+                                                    <div className="d-flex align-items-center">
+                                                        <Scrollbars style={{ minHeight: 70, width: 100, flex: 1 }}>
+                                                            <div className={'list-group ' + cx('thucanDetail')}>
+                                                                {aonuoi.chisomoitruong ? aonuoi.chisomoitruong.map((csmt, index) => (
+                                                                    <div className="d-flex align-items-center list-group-item">
+                                                                        <span>{++index}</span>
+                                                                        <div className={cx('item-style-list')}>
+                                                                            <li>Thời điểm: {csmt.thoidiem} </li>    
 
-                                            </td>
-                                            <td className="text-center"> 
-                                                <Button
-                                                    className={cx('btn-submit-edit', 'btn', 'btn--primary') }
-                                                    variant="primary"
-                                                    type="submit"
-                                                    onClick={(e) => {
-                                                        getIdAoNuoi(aonuoi._id);
-                                                        handleSubmit(e);
+                                                                            {(csmt.ghichu && csmt.ghichu !== '') ? <li>Ghi chú:  kg</li>  : ''}
+                                                                            
+                                                                            {csmtLists.map(list => (list._id === csmt.csmtId) ? (
+                                                                                <li>{list.ten}: {csmt.chiso} {list.donvitinh} </li>                                     
+                                                                            ) : '')}
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                )) : ''}
+                                                            </div>
+                                                        </Scrollbars>   
+                                                        <div className="ps-2 pe-2">
+                                                            <Button
+                                                                className={cx('btn-submit-edit', 'btn', 'btn--success') }
+                                                                variant="success"
+                                                                type="submit"
+                                                                onClick={async(e) => {
+                                                                    await getIdAoNuoi(aonuoi._id);
+                                                                    handleSubmitAdd(e);
+                                                                }}
+                                                            >
+                                                                <FontAwesomeIcon icon={faPlus} />
+                                                            </Button>
+                                                        </div>
+                                                        
+                                                    </div>
+
+                                                </td>
+                                                <td className="text-center" style={{width: '50px'}}> 
+                                                    <Button
+                                                        className={cx('btn-submit-edit', 'btn', 'btn--primary') }
+                                                        variant="primary"
+                                                        type="submit"
+                                                        onClick={(e) => {
+                                                            getIdAoNuoi(aonuoi._id);
+                                                            handleSubmit(e);
+                                                            }
                                                         }
-                                                    }
-                                                >
-                                                    <FontAwesomeIcon icon={faPenToSquare} />
-                                                </Button>
-                                            </td>
-                                            <td className="text-center"> 
-                                                <Button
-                                                    className={cx('btn-submit-edit', 'btn', 'btn--success') }
-                                                    variant="danger"
-                                                    type="submit"
-                                                    onClick={(e) => {
-                                                        getIdAoNuoi(aonuoi._id);
-                                                        handleDeleteAoNuoi(e);
+                                                    >
+                                                        <FontAwesomeIcon icon={faPenToSquare} />
+                                                    </Button>
+                                                </td>
+                                                <td className="text-center" style={{width: '50px'}}> 
+                                                    <Button
+                                                        className={cx('btn-submit-edit', 'btn', 'btn--success') }
+                                                        variant="danger"
+                                                        type="submit"
+                                                        onClick={(e) => {
+                                                            getIdAoNuoi(aonuoi._id);
+                                                            handleDeleteAoNuoi(e);
+                                                            }
                                                         }
-                                                    }
-                                                >
-                                                    <FontAwesomeIcon icon={faTrash} />
-                                                </Button> 
-                                            </td>
-                                        </tr>
-                                )   )})}
-                            </tbody>
-                        </Table>
-                    </div>
+                                                    >
+                                                        <FontAwesomeIcon icon={faTrash} />
+                                                    </Button> 
+                                                </td>
+                                            </tr>
+                                    )   )})}
+                                </tbody>
+                            </Table>
+                        </div>
+                    </>
                 )}
         </>
     );

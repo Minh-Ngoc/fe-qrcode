@@ -5,6 +5,10 @@
   }
 }
 
+.title-aonuoi-list {
+  text-transform: uppercase;
+}
+
 .form-group + .form-group {
   margin-top: 1rem;
 } 
@@ -96,4 +100,21 @@
 .btn-submit-edit {
   width: 40px;
   font-size: 14px;
+}
+
+.thucanDetail {
+  // min-width: 35rem;
+  z-index: 100;
+  background-color: none!important;
+}
+
+span + .item-style-list {
+  border-left: 1px solid #ccc;
+  padding-left: 1rem;
+}
+.item-style-list {
+  flex: 1;
+  margin-left: 1rem;
+  // list-style-type: none;
+  text-align: left;
 }

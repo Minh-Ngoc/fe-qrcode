@@ -13,14 +13,14 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Table from 'react-bootstrap/Table';
 
-import EditCSMT from './editCSMT'
+import EditThuocThuySan from './editThuocThuySan'
 
 import classNames from 'classnames/bind';
-import styles from './CSMT.module.scss';
+import styles from './ThuocThuySan.module.scss';
 
 const cx = classNames.bind(styles);
 
-function GetCSMTList() {
+function GetThuocThuySanList() {
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -28,43 +28,43 @@ function GetCSMTList() {
     const location = useLocation();
     const userData = location.state.userId;
 
-    const [csmtLists, setCSMTLists] = useState([]);
-    const [csmt, setCSMTEdit] = useState(false);
+    const [thuocthuysanLists, setThuocThuySanLists] = useState([]);
+    const [thuocthuysanEdit, setThuocThuySanEdit] = useState(false);
     const [formEdit, setFormEdit] = useState(false);
     const [dataEdit, setDataEdit] = useState('');
 
-    const [csmtDelete, setCSMTDelete] = useState(false);
+    const [ThuocThuySanDelete, setThuocThuySanDelete] = useState(false);
 
 
     useEffect(() => {
-        async function getCSMT(){
+        async function getThuocThuySan(){
             console.log(userData)
             const configuration = {
                 method: "GET",
-                url: `http://localhost:3000/api/chisomoitruong/${userData}/list`,
+                url: `http://localhost:3000/api/thuocthuysan/${userData}/list`,
             };
             // make the API call
             axios(configuration)
                 .then((result) => {
                     // redirect user to the auth page
-                    console.log(result.data.chisomoitruong)
-                    setCSMTLists(result.data.chisomoitruong);
+                    // console.log(result.data.thuocthuysan)
+                    setThuocThuySanLists(result.data.thuocthuysan);
                 })
                 .catch((error) => {
                     if(error.request.status === 505){
-                        return toast.error("Không có chỉ số môi trường nào được tạo!", {
+                        return toast.error("Không có thuốc thủy sản nào được tạo!", {
                             position: toast.POSITION.TOP_RIGHT,
                         })
                         }
                 });
         } 
-        getCSMT();
+        getThuocThuySan();
       },[]);
       
-    const datas = csmtLists;
+    const datas = thuocthuysanLists;
 
-    let idCSMT;
-    const getIdCSMT = (id) => idCSMT = id;
+    let idThuocThuySan;
+    const getIdThuocThuySan = (id) => idThuocThuySan = id;
 
     const handleSubmit = (e) => {
         // prevent the form from refreshing the whole page
@@ -75,18 +75,18 @@ function GetCSMTList() {
         // set configurations
         const configuration = {
             method: "get",
-            url: `http://localhost:3000/api/chisomoitruong/${idCSMT}/edit`,
+            url: `http://localhost:3000/api/thuocthuysan/${idThuocThuySan}/edit`,
         };
 
         // make the API call
         axios(configuration)
         .then((result) => {
             setDataEdit(result.data.csmt);
-            setCSMTEdit(true);
+            setThuocThuySanEdit(true);
         })
         .catch((error) => {
             if(error.request.status === 505){
-                return toast.error("Không thể cập nhật chỉ số môi trường!", {
+                return toast.error("Không thể cập nhật thuốc thủy sản!", {
                     position: toast.POSITION.TOP_RIGHT,
                     })
                 }
@@ -99,7 +99,7 @@ function GetCSMTList() {
         // set configurations
         const configuration = {
             method: "delete",
-            url: `http://localhost:3000/api/chisomoitruong/${idCSMT}`,
+            url: `http://localhost:3000/api/thuocthuysan/${idThuocThuySan}`,
         };
 
         // make the API call
@@ -118,12 +118,12 @@ function GetCSMTList() {
                     })
                 )
             }
-            setCSMTLists(result.data.csmt)
-            setCSMTDelete(true);
+            setThuocThuySanLists(result.data.csmt)
+            setThuocThuySanDelete(true);
         })
         .catch((error) => {
             if(error.request.status === 505){
-                return toast.error("Không thể xóa chỉ số môi trường!", {
+                return toast.error("Không thể xóa thuốc thủy sản!", {
                     position: toast.POSITION.TOP_RIGHT,
                     })
                 }
@@ -141,16 +141,17 @@ function GetCSMTList() {
     return (
         <>  
                 {formEdit ? (
-                    <EditCSMT dataSend={dataEdit} handleClickFrom={handleClickFrom} />
+                    <EditThuocThuySan dataSend={dataEdit} handleClickFrom={handleClickFrom} />
                 ) : (
                     <div className={cx('CSNT-container-list')}>
-                        <div className={cx('title-csnt-list')}>Danh sách chỉ số môi trường</div>
+                        <div className={cx('title-csnt-list')}>Danh sách thuốc thủy sản</div>
                         <Table responsive hover className="text-center">
                             <thead>
                                 <tr className="align-middle">
                                     <th>#</th>
-                                    <th>Tên chỉ số môi trường</th>
-                                    <th>Đơn vị tính</th>
+                                    <th>Tên thuốc thủy sản</th>
+                                    <th>Nhà cung cấp</th>
+                                    <th>Liều lượng & cách sử dụng</th>
                                     <th colSpan="2">Action</th>
                                 </tr>
                             </thead>
@@ -159,14 +160,15 @@ function GetCSMTList() {
                                     <tr key={data._id} className="align-middle">
                                         <td> {index + 1} </td>
                                         <td> {data.ten} </td>
-                                        <td> {data.donvitinh} </td>
+                                        <td> {data.ncc} </td>
+                                        <td className="text-start"> {data.lluongvacachsd} </td>
                                         <td> 
                                             <Button
                                                 className={cx('btn-submit-edit', 'btn', 'btn--primary') }
                                                 variant="primary"
                                                 type="submit"
                                                 onClick={(e) => {
-                                                    getIdCSMT(data._id);
+                                                    getIdThuocThuySan(data._id);
                                                     handleSubmit(e);
                                                     }
                                                 }
@@ -180,7 +182,7 @@ function GetCSMTList() {
                                                 variant="danger"
                                                 type="submit"
                                                 onClick={(e) => {
-                                                    getIdCSMT(data._id);
+                                                    getIdThuocThuySan(data._id);
                                                     handleDeleteNCCConGiong(e);
                                                     }
                                                 }
@@ -198,4 +200,4 @@ function GetCSMTList() {
     );
 }
 
-export default GetCSMTList;
+export default GetThuocThuySanList;

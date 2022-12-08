@@ -156,15 +156,15 @@ function AddConGiong() {
                             </Form.Group>
 
                             {/* ten */}
-                            <Form.Group controlId="formBasicName" className={cx('form-group')}>
-                            <Form.Label>Ảnh con giống (nếu có): </Form.Label>
+                            {/* <Form.Group controlId="formBasicName" className={cx('form-group')}>
+                                <Form.Label>Ảnh con giống (nếu có): </Form.Label>
                                 <Form.Control
                                 size="lg"
                                 type="file"
                                 name={hinhanh}
                                 onChange={(e) => setHinhAnh(e.target.value)}
                                 />
-                            </Form.Group>
+                            </Form.Group> */}
 
                             {/* Dia chi */}
                             <Form.Group controlId="formBasicDiaChi" className={cx('form-group')}>

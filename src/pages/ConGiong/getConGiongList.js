@@ -161,7 +161,7 @@ function GetConGiongList() {
                                     <th>Mô tả</th>
                                     <th>Loại con giống</th>
                                     <th>Nhà cung cấp</th>
-                                    <th>Hình ảnh</th>
+                                    {/* <th>Hình ảnh</th> */}
                                     <th className="text-center" colSpan="2">Action</th>
                                 </tr>
                             </thead>
@@ -178,12 +178,12 @@ function GetConGiongList() {
                                             <td>
                                                 {data.ncccongiongs.map(ncccongiong => ncccongiong.ten)}
                                             </td>
-                                            <td> 
+                                            {/* <td> 
                                                 {(data.hinhanh) ? (
                                                     <img style={{width: "100px"}} src={data.hinhanh} class="img-thumbnail" alt="..."></img>
                                                 ) : 'Chưa chọn hình con giống!'
                                                 } 
-                                            </td>
+                                            </td> */}
                                             <td className="text-center"> 
                                                 <Button
                                                     className={cx('btn-submit-edit', 'btn', 'btn--primary') }

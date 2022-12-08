@@ -53,14 +53,14 @@ export const linkItems = [
       icon: faTablets,
     },
     {
-      name: 'Thương lái',
-      path: '/thuonglai',
-      icon: faAddressCard,
-    },
-    {
       name: 'Thuốc thủy sản',
       path: '/thuocthuysan',
       icon: faPrescriptionBottleMedical,
+    },
+    {
+      name: 'Thương lái',
+      path: '/thuonglai',
+      icon: faAddressCard,
     },
 
   ]
