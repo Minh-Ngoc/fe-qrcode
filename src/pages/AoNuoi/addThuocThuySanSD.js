@@ -15,9 +15,8 @@ import styles from './AoNuoi.module.scss';
 
 const cx = classNames.bind(styles);
 
-
 function AddThuocThuySanSD(props) {
-    const [csmtLists, setCSMTLists] = useState([]);
+    const [TTSLists, setTTSLists] = useState([]);
 
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -25,31 +24,30 @@ function AddThuocThuySanSD(props) {
     // Get userId from Auth Component 
     const location = useLocation();
     const userData = location.state.userId;
-    const giaiDoanId = props.dataSend;
+    const TTSId = props.dataSend;
     // initial state
 
+    const [lieuluong, setLieuLuong] = useState("");
     const [thoidiem, setThoiDiem] = useState("");
-    const [chiso, setChiSo] = useState("");
-    const [ghichu, setGhiChu] = useState("");
-    const [csmtId, setCSMTId] = useState("");
+    const [thuocthuysanId, setThuocThuySanId] = useState("");
 
     useEffect(() => {
         async function getCSNT(){
             const configuration = {
                 method: "GET",
-                url: `http://localhost:3000/api/chisomoitruong/${userData}/list`,
+                url: `http://localhost:3000/api/thuocthuysan/${userData}/list`,
             };
             // make the API call
             axios(configuration)
                 .then((result) => {
                     // redirect user to the auth page
-                    if(result.data.chisomoitruong.length === 0) {
+                    if(result.data.thuocthuysan.length === 0) {
                         return toast.error("Bạn chưa thêm thuốc thủy sản. Vui lòng thêm thuốc thủy sản để tạo thuốc thủy sản sử dụng!", {
                             position: toast.POSITION.TOP_RIGHT,
                         })
                     }
-                    // console.log(result.data.chisomoitruong);
-                    setCSMTLists(result.data.chisomoitruong);
+                    // console.log(result.data.thuocthuysan);
+                    setTTSLists(result.data.thuocthuysan);
                 })
                 .catch((error) => {
                     if(error){
@@ -67,9 +65,9 @@ function AddThuocThuySanSD(props) {
         e.preventDefault();
 
         if(
+            !lieuluong ||
             !thoidiem ||
-            !chiso ||
-            !csmtId
+            !thuocthuysanId
         ) {
             setErrorMessage(
                 toast.error("Vui lòng nhập đầy đủ thông tin !", {
@@ -80,12 +78,11 @@ function AddThuocThuySanSD(props) {
             // set configurations
             const configuration = {
                 method: "put",
-                url: `http://localhost:3000/api/aonuoi/addcsmtdetail/${giaiDoanId}`,
+                url: `http://localhost:3000/api/aonuoi/addthuocthuysansd/${TTSId}`,
                 data: {
+                    lieuluong,
                     thoidiem,
-                    chiso,
-                    ghichu,
-                    csmtId,  
+                    thuocthuysanId,  
                 },
             };
 
@@ -104,9 +101,8 @@ function AddThuocThuySanSD(props) {
                 )
                 
                 setTimeout(() => {
+                    setLieuLuong('');
                     setThoiDiem('');
-                    setChiSo('');
-                    setGhiChu('');
                 },100)
             })
             .catch((error) => {
@@ -140,34 +136,22 @@ function AddThuocThuySanSD(props) {
                             </Form.Group>
                             
                             <Form.Group controlId="formBasicEmail" className={cx('form-group')}>
-                                <Form.Label>Chỉ số:</Form.Label>
+                                <Form.Label>Liều lượng:</Form.Label>
                                 <Form.Control
                                     size="lg"
                                     type="text"
-                                    name="chiso"
-                                    value={chiso}
-                                    onChange={(e) => setChiSo(e.target.value)}
-                                    placeholder="Nhập chỉ số..."
-                                />
-                            </Form.Group>
-
-                            <Form.Group controlId="formBasicEmail" className={cx('form-group')}>
-                                <Form.Label>Ghi chú:</Form.Label>
-                                <Form.Control
-                                    size="lg"
-                                    type="text"
-                                    name="ghichu"
-                                    value={ghichu}
-                                    onChange={(e) => setGhiChu(e.target.value)}
-                                    placeholder="Ghi chú..."
+                                    name="lieuluong"
+                                    value={lieuluong}
+                                    onChange={(e) => setLieuLuong(e.target.value)}
+                                    placeholder="Nhập liều lượng..."
                                 />
                             </Form.Group>
 
                             <Form.Group controlId="formBasicDiaChi" className={cx('form-group')}>
-                                <Form.Label>Chỉ số môi trường:</Form.Label>
-                                <Form.Select  defaultValue="Chọn chỉ số môi trường..." size="lg" name="csmtId" onChange={(e) => setCSMTId(e.target.value)}>
-                                    <option disabled>Chọn chỉ số môi trường...</option>
-                                    {csmtLists.map(csmt => (
+                                <Form.Label>Thuốc thủy sản:</Form.Label>
+                                <Form.Select  defaultValue="Chọn thuốc thủy sản..." size="lg" name="thuocthuysanId" onChange={(e) => setThuocThuySanId(e.target.value)}>
+                                    <option disabled>Chọn thuốc thủy sản...</option>
+                                    {TTSLists.map(csmt => (
                                         <option key={csmt._id} value={csmt._id}> {csmt.ten} </option>
                                     ))}
                                 </Form.Select>

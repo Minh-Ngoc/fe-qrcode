@@ -25,7 +25,7 @@ function AddCSMTDetail(props) {
     // Get userId from Auth Component 
     const location = useLocation();
     const userData = location.state.userId;
-    const giaiDoanId = props.dataSend;
+    const ChiSoMTId = props.dataSend;
     // initial state
 
     const [thoidiem, setThoiDiem] = useState("");
@@ -80,7 +80,7 @@ function AddCSMTDetail(props) {
             // set configurations
             const configuration = {
                 method: "put",
-                url: `http://localhost:3000/api/aonuoi/addcsmtdetail/${giaiDoanId}`,
+                url: `http://localhost:3000/api/aonuoi/addcsmtdetail/${ChiSoMTId}`,
                 data: {
                     thoidiem,
                     chiso,

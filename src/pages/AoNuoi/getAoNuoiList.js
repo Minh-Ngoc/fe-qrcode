@@ -17,6 +17,7 @@ import Table from 'react-bootstrap/Table';
 
 import EditAoNuoi from './editAoNuoi'
 import AddCSMTDetail from "./addCSMTDetail";
+import AddThuocThuySanSD from './addThuocThuySanSD';
 
 import classNames from 'classnames/bind';
 import styles from './AoNuoi.module.scss';
@@ -35,11 +36,13 @@ function GetAoNuoiList() {
 
     const [idSend, setId] = useState('');
     const [display, setDisplay] = useState('');
+    const [btnAdd, setBtnAdd] = useState('');
 
 
     const [aonuoiLists, setAoNuoiLists] = useState([]);
     const [cosonuoitrongLists, setCoSoNuoiTrongLists] = useState([]);
     const [csmtLists, setCSMTLists] = useState([]);
+    const [thuocthuysanLists, setThuocThuySanLists] = useState([]);
 
     const [aonuoiEdit, setAoNuoiEdit] = useState(false);
     const [formEdit, setFormEdit] = useState(false);
@@ -62,6 +65,7 @@ function GetAoNuoiList() {
                     // console.log(result.data.dataLists)
                     setAoNuoiLists(result.data.dataLists);
                     setCSMTLists(result.data.chisomoitruong);
+                    setThuocThuySanLists(result.data.thuocthuysan);
                 })
                 .catch((error) => {
                     if(error){
@@ -157,13 +161,22 @@ function GetAoNuoiList() {
         // 👇️ take parameter passed from Child component
         setFormEdit(e);
       };
-
-    const handleSubmitAdd = (e) => {
-    // 👇️ take parameter passed from Child component
+    
+    const handleSubmitAddCSMT = (e) => {
+    // 👇️ take paaer passed from Child component
+        setBtnAdd(1);
         setDisplay('none');
         setId(idAoNuoi)
         console.log(idAoNuoi);
     };
+
+    const handleSubmitAddTTS = (e) => {
+        // 👇️ take parameter passed from Child component
+            setBtnAdd(2);
+            setDisplay('none');
+            setId(idAoNuoi)
+            console.log(idAoNuoi);
+        };
 
     // console.log(datas);
     let indexx = 1;
@@ -174,7 +187,11 @@ function GetAoNuoiList() {
                     <EditAoNuoi dataSend={dataEdit} csntList={cosonuoitrongLists} handleClickFrom={handleClickFrom} />
                 ) : (
                     <>
-                        {(display === 'none' ? (<AddCSMTDetail dataSend={idSend} handleSetDisplay={handleSetDisplay} />) : '')}
+                        {display === 'none' && btnAdd === 1 ? (<AddCSMTDetail dataSend={idSend} handleSetDisplay={handleSetDisplay} />) 
+                            : display === 'none' && btnAdd === 2 ? (<AddThuocThuySanSD dataSend={idSend} handleSetDisplay={handleSetDisplay} />) 
+                            : '' 
+                        
+                        }
                         <div style={{display : display}} className={cx('AoNuoi-container-list')}>
                             <div className={cx('title-aonuoi-list')}>Danh sách ao nuôi</div>
                             <Table responsive hover className="text-center">
@@ -185,7 +202,7 @@ function GetAoNuoiList() {
                                         <th>Tên cơ sở nuôi trồng</th>
                                         <th>Diện tích</th>
                                         <th>Chỉ số môi trường</th>
-                                        {/* <th>Thuốc thủy sản sử dụng</th> */}
+                                        <th>Thuốc thủy sản sử dụng</th>
                                         <th className="text-center" colSpan="2">Action</th>
                                     </tr>
                                 </thead>
@@ -198,9 +215,10 @@ function GetAoNuoiList() {
                                                 <td> {aonuoi.ten} </td>
                                                 <td> {csntName} </td>
                                                 <td> {aonuoi.dientich} m<sup>2</sup> </td>
+                                                
                                                 <td>
                                                     <div className="d-flex align-items-center">
-                                                        <Scrollbars style={{ minHeight: 70, width: 100, flex: 1 }}>
+                                                        <Scrollbars style={{ minHeight: 70, width: 140, flex: 1 }}>
                                                             <div className={'list-group ' + cx('thucanDetail')}>
                                                                 {aonuoi.chisomoitruong ? aonuoi.chisomoitruong.map((csmt, index) => (
                                                                     <div className="d-flex align-items-center list-group-item">
@@ -226,7 +244,7 @@ function GetAoNuoiList() {
                                                                 type="submit"
                                                                 onClick={async(e) => {
                                                                     await getIdAoNuoi(aonuoi._id);
-                                                                    handleSubmitAdd(e);
+                                                                    handleSubmitAddCSMT(e);
                                                                 }}
                                                             >
                                                                 <FontAwesomeIcon icon={faPlus} />
@@ -236,6 +254,46 @@ function GetAoNuoiList() {
                                                     </div>
 
                                                 </td>
+
+                                                <td>
+                                                    <div className="d-flex align-items-center">
+                                                        <Scrollbars style={{ minHeight: 70, width: 100, flex: 1 }}>
+                                                            <div className={'list-group ' + cx('thucanDetail')}>
+                                                                {aonuoi.thuocthuysan ? aonuoi.thuocthuysan.map((tts, index) => (
+                                                                    <div className="d-flex align-items-center list-group-item">
+                                                                        <span>{++index}</span>
+                                                                        <div className={cx('item-style-list')}>
+                                                                            <li>Thời điểm: {tts.thoidiem} </li>    
+
+                                                                            {(tts.ghichu && tts.ghichu !== '') ? <li>Ghi chú:  kg</li>  : ''}
+                                                                            
+                                                                            {thuocthuysanLists.map(list => (list._id === tts.thuocthuysanId) ? (
+                                                                                <li>{list.ten}: {tts.chiso} {list.donvitinh} </li>                                     
+                                                                            ) : '')}
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                )) : ''}
+                                                            </div>
+                                                        </Scrollbars>   
+                                                        <div className="ps-2 pe-2">
+                                                            <Button
+                                                                className={cx('btn-submit-edit', 'btn', 'btn--success') }
+                                                                variant="success"
+                                                                type="submit"
+                                                                onClick={async(e) => {
+                                                                    await getIdAoNuoi(aonuoi._id);
+                                                                    handleSubmitAddTTS(e);
+                                                                }}
+                                                            >
+                                                                <FontAwesomeIcon icon={faPlus} />
+                                                            </Button>
+                                                        </div>
+                                                        
+                                                    </div>
+
+                                                </td>
+                                                
                                                 <td className="text-center" style={{width: '50px'}}> 
                                                     <Button
                                                         className={cx('btn-submit-edit', 'btn', 'btn--primary') }
