@@ -32,6 +32,8 @@ function ScanQRCode() {
     const [data, setData] = useState(false);
     const [cosonuoitrong, setCoSoNuoiTrong] = useState(false);
     const [aonuoi, setAoNuoi] = useState(false);
+    const [csmtLists, setCSMTLists] = useState(false);
+    const [ttsLists, setTTSLists] = useState(false);
     const [giaidoan, setGiaiDoan] = useState(false);
     const [thucanLists, setThucAn] = useState(false);
     const [ctcongiong, setCTConGiong] = useState(false);
@@ -56,6 +58,8 @@ function ScanQRCode() {
                     document.title = !result.data.dotnuoi[0].ctcongiong[0].congiongs.ten ? 'Quét mã QR' : result.data.dotnuoi[0].ctcongiong[0].congiongs.ten;
                     setCoSoNuoiTrong(result.data.dotnuoi[0].cosonuoitrongs[0]);
                     setAoNuoi(result.data.dotnuoi[0].aonuois[0]);
+                    setCSMTLists(result.data.chisomoitruong);
+                    setTTSLists(result.data.thuocthuysan);
                     setGiaiDoan(result.data.dotnuoi[0].giaidoans[0]);
                     setThucAn(result.data.thucan);
                     setData(result.data.dotnuoi[0]);
@@ -137,6 +141,74 @@ function ScanQRCode() {
                                         </div>
                                         <div className={cx('value')}>
                                             <li>Diện tích ao nuôi: {aonuoi.dientich} m<sup>2</sup></li>
+
+                                            <li>Chỉ số môi trường: (Được thể hiện ở bảng dưới đây) </li>
+                                            
+                                            <div className={'mt-3 mb-3 ' + cx('table-content')}>
+                                                <Table responsive hover className="text-center">
+                                                    <thead>
+                                                        <tr className="align-middle">
+                                                            <th>#</th>
+                                                            <th>Thời điểm</th>
+                                                            <th>Chỉ số môi trường</th>
+                                                            <th>Giá trị</th>
+                                                            <th>Đơn vị</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {aonuoi.chisomoitruong ? aonuoi.chisomoitruong.map((csmt, index) => 
+                                                        csmtLists.map(list => (list._id === csmt.csmtId) ? (
+                                                        <tr key={data._id} className="align-middle">
+                                                            <td> {++index} </td>
+                                                            <td>{csmt.thoidiem} </td>
+                                                            <td>{list.ten}</td>
+                                                            <td>{csmt.chiso}</td>
+                                                            <td> {list.donvitinh} </td>
+                                                        </tr>
+                                                        ) : '') 
+                                                    ) : ''}
+
+                                                    </tbody>
+                                                </Table>
+                                            </div>
+
+                                            <li>Thuốc thủy sản sử dụng: (Được thể hiện ở bảng dưới đây) </li>
+                                            
+                                            <div className={'mt-3 mb-3 ' + cx('table-content')}>
+                                                <Table responsive hover className="text-center">
+                                                    <thead>
+                                                        <tr className="align-middle">
+                                                            <th>#</th>
+                                                            <th>Thời điểm</th>
+                                                            <th>Liều lượng</th>
+                                                            <th>Tên thuốc</th>
+                                                            <th>Liều lượng và cách sử dụng</th>
+                                                            <th>Nhà cung cấp</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {aonuoi.thuocthuysan ? aonuoi.thuocthuysan.map((tts, index) => 
+                                                        ttsLists.map(list => (list._id === tts.thuocthuysanId) ? (
+                                                        <tr key={data._id} className="align-middle">
+                                                            <td> {++index} </td>
+                                                            <td>{tts.thoidiem} </td>
+                                                            <td>{tts.lieuluong}</td>
+                                                            <td>{list.ten}</td>
+                                                            <td className="text-start">
+                                                                <Scrollbars style={{height: 130, width: 400}}>
+                                                                    <div className="ps-2 pe-3">
+                                                                        {list.lluongvacachsd}
+                                                                    </div> 
+                                                                </Scrollbars> 
+                                                            </td>
+                                                            <td> {list.ncc} </td>
+                                                        </tr>
+                                                        ) : '') 
+                                                    ) : ''}
+
+                                                    </tbody>
+                                                </Table>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -152,7 +224,7 @@ function ScanQRCode() {
                                                 <li>Ghi chú: {giaidoan.ghichu}</li>
                                                 ) : ''
                                             }
-                                            <li>Thức ăn đã sử dụng: (Được thể hiện dưới dạng bảng dưới đây) </li>
+                                            <li>Thức ăn đã sử dụng: (Được thể hiện ở bảng dưới đây) </li>
                                             
                                             <div className={'mt-3 mb-3 ' + cx('table-content')}>
                                                 <Table responsive hover className="text-center">
