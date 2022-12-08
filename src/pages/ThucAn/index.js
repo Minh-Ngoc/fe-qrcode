@@ -19,7 +19,7 @@ const cx = classNames.bind(styles);
 function CoSoNuoiTrong() {
 
     useEffect(() => {
-        document.title = "Nhà thức ăn"
+        document.title = "Thức ăn"
      }, []);
         
     return (
@@ -31,10 +31,10 @@ function CoSoNuoiTrong() {
                     className={'mb-3'}
                     fill
                 >
-                    <Tab eventKey="GetThucAnList" title="Danh sách nhà thức ăn">
+                    <Tab eventKey="GetThucAnList" title="Danh sách thức ăn">
                         <GetThucAnList />
                     </Tab>
-                    <Tab eventKey="AddThucAn" title="Thêm nhà thức ăn">
+                    <Tab eventKey="AddThucAn" title="Thêm thức ăn">
                         <AddThucAn />
                     </Tab>
                 </Tabs>

@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
@@ -16,8 +16,7 @@ import styles from './GiaiDoan.module.scss';
 const cx = classNames.bind(styles);
 
 
-function AddThucAnSD() {
-    const navigate = useNavigate();
+function AddThucAnSD(props) {
     const [thucanLists, setThucAnLists] = useState([]);
 
     const [successMessage, setSuccessMessage] = useState("");
@@ -26,7 +25,7 @@ function AddThucAnSD() {
     // Get userId from Auth Component 
     const location = useLocation();
     const userData = location.state.userId;
-    const giaiDoanId = location.state.giaiDoanId;
+    const giaiDoanId = props.dataSend;
     // initial state
 
     const [luongthucan, setLuongThucAn] = useState("");
@@ -184,7 +183,7 @@ function AddThucAnSD() {
                             className={cx('btn-submit-login', 'btn', 'btn--success') }
                             variant="primary"
                             type="button"
-                            onClick={() => navigate(-1)}
+                            onClick={() => props.handleSetDisplay('block')}
                         >
                             TRỞ VỀ
                         </Button>

@@ -17,6 +17,8 @@ import EditGiaiDoan from './editGiaiDoan'
 
 import Scrollbars from "react-custom-scrollbars-2";
 
+import AddThucAnSD from './addThucAnSD';
+
 import config from '../../config';
 
 import classNames from 'classnames/bind';
@@ -29,12 +31,16 @@ function GetGiaiDoanList() {
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
+    const [idSend, setId] = useState('');
+
     // Get userId from Auth Component 
     const location = useLocation();
     const userData = location.state.userId;
 
     const [giaidoanLists, setGiaiDoanLists] = useState([]);
     const [thucanLists, setThucAnLists] = useState([]);
+
+    const [display, setDisplay] = useState('');
 
     const [giaidoanEdit, setGiaiDoanEdit] = useState(false);
     const [formEdit, setFormEdit] = useState(false);
@@ -143,13 +149,15 @@ function GetGiaiDoanList() {
         });
     }
 
+    const handleSetDisplay = () => {
+        setDisplay((display === 'none') ? 'block' : 'none');
+    }
+
     const handleSubmitAdd = (e) => {
         // 👇️ take parameter passed from Child component
-        navigate(config.routes.thucansd, { state: {
-            userId: userData,
-            giaiDoanId: idGiaiDoan,
-            } 
-        })
+        setDisplay('none');
+        setId(idGiaiDoan)
+        console.log(idGiaiDoan);
     };
 
     const handleClickFrom = (e) => {
@@ -157,107 +165,108 @@ function GetGiaiDoanList() {
         setFormEdit(e);
     };
 
-
-    console.log(thucanLists);
-
     return (
         <>  
                 {formEdit ? (
-                    <EditGiaiDoan dataSend={dataEdit} handleClickFrom={handleClickFrom} />
+                    <EditGiaiDoan dataSend={dataEdit} handleClickFrom={handleClickFrom}/>
                 ) : (
-                    <div className={cx('AoNuoi-container-list')}>
-                        <div className={cx('title-aonuoi-list')}>Danh sách giai đoạn nuôi</div>
-                        <Table responsive hover className="text-center">
-                            <thead>
-                                <tr className="align-middle">
-                                    <th>#</th>
-                                    <th>Tên giai đoạn nuôi</th>
-                                    <th>Ao nuôi</th>
-                                    <th>Thời điểm</th>
-                                    <th className={cx('thucanDetail')}>Thức ăn sử dụng</th>
-                                    <th>Ghi chú</th>
-                                    <th className="text-center" colSpan="2">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {!datas ? '' : datas.map((data, index) => (
-                                        <tr key={data._id} className="align-middle">
-                                            <td> {++index} </td>
-                                            <td> {data.ten} </td>
-                                            <td> 
-                                                {data.aonuois.map(aonuoi => aonuoi.ten )} 
-                                            </td>
-                                            <td> {data.thoidiem} </td>
-                                            <td>
-                                                <div className="d-flex align-items-center">
-                                                    <Scrollbars style={{ height: 200, width: 350 }}>
-                                                        <div className={'list-group ' + cx('thucanDetail')}>
-                                                            {data.thucan ? data.thucan.map((thucan, index) => (
-                                                                <div className="d-flex align-items-center list-group-item">
-                                                                    <span>{++index}</span>
-                                                                    <div className={cx('item-style-list')}>
-                                                                        <li>Thời điểm cho ăn: {thucan.thoidiem} </li>    
-                                                                        <li>Lượng thức ăn: {thucan.luongthucan} kg</li> 
-                                                                        {thucanLists.map(list => (list._id === thucan.thucanId) ? (
-                                                                            <li>Tên thức ăn: {list.ten}</li>                                     
-                                                                        ) : '')}
-                                                                        
+                    <>
+                        {(display === 'none' ? (<AddThucAnSD dataSend={idSend} handleSetDisplay={handleSetDisplay} />) : '')}
+                        
+                        <div style={{display: display}} className={cx('AoNuoi-container-list')}>
+                            <div className={cx('title-aonuoi-list')}>Danh sách giai đoạn nuôi</div>
+                            <Table responsive hover className="text-center">
+                                <thead>
+                                    <tr className="align-middle">
+                                        <th>#</th>
+                                        <th>Tên giai đoạn nuôi</th>
+                                        <th>Ao nuôi</th>
+                                        <th>Thời điểm</th>
+                                        <th className={cx('thucanDetail')}>Thức ăn sử dụng</th>
+                                        <th>Ghi chú</th>
+                                        <th className="text-center" colSpan="2">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {!datas ? '' : datas.map((data, index) => (
+                                            <tr key={data._id} className="align-middle">
+                                                <td> {++index} </td>
+                                                <td> {data.ten} </td>
+                                                <td> 
+                                                    {data.aonuois.map(aonuoi => aonuoi.ten )} 
+                                                </td>
+                                                <td> {data.thoidiem} </td>
+                                                <td>
+                                                    <div className="d-flex align-items-center">
+                                                        <Scrollbars style={{ minHeight: 120, width: 350, flex: 1 }}>
+                                                            <div className={'list-group ' + cx('thucanDetail')}>
+                                                                {data.thucan ? data.thucan.map((thucan, index) => (
+                                                                    <div className="d-flex align-items-center list-group-item">
+                                                                        <span>{++index}</span>
+                                                                        <div className={cx('item-style-list')}>
+                                                                            <li>Thời điểm cho ăn: {thucan.thoidiem} </li>    
+                                                                            <li>Lượng thức ăn: {thucan.luongthucan} kg</li> 
+                                                                            {thucanLists.map(list => (list._id === thucan.thucanId) ? (
+                                                                                <li>Tên thức ăn: {list.ten}</li>                                     
+                                                                            ) : '')}
+                                                                            
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            )) : ''}
+                                                                )) : ''}
+                                                            </div>
+                                                        </Scrollbars>   
+                                                        <div className="ps-2 pe-2">
+                                                            <Button
+                                                                className={cx('btn-submit-edit', 'btn', 'btn--success') }
+                                                                variant="success"
+                                                                type="submit"
+                                                                onClick={async(e) => {
+                                                                    await getIdGiaiDoan(data._id);
+                                                                    handleSubmitAdd(e);
+                                                                }}
+                                                            >
+                                                                <FontAwesomeIcon icon={faPlus} />
+                                                            </Button>
                                                         </div>
-                                                    </Scrollbars>   
-                                                    <div className="ps-4">
-                                                        <Button
-                                                            className={cx('btn-submit-edit', 'btn', 'btn--success') }
-                                                            variant="success"
-                                                            type="submit"
-                                                            onClick={(e) => {
-                                                                getIdGiaiDoan(data._id);
-                                                                handleSubmitAdd(e);
-                                                            }}
-                                                        >
-                                                            <FontAwesomeIcon icon={faPlus} />
-                                                        </Button>
+                                                        
                                                     </div>
-                                                    
-                                                </div>
 
-                                            </td>
-                                            <td> {(data.ghichu === '') ? 'Không có ghi chú' : data.ghichu} </td>
-                                            <td className="text-center"> 
-                                                <Button
-                                                    className={cx('btn-submit-edit', 'btn', 'btn--primary') }
-                                                    variant="primary"
-                                                    type="submit"
-                                                    onClick={(e) => {
-                                                        getIdGiaiDoan(data._id);
-                                                        handleSubmit(e);
+                                                </td>
+                                                <td> {(data.ghichu === '') ? 'Không có ghi chú' : data.ghichu} </td>
+                                                <td className="text-center"> 
+                                                    <Button
+                                                        className={cx('btn-submit-edit', 'btn', 'btn--primary') }
+                                                        variant="primary"
+                                                        type="submit"
+                                                        onClick={(e) => {
+                                                            getIdGiaiDoan(data._id);
+                                                            handleSubmit(e);
+                                                            }
                                                         }
-                                                    }
-                                                >
-                                                    <FontAwesomeIcon icon={faPenToSquare} />
-                                                </Button>
-                                            </td>
-                                            <td className="text-center"> 
-                                                <Button
-                                                    className={cx('btn-submit-edit', 'btn', 'btn--success') }
-                                                    variant="danger"
-                                                    type="submit"
-                                                    onClick={(e) => {
-                                                        getIdGiaiDoan(data._id);
-                                                        handleDeleteAoNuoi(e);
+                                                    >
+                                                        <FontAwesomeIcon icon={faPenToSquare} />
+                                                    </Button>
+                                                </td>
+                                                <td className="text-center"> 
+                                                    <Button
+                                                        className={cx('btn-submit-edit', 'btn', 'btn--success') }
+                                                        variant="danger"
+                                                        type="submit"
+                                                        onClick={(e) => {
+                                                            getIdGiaiDoan(data._id);
+                                                            handleDeleteAoNuoi(e);
+                                                            }
                                                         }
-                                                    }
-                                                >
-                                                    <FontAwesomeIcon icon={faTrash} />
-                                                </Button> 
-                                            </td>
-                                        </tr>
-                                )   )}
-                            </tbody>
-                        </Table>
-                    </div>
+                                                    >
+                                                        <FontAwesomeIcon icon={faTrash} />
+                                                    </Button> 
+                                                </td>
+                                            </tr>
+                                    )   )}
+                                </tbody>
+                            </Table>
+                        </div>
+                    </>
                 )}
         </>
     );

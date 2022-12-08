@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 /* eslint-disable no-unused-vars */
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import Scrollbars from "react-custom-scrollbars-2";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Button } from "react-bootstrap";
 //Library react toastify
 import { toast } from 'react-toastify';
@@ -21,6 +23,8 @@ import styles from './AoNuoi.module.scss';
 const cx = classNames.bind(styles);
 
 function GetAoNuoiList() {
+    const navigate = useNavigate();
+
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -28,8 +32,13 @@ function GetAoNuoiList() {
     const location = useLocation();
     const userData = location.state.userId;
 
+    const [idSend, setId] = useState('');
+    const [display, setDisplay] = useState('');
+
+
     const [aonuoiLists, setAoNuoiLists] = useState([]);
     const [cosonuoitrongLists, setCoSoNuoiTrongLists] = useState([]);
+    const [csmtLists, setCSMTLists] = useState([]);
 
     const [aonuoiEdit, setAoNuoiEdit] = useState(false);
     const [formEdit, setFormEdit] = useState(false);
@@ -65,7 +74,7 @@ function GetAoNuoiList() {
       
     const datas = aonuoiLists;
 
-    let idAoNuoi, idCSNT;
+    let idAoNuoi;
     const getIdAoNuoi = (id) => idAoNuoi = id;
 
     const handleSubmit = (e) => {
@@ -138,11 +147,17 @@ function GetAoNuoiList() {
         });
     }
 
-
     const handleClickFrom = (e) => {
         // 👇️ take parameter passed from Child component
         setFormEdit(e);
       };
+
+    const handleSubmitAdd = (e) => {
+    // 👇️ take parameter passed from Child component
+        setDisplay('none');
+        setId(idAoNuoi)
+        console.log(idAoNuoi);
+    };
 
     // console.log(dataEdit);
     let indexx = 1;
@@ -159,8 +174,10 @@ function GetAoNuoiList() {
                                 <tr className="align-middle">
                                     <th>#</th>
                                     <th>Tên ao nuôi</th>
-                                    <th>Diện tích</th>
                                     <th>Tên cơ sở nuôi trồng</th>
+                                    <th>Diện tích</th>
+                                    <th>Chỉ số môi trường</th>
+                                    {/* <th>Thuốc thủy sản sử dụng</th> */}
                                     <th className="text-center" colSpan="2">Action</th>
                                 </tr>
                             </thead>
@@ -171,8 +188,44 @@ function GetAoNuoiList() {
                                         <tr key={aonuoi._id} className="align-middle">
                                             <td> {indexx++} </td>
                                             <td> {aonuoi.ten} </td>
-                                            <td> {aonuoi.dientich} </td>
                                             <td> {csntName} </td>
+                                            <td> {aonuoi.dientich} m<sup>2</sup> </td>
+                                            <td>
+                                                <div className="d-flex align-items-center">
+                                                    <Scrollbars style={{ minHeight: 120, width: 350, flex: 1 }}>
+                                                        {/* <div className={'list-group ' + cx('thucanDetail')}>
+                                                            {data.thucan ? data.thucan.map((thucan, index) => (
+                                                                <div className="d-flex align-items-center list-group-item">
+                                                                    <span>{++index}</span>
+                                                                    <div className={cx('item-style-list')}>
+                                                                        <li>Thời điểm: {thucan.thoidiem} </li>    
+                                                                        <li>Chỉ số: {thucan.luongthucan} kg</li> 
+                                                                        {csmtLists.map(list => (list._id === thucan.thucanId) ? (
+                                                                            <li>Tên thức ăn: {list.ten}</li>                                     
+                                                                        ) : '')}
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            )) : ''}
+                                                        </div> */}
+                                                    </Scrollbars>   
+                                                    <div className="ps-2 pe-2">
+                                                        <Button
+                                                            className={cx('btn-submit-edit', 'btn', 'btn--success') }
+                                                            variant="success"
+                                                            type="submit"
+                                                            onClick={async(e) => {
+                                                                await getIdAoNuoi(data._id);
+                                                                handleSubmitAdd(e);
+                                                            }}
+                                                        >
+                                                            <FontAwesomeIcon icon={faPlus} />
+                                                        </Button>
+                                                    </div>
+                                                    
+                                                </div>
+
+                                            </td>
                                             <td className="text-center"> 
                                                 <Button
                                                     className={cx('btn-submit-edit', 'btn', 'btn--primary') }

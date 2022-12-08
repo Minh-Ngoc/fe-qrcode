@@ -5,7 +5,7 @@ import { HeaderOnly } from '../layouts';
 import LoginManage from '../layouts/LoginManage';
 
 // Pages
-import Home from '../pages/Home';
+// import Home from '../pages/Home';
 import Upload from '../pages/Upload';
 import Register from '../pages/Register';
 import Login from '../pages/Login';
@@ -20,7 +20,7 @@ import ConGiong from '../pages/ConGiong';
 import NCCConGiong from '../pages/NCCConGiong';
 import ChiSoMoiTruong from '../pages/ChiSoMoiTruong';
 import GiaiDoan from '../pages/GiaiDoan';
-import ThucAnSD from '../pages/GiaiDoan/addThucAnSD';
+// import ThucAnSD from '../pages/GiaiDoan/addThucAnSD';
 import ThucAn from '../pages/ThucAn';
 import ThuongLai from '../pages/ThuongLai';
 import ThuocThuySan from '../pages/ThuocThuySan';
@@ -46,7 +46,7 @@ const publicRoutes = [
     { path: config.routes.chisomoitruong, component: ChiSoMoiTruong, layout: AuthComponent },
 
     { path: config.routes.giaidoan, component: GiaiDoan, layout: AuthComponent },
-    { path: config.routes.thucansd, component: ThucAnSD, layout: AuthComponent },
+    // { path: config.routes.thucansd, component: ThucAnSD, layout: AuthComponent },
 
     { path: config.routes.thucan, component: ThucAn, layout: AuthComponent },
     { path: config.routes.thuonglai, component: ThuongLai, layout: AuthComponent },
