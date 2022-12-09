@@ -9,6 +9,7 @@ import {
   faSpinner,
   faTablets,
   faAddressCard,
+  faClockRotateLeft,
 } from '@fortawesome/free-solid-svg-icons';
 
 export const linkItems = [
@@ -56,6 +57,11 @@ export const linkItems = [
       name: 'Thuốc thủy sản',
       path: '/thuocthuysan',
       icon: faPrescriptionBottleMedical,
+    },
+    {
+      name: 'Nhật ký xuất ao',
+      path: '/nhatkyxuatao',
+      icon: faClockRotateLeft,
     },
     {
       name: 'Thương lái',

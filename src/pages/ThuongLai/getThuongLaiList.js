@@ -28,43 +28,43 @@ function GetThuongLaiList() {
     const location = useLocation();
     const userData = location.state.userId;
 
-    const [thucanLists, setThucAnLists] = useState([]);
-    const [thucan, setThucAnEdit] = useState(false);
+    const [thuonglaiLists, setThuongLaiLists] = useState([]);
+    const [thuonglaiEdit, setThuongLaiEdit] = useState(false);
     const [formEdit, setFormEdit] = useState(false);
     const [dataEdit, setDataEdit] = useState('');
 
-    const [thucanDelete, setThucAnDelete] = useState(false);
+    const [thuonglaiDelete, setThuongLaiDelete] = useState(false);
 
 
     useEffect(() => {
-        async function getNCCConGiong(){
+        async function getThuongLai(){
             console.log(userData)
             const configuration = {
                 method: "GET",
-                url: `http://localhost:3000/api/thucan/${userData}/list`,
+                url: `http://localhost:3000/api/thuonglai/${userData}/list`,
             };
             // make the API call
             axios(configuration)
                 .then((result) => {
                     // redirect user to the auth page
-                    console.log(result.data.thucan)
-                    setThucAnLists(result.data.thucan);
+                    console.log(result.data.thuonglai)
+                    setThuongLaiLists(result.data.thuonglai);
                 })
                 .catch((error) => {
                     if(error.request.status === 505){
-                        return toast.error("Không có thức ăn nào được tạo!", {
+                        return toast.error("Không có thương lái nào được tạo!", {
                             position: toast.POSITION.TOP_RIGHT,
                         })
                         }
                 });
         } 
-        getNCCConGiong();
+        getThuongLai();
       },[]);
       
-    const datas = thucanLists;
+    const datas = thuonglaiLists;
 
-    let idNCCConGiong;
-    const getIdNCCConGiong = (id) => idNCCConGiong = id;
+    let idThuongLai;
+    const getIdThuongLai = (id) => idThuongLai = id;
 
     const handleSubmit = (e) => {
         // prevent the form from refreshing the whole page
@@ -75,18 +75,18 @@ function GetThuongLaiList() {
         // set configurations
         const configuration = {
             method: "get",
-            url: `http://localhost:3000/api/nhacungcapcongiong/${idNCCConGiong}/edit`,
+            url: `http://localhost:3000/api/thuonglai/${idThuongLai}/edit`,
         };
 
         // make the API call
         axios(configuration)
         .then((result) => {
-            setDataEdit(result.data.thucan);
-            setThucAnEdit(true);
+            setDataEdit(result.data.thuonglai);
+            setThuongLaiEdit(true);
         })
         .catch((error) => {
             if(error.request.status === 505){
-                return toast.error("Không thể cập nhật thức ăn!", {
+                return toast.error("Không thể cập nhật thương lái!", {
                     position: toast.POSITION.TOP_RIGHT,
                     })
                 }
@@ -99,7 +99,7 @@ function GetThuongLaiList() {
         // set configurations
         const configuration = {
             method: "delete",
-            url: `http://localhost:3000/api/nhacungcapcongiong/${idNCCConGiong}`,
+            url: `http://localhost:3000/api/thuonglai/${idThuongLai}`,
         };
 
         // make the API call
@@ -118,12 +118,12 @@ function GetThuongLaiList() {
                     })
                 )
             }
-            setThucAnLists(result.data.thucan)
-            setThucAnDelete(true);
+            setThuongLaiLists(result.data.thuonglai)
+            setThuongLaiDelete(true);
         })
         .catch((error) => {
             if(error.request.status === 505){
-                return toast.error("Không thể xóa thức ăn!", {
+                return toast.error("Không thể xóa thương lái!", {
                     position: toast.POSITION.TOP_RIGHT,
                     })
                 }
@@ -144,15 +144,15 @@ function GetThuongLaiList() {
                     <EditThuongLai dataSend={dataEdit} handleClickFrom={handleClickFrom} />
                 ) : (
                     <div className={cx('CSNT-container-list')}>
-                        <div className={cx('title-csnt-list')}>Danh sách thức ăn</div>
+                        <div className={cx('title-csnt-list')}>Danh sách thương lái</div>
                         <Table responsive hover>
                             <thead>
                                 <tr className="align-middle">
                                     <th>#</th>
-                                    <th className="text-center">Tên thức ăn</th>
-                                    <th>Loại thức ăn</th>
-                                    <th>Nhà cung cấp</th>
-                                    <th>Ghi chú</th>
+                                    <th className="text-center">Tên thương lái</th>
+                                    <th>Giới tính</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Địa chỉ</th>
                                     <th className="text-center" colSpan="2">Action</th>
                                 </tr>
                             </thead>
@@ -161,16 +161,16 @@ function GetThuongLaiList() {
                                     <tr key={data._id} className="align-middle">
                                         <td> {index + 1} </td>
                                         <td> {data.ten} </td>
-                                        <td> {data.loaithucan} </td>
-                                        <td> {data.ncc} </td>
-                                        <td> {(data.ghichu && data.ghichu !== '') ? data.ghichu : 'Không có ghi chú'} </td>
+                                        <td> {data.gioitinh} </td>
+                                        <td> {data.sdt} </td>
+                                        <td> {data.diachi} </td>
                                         <td className="text-center"> 
                                             <Button
                                                 className={cx('btn-submit-edit', 'btn', 'btn--primary') }
                                                 variant="primary"
                                                 type="submit"
                                                 onClick={(e) => {
-                                                    getIdNCCConGiong(data._id);
+                                                    getIdThuongLai(data._id);
                                                     handleSubmit(e);
                                                     }
                                                 }
@@ -184,7 +184,7 @@ function GetThuongLaiList() {
                                                 variant="danger"
                                                 type="submit"
                                                 onClick={(e) => {
-                                                    getIdNCCConGiong(data._id);
+                                                    getIdThuongLai(data._id);
                                                     handleDeleteNCCConGiong(e);
                                                     }
                                                 }

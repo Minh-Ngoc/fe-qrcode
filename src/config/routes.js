@@ -18,6 +18,7 @@ const routes = {
     giaidoan: '/giaidoan',
     // thucansd: '/giaidoan/thucansd',
     thucan: '/thucan',
+    nhatkyxuatao: '/nhatkyxuatao',
     thuonglai: '/thuonglai',
     thuocthuysan: '/thuocthuysan',
 };

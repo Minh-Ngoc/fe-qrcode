@@ -10,13 +10,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import classNames from 'classnames/bind';
-import styles from './AoNuoi.module.scss';
+import styles from './NKXA.module.scss';
 
 const cx = classNames.bind(styles);
 
 
-function AddAoNuoi() {
-    const [csntLists, setCSNTLists] = useState([]);
+function EditNKXA(props) {
+    // console.log(props.dataSend)
 
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -26,7 +26,6 @@ function AddAoNuoi() {
     const userData = location.state.userId;
     
     // initial state
-
     const [ten, setTen] = useState("");
     const [dientich, setDienTich] = useState("");
     const [csntId, setCSNTId] = useState("");
@@ -36,32 +35,12 @@ function AddAoNuoi() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        async function getCSNT(){
-            const configuration = {
-                method: "GET",
-                url: `http://localhost:3000/api/cosonuoitrong/${userData}/list`,
-            };
-            // make the API call
-            axios(configuration)
-                .then((result) => {
-                    // redirect user to the auth page
-                    if(result.data.csnt.length === 0) {
-                        return toast.error("Bạn chưa có cơ sở nôi trồng nào. Vui lòng thêm cơ sở nôi trồng để tạo ao nuôi!", {
-                            position: toast.POSITION.TOP_RIGHT,
-                        })
-                    }
-                    setCSNTLists(result.data.csnt);
-                })
-                .catch((error) => {
-                    if(error.request.status === 505){
-                        return toast.error("Không có cơ sở nuôi trồng nào được tạo!", {
-                            position: toast.POSITION.TOP_RIGHT,
-                        })
-                    } 
-                });
-        } 
-        getCSNT();
-      },[]);
+        setTen(props.dataSend.ten)
+        setDienTich(props.dataSend.dientich)
+        setCSNTId(props.dataSend.csntId)
+    },[props.dataSend])
+
+    console.log(csntId)
 
     const handleSubmit = (e) => {
     // prevent the form from refreshing the whole page
@@ -77,16 +56,27 @@ function AddAoNuoi() {
                     position: toast.POSITION.TOP_RIGHT
                 })
             )
-        } else {
+        } 
+        else if (
+            ten === props.dataSend.ten &&
+            dientich === props.dataSend.dientich &&
+            csntId === props.dataSend.csntId
+        ) {
+            setErrorMessage(
+                toast.error("Thông tin cập nhật phải khác với thông tin ban đầu!", {
+                    position: toast.POSITION.TOP_RIGHT
+                })
+            )
+        }
+         else {
             // set configurations
             const configuration = {
-                method: "post",
-                url: "http://localhost:3000/api/aonuoi/create",
+                method: "put",
+                url: `http://localhost:3000/api/aonuoi/${props.dataSend._id}`,
                 data: {
                     ten,
                     dientich,
-                    csntId,
-                    tkId: userData,
+                    csntId
                 },
             };
 
@@ -94,32 +84,38 @@ function AddAoNuoi() {
             axios(configuration)
             .then((result) => {
                 // redirect user to the auth page
-                (result.data.errCode === 201) ? setSuccessMessage(
-                    toast.success("Thêm ao nuôi thành công !", {
-                        position: toast.POSITION.TOP_RIGHT
-                    })
-                ) : setErrorMessage(
-                    toast.error("Thêm ao nuôi không thành công !", {
-                        position: toast.POSITION.TOP_RIGHT
-                    })
-                )
-                
+                // console.log(result.data.errCode)
+                if(result.data.errCode === 201) { 
+                    setSuccessMessage(
+                        toast.success("Cập nhật thành công !", {
+                            position: toast.POSITION.TOP_RIGHT
+                        })
+                    )
+                } else { 
+                    setErrorMessage(
+                        toast.error("Cập nhật không thành công !", {
+                            position: toast.POSITION.TOP_RIGHT
+                        })
+                    )
+                }
+                props.handleClickFrom(false)
                 setAoNuoi(true);
-                setTimeout(() => {
-                    setTen('');
-                    setDienTich('');
-                },100)
+                
             })
             .catch((error) => {
-                if(error){
+                // console.log(error)
+                if(error && error.request.status === 505){
                     return toast.error("Ao nuôi đã tồn tại!", {
                         position: toast.POSITION.TOP_RIGHT,
                     })
-                  }
+                } else {
+                    return toast.error("Cập nhật ao nuôi không thành công!", {
+                        position: toast.POSITION.TOP_RIGHT,
+                    })
+                }
             });
         }
     };
-
 
     return (
         <>  
@@ -142,23 +138,23 @@ function AddAoNuoi() {
 
                             {/* ten */}
                             <Form.Group controlId="formBasicName" className={cx('form-group')}>
-                                <Form.Label>Diện tích ao nuôi (m<sup>2</sup>) :</Form.Label>
+                                <Form.Label>Diện tích ao nuôi:</Form.Label>
                                 <Form.Control
                                     size="lg"
                                     type="text"
                                     name="dientich"
                                     value={dientich}
                                     onChange={(e) => setDienTich(e.target.value)}
-                                    placeholder="Nhập diện tích ao nuôi..."
+                                    placeholder="Nhập họ và tên chủ sở hữu..."
                                 />
                             </Form.Group>
 
                             {/* Dia chi */}
                             <Form.Group controlId="formBasicDiaChi" className={cx('form-group')}>
                                 <Form.Label>Cơ sở nuôi trồng:</Form.Label>
-                                <Form.Select  defaultValue="Chọn cơ sở nuôi trồng..." size="lg" name={csntId} onChange={(e) => setCSNTId(e.target.value)}>
+                                <Form.Select size="lg" name="csntId" onChange={(e) => setCSNTId(e.target.value)}>
                                     <option disabled>Chọn cơ sở nuôi trồng...</option>
-                                    {csntLists.map(csnt => (
+                                    {props.csntList.map(csnt => (
                                         <option key={csnt._id} value={csnt._id}> {csnt.ten} </option>
                                     ))}
                                 </Form.Select>
@@ -168,7 +164,7 @@ function AddAoNuoi() {
                     </div>
 
                     {/* submit button */}
-                    <div className={'text-center ' + cx('btn-addAoNuoi')}>
+                    <div className={'d-flex justify-content-center ' + cx('btn-editAoNuoi')}>
                         <Button
                             className={cx('btn-submit-addAoNuoi', 'btn', 'btn--success') }
                             variant="danger"
@@ -178,7 +174,15 @@ function AddAoNuoi() {
                                 }
                             }
                         >
-                            THÊM
+                            CẬP NHẬT
+                        </Button>
+                        <Button
+                            className={cx('btn-submit-login', 'btn', 'btn--success') }
+                            variant="primary"
+                            type="button"
+                            onClick={() => props.handleClickFrom(false)}
+                        >
+                            TRỞ VỀ
                         </Button>
                     </div>
                 </Form>  
@@ -187,4 +191,4 @@ function AddAoNuoi() {
     );
 }
 
-export default AddAoNuoi;
+export default EditNKXA;

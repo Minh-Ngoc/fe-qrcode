@@ -35,6 +35,7 @@ function ScanQRCode() {
     const [csmtLists, setCSMTLists] = useState(false);
     const [ttsLists, setTTSLists] = useState(false);
     const [giaidoan, setGiaiDoan] = useState(false);
+    const [thuonglaiLists, setThuongLaiLists] = useState(false);
     const [thucanLists, setThucAn] = useState(false);
     const [ctcongiong, setCTConGiong] = useState(false);
     const [loaicongiong, setLoaiConGiong] = useState(false);
@@ -56,11 +57,13 @@ function ScanQRCode() {
                     }));
 
                     document.title = !result.data.dotnuoi[0].ctcongiong[0].congiongs.ten ? 'Quét mã QR' : result.data.dotnuoi[0].ctcongiong[0].congiongs.ten;
+                    
                     setCoSoNuoiTrong(result.data.dotnuoi[0].cosonuoitrongs[0]);
                     setAoNuoi(result.data.dotnuoi[0].aonuois[0]);
                     setCSMTLists(result.data.chisomoitruong);
                     setTTSLists(result.data.thuocthuysan);
                     setGiaiDoan(result.data.dotnuoi[0].giaidoans[0]);
+                    setThuongLaiLists(result.data.thuonglai);
                     setThucAn(result.data.thucan);
                     setData(result.data.dotnuoi[0]);
                     setCTConGiong(result.data.dotnuoi[0].ctcongiong[0]);
@@ -86,7 +89,7 @@ function ScanQRCode() {
             <div className={cx('body_container')}>
                 <div className="container-fluid">
                     <div className="titlePage text-center">
-                        <h1>TRANG QUẢN LÝ QUÁ TRÌNH NUÔI TRỒNG THỦY SẢN</h1>
+                        <h1>TRA CỨU NGUỒN GỐC THỦY SẢN</h1>
                     </div>
                     <hr/>
                     <div id={cx('content')} >
@@ -104,9 +107,9 @@ function ScanQRCode() {
                                             Con giống:
                                         </div>
                                         <div className={cx('value')}>
-                                            <li>Loại con giống: {loaicongiong.ten}</li>
                                             <li>Tên con giống: {congiong.ten}</li>
-                                            <li>Số lượng con giống: {ctcongiong.soluong}</li>
+                                            <li>Loại con giống: {loaicongiong.ten}</li>
+                                            <li>Số lượng con giống: {ctcongiong.soluong} con</li>
                                             <li>Ngày tuổi: {ctcongiong.ngaytuoi} ngày</li>
                                             <li>Chất lượng: {ctcongiong.chatluong}</li>
                                             <li>Nhà cung cấp con giống:</li>
@@ -115,6 +118,43 @@ function ScanQRCode() {
                                                 <li>Địa chỉ: {ncccongiong.diachi}</li>
                                                 <li>Số điện thoại: {ncccongiong.sdt}</li>
                                             </ul>
+                                        </div>
+                                    </div>
+
+                                    <div className={cx('content-text')}>
+                                        <div className={cx('title')}>
+                                            <div className={cx('icon')}><FontAwesomeIcon icon={faSnowflake} /></div>
+                                            Thu hoạch:
+                                        </div>
+
+                                        {aonuoi.nhatkyxuatao ? aonuoi.nhatkyxuatao.map((nkxa, index) => 
+                                            thuonglaiLists.map(thuonglai => (thuonglai._id === nkxa.thuonglaiId) ? (
+                                                <div className={cx('value')}>
+                                                    <li>Thời điểm thu hoạch: {nkxa.thoidiem}</li>
+                                                    <li>Khối lượng: {nkxa.khoiluong} tấn</li>
+                                                    <li>Phương pháp thu hoạch: {nkxa.ppthuhoach}</li>
+                                                    <li>Thương lái:</li>
+                                                    <ul>
+                                                        <li>Tên: {thuonglai.ten} </li>
+                                                        <li>Giới tính: {thuonglai.gioitinh} </li>
+                                                        <li>Số điện thoại: {thuonglai.sdt} </li>
+                                                        <li>Địa chỉ: {thuonglai.diachi} </li>
+                                                    </ul>
+                                                </div>
+                                            ) : '')
+                                        ) : ''}
+                                    </div>
+
+                                    <div className={cx('content-text')}>
+                                        <div className={cx('title')}>
+                                            <div className={cx('icon')}><FontAwesomeIcon icon={faSnowflake} /></div>
+                                            Đợt nuôi:
+                                        </div>
+                                        <div className={cx('value')}>
+                                            <li>{data.ten}</li>
+                                            <li>Năm nuôi: {data.namnuoi}</li>
+                                            <li>Thời điểm nuôi: {data.thoidiem}</li>
+                                            <li>Tình trạng nuôi: {data.tinhtrang}</li>
                                         </div>
                                     </div>
 

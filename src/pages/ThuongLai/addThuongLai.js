@@ -25,9 +25,9 @@ function AddThuongLai() {
     
     // initial state
     const [ten, setTen] = useState("");
-    const [loaithucan, setLoaiThucAn] = useState("");
-    const [ncc, setNCC] = useState("");
-    const [ghichu, setGhiChu] = useState("");
+    const [gioitinh, setGioiTinh] = useState("");
+    const [sdt, setSDT] = useState("");
+    const [diachi, setDiaChi] = useState("");
 
     const handleSubmit = (e) => {
     // prevent the form from refreshing the whole page
@@ -35,8 +35,8 @@ function AddThuongLai() {
 
         if(
             !ten ||
-            !loaithucan ||
-            !ncc   
+            !sdt ||
+            !diachi   
         ) {
             setErrorMessage(
                 toast.error("Vui lòng nhập đầy đủ thông tin !", {
@@ -47,12 +47,12 @@ function AddThuongLai() {
             // set configurations
             const configuration = {
                 method: "post",
-                url: "http://localhost:3000/api/thucan/create",
+                url: "http://localhost:3000/api/thuonglai/create",
                 data: {
                     ten,
-                    loaithucan,
-                    ncc,
-                    ghichu
+                    gioitinh,
+                    sdt,
+                    diachi,
                 },
             };
 
@@ -61,25 +61,24 @@ function AddThuongLai() {
             .then((result) => {
                 // redirect user to the auth page
                 (result.data.errCode === 201) ? setSuccessMessage(
-                    toast.success("Thêm thức ăn thành công !", {
+                    toast.success("Thêm thương lái thành công !", {
                         position: toast.POSITION.TOP_RIGHT
                     })
                 ) : setErrorMessage(
-                    toast.error("Thêm thức ăn không thành công !", {
+                    toast.error("Thêm thương lái không thành công !", {
                         position: toast.POSITION.TOP_RIGHT
                     })
                 )
                 
                 setTimeout(() => {
                     setTen('');
-                    setLoaiThucAn('');
-                    setNCC('');
-                    setGhiChu('');
+                    setSDT('');
+                    setDiaChi('');
                 },100)
             })
             .catch((error) => {
                 if(error){
-                    return toast.error("Thêm thức ăn không thành công!", {
+                    return toast.error("Thêm thương lái không thành công!", {
                         position: toast.POSITION.TOP_RIGHT,
                     })
                   }
@@ -96,54 +95,52 @@ function AddThuongLai() {
                     <div className="d-flex justify-content-around">
                         <div>
                             <Form.Group controlId="formBasicEmail" className={cx('form-group')}>
-                                <Form.Label>Tên thức ăn:</Form.Label>
+                                <Form.Label>Tên thương lái:</Form.Label>
                                 <Form.Control
                                     size="lg"
                                     type="text"
                                     name="ten"
                                     value={ten}
                                     onChange={(e) => setTen(e.target.value)}
-                                    placeholder="Nhập tên thức ăn..."
+                                    placeholder="Nhập tên thương lái..."
                                 />
+                            </Form.Group>
+
+                            <Form.Group controlId="formBasicDiaChi" className={cx('form-group')}>
+                                <Form.Label>Giới tính:</Form.Label>
+                                <Form.Select  defaultValue="Chọn giới tính..." size="lg" name="gioitinh" onChange={(e) => setGioiTinh(e.target.value)}>
+                                    <option disabled>Chọn giới tính...</option>
+                                    <option key="0" value="Nam">Nam</option>
+                                    <option key="1" value="Nữ">Nữ</option>
+                                </Form.Select>
                             </Form.Group>
 
                             {/* Dia chi */}
                             <Form.Group controlId="formBasicDiaChi" className={cx('form-group')}>
-                                <Form.Label>Loại thức ăn:</Form.Label>
+                                <Form.Label>Số điện thoại:</Form.Label>
                                 <Form.Control
                                     size="lg"
                                     type="text"
-                                    name="loaithucan"
-                                    value={loaithucan}
-                                    onChange={(e) => setLoaiThucAn(e.target.value)}
-                                    placeholder="Nhập loại thức ăn..."
+                                    name="sdt"
+                                    value={sdt}
+                                    onChange={(e) => setSDT(e.target.value)}
+                                    placeholder="Nhập số điện thoại..."
                                 />
                             </Form.Group>
 
                             {/* sdt */}
                             <Form.Group controlId="formBasicSDT" className={cx('form-group')}>
-                                <Form.Label>Nhà cung cấp thức ăn:</Form.Label>
+                                <Form.Label>Địa chỉ:</Form.Label>
                                 <Form.Control
                                     size="lg"
                                     type="text"
-                                    name="ncc"
-                                    value={ncc}
-                                    onChange={(e) => setNCC(e.target.value)}
-                                    placeholder="Nhập nhà cung cấp thức ăn..."
+                                    name="diachi"
+                                    value={diachi}
+                                    onChange={(e) => setDiaChi(e.target.value)}
+                                    placeholder="Nhập địa chỉ..."
                                 />
                             </Form.Group>
 
-                            <Form.Group controlId="formBasicSDT" className={cx('form-group')}>
-                                <Form.Label>Ghi chú:</Form.Label>
-                                <Form.Control
-                                    size="lg"
-                                    type="text"
-                                    name="ghichu"
-                                    value={ghichu}
-                                    onChange={(e) => setGhiChu(e.target.value)}
-                                    placeholder="Ghi chú (không bắt buộc)..."
-                                />
-                            </Form.Group>
                         </div>
                     </div>
 

@@ -5,6 +5,10 @@
   }
 }
 
+.title-aonuoi-list {
+  text-transform: uppercase;
+}
+
 .form-group + .form-group {
   margin-top: 1rem;
 } 
@@ -13,17 +17,16 @@
   margin-top: 2rem;
 }
 
-.title-csnt-list {
-  text-transform: uppercase;
-}
 
 .btn-submit-login {
   width: 30rem;
   font-size: 16px!important;
 }
-.btn-submit-addCSNT { 
+.btn-submit-addAoNuoi { 
   width: 30rem;
   font-size: 16px!important;
+
+
 }
 
 .form-text-message {
@@ -49,7 +52,7 @@
   }
 }
 
-.CSNT-container-list {
+.AoNuoi-container-list {
   padding: 1rem;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.87);
@@ -63,7 +66,7 @@
     font-size: 14px;
   }
 
-  .title-csnt-list {
+  .title-aonuoi-list {
     text-align: center;
     color: black;
     font-weight: 600;
@@ -73,7 +76,7 @@
 
 }
 
-.btn-addCSNT {
+.btn-addAoNuoi {
   margin-top: 3rem;
   width: 100%;
 
@@ -82,7 +85,7 @@
   }
 }
 
-.btn-editNCCConGiong {
+.btn-editAoNuoi {
   margin-top: 3rem;
   width: 100%;
 
@@ -97,4 +100,21 @@
 .btn-submit-edit {
   width: 40px;
   font-size: 14px;
+}
+
+.thucanDetail {
+  // min-width: 35rem;
+  z-index: 100;
+  background-color: none!important;
+}
+
+span + .item-style-list {
+  border-left: 1px solid #ccc;
+  padding-left: 1rem;
+}
+.item-style-list {
+  flex: 1;
+  margin-left: 1rem;
+  // list-style-type: none;
+  text-align: left;
 }
