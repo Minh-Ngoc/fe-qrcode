@@ -47,7 +47,7 @@ function AddGiaiDoan() {
                         })
                     }
                     // console.log(result.data.dataLists[0].aonuois);
-                    setAoNuoiLists(result.data.dataLists[0].aonuois);
+                    setAoNuoiLists(result.data.dataLists);
                 })
                 .catch((error) => {
                     if(error){
@@ -168,9 +168,10 @@ function AddGiaiDoan() {
                                 <Form.Label>Ao nuôi:</Form.Label>
                                 <Form.Select  defaultValue="Chọn ao nuôi..." size="lg" name={aonuoiId} onChange={(e) => setAoNuoiId(e.target.value)}>
                                     <option disabled>Chọn ao nuôi...</option>
-                                    {aonuoiLists.map(aonuoi => (
+                                    {aonuoiLists ? aonuoiLists.map(aonuois => aonuois.aonuois.map(aonuoi => (
                                         <option key={aonuoi._id} value={aonuoi._id}> {aonuoi.ten} </option>
-                                    ))}
+                                        ))
+                                    ) : ''}
                                 </Form.Select>
                             </Form.Group>
 
