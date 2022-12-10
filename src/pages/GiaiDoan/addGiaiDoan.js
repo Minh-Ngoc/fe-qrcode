@@ -105,7 +105,6 @@ function AddGiaiDoan() {
                 setTimeout(() => {
                     setTen('');
                     setThoiDiem('');
-                    setAoNuoiId('');
                 },100)
             })
             .catch((error) => {

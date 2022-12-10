@@ -20,7 +20,7 @@ import styles from './CoSoNuoiTrong.module.scss';
 
 const cx = classNames.bind(styles);
 
-function GetCSNTList() {
+function GetCSNTList(props) {
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -28,7 +28,7 @@ function GetCSNTList() {
     const location = useLocation();
     const userData = location.state.userId;
 
-    const [csntLists, setCSNTLists] = useState([]);
+    const [csntLists, setCSNTLists] = useState(props.sendData);
     const [csntEdit, setCSNTEdit] = useState(false);
     const [formEdit, setFormEdit] = useState(false);
     const [dataEdit, setDataEdit] = useState('');
@@ -59,7 +59,7 @@ function GetCSNTList() {
                 });
         } 
         getCSNT();
-      },[]);
+      },[props.sendData, formEdit, csntDelete]);
       
     const datas = csntLists;
 

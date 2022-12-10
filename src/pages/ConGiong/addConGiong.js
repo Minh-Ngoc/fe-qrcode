@@ -121,8 +121,6 @@ function AddConGiong() {
                 setTimeout(() => {
                     setTen('');
                     setMoTa('');
-                    setLoaiConGiong('');
-                    setNhaCungCap('');
                 },100)
             })
             .catch((error) => {
@@ -172,7 +170,8 @@ function AddConGiong() {
                                 <FloatingLabel controlId="floatingTextarea2" label="Mô tả con giống..." style={{ color: '#212529' }}>
                                     <Form.Control
                                         as="textarea"
-                                        name={mota}
+                                        name="mota"
+                                        value={mota}
                                         onChange={(e) => setMoTa(e.target.value)}
                                         placeholder="Leave a comment here"
                                         style={{ height: '100px', paddingTop: '24px', fontSize: '16px' }}

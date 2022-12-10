@@ -20,7 +20,7 @@ import styles from './NCCConGiong.module.scss';
 
 const cx = classNames.bind(styles);
 
-function GetNCCConGiongList() {
+function GetNCCConGiongList(props) {
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -28,7 +28,7 @@ function GetNCCConGiongList() {
     const location = useLocation();
     const userData = location.state.userId;
 
-    const [ncccongiongLists, setNCCConGiongLists] = useState([]);
+    const [ncccongiongLists, setNCCConGiongLists] = useState(props.sendData);
     const [ncccongiong, setNCCConGiongEdit] = useState(false);
     const [formEdit, setFormEdit] = useState(false);
     const [dataEdit, setDataEdit] = useState('');
@@ -59,7 +59,7 @@ function GetNCCConGiongList() {
                 });
         } 
         getNCCConGiong();
-      },[]);
+      },[props.sendData, formEdit, ncccongiongDelete]);
       
     const datas = ncccongiongLists;
 

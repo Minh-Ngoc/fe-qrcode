@@ -20,7 +20,7 @@ import styles from './ConGiong.module.scss';
 
 const cx = classNames.bind(styles);
 
-function GetConGiongList() {
+function GetConGiongList(props) {
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -28,7 +28,7 @@ function GetConGiongList() {
     const location = useLocation();
     const userData = location.state.userId;
 
-    const [congiongLists, setConGiongLists] = useState([]);
+    const [congiongLists, setConGiongLists] = useState(props.sendData);
     const [aonuoiLists, setAoNuoiLists] = useState([]);
 
     const [congiongEdit, setConGiongEdit] = useState(false);
@@ -61,7 +61,7 @@ function GetConGiongList() {
                 });
         } 
         getConGiong();
-      },[]);
+      },[props.sendData, congiongDelete,formEdit]);
       
     const datas = congiongLists;
 
@@ -105,9 +105,9 @@ function GetConGiongList() {
         // set configurations
         const configuration = {
             method: "delete",
-            url: `http://localhost:3000/api/aonuoi/${idConGiong}`,
+            url: `http://localhost:3000/api/congiong/${idConGiong}`,
             params: {
-                aonuoiId: userData,
+                tkId: userData,
             },
         };
 
@@ -120,6 +120,9 @@ function GetConGiongList() {
                         position: toast.POSITION.TOP_RIGHT
                     })
                 )
+                setConGiongDelete(true);
+            return setConGiongDelete('');
+
             } else { 
                 setErrorMessage(
                     toast.error("Xóa không thành công !", {
@@ -127,7 +130,6 @@ function GetConGiongList() {
                     })
                 )
             }
-            setConGiongDelete(true);
         })
         .catch((error) => {
             if(error.request.status === 505){

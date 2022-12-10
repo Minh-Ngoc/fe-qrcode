@@ -20,7 +20,7 @@ import styles from './CSMT.module.scss';
 
 const cx = classNames.bind(styles);
 
-function GetCSMTList() {
+function GetCSMTList(props) {
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -28,8 +28,8 @@ function GetCSMTList() {
     const location = useLocation();
     const userData = location.state.userId;
 
-    const [csmtLists, setCSMTLists] = useState([]);
-    const [csmt, setCSMTEdit] = useState(false);
+    const [csmtLists, setCSMTLists] = useState(props.sendData);
+    const [csmtEdit, setCSMTEdit] = useState(false);
     const [formEdit, setFormEdit] = useState(false);
     const [dataEdit, setDataEdit] = useState('');
 
@@ -59,7 +59,7 @@ function GetCSMTList() {
                 });
         } 
         getCSMT();
-      },[]);
+      },[props.sendData, formEdit, csmtDelete]);
       
     const datas = csmtLists;
 
@@ -93,7 +93,7 @@ function GetCSMTList() {
         });
     }
 
-    const handleDeleteNCCConGiong = (e) => {
+    const handleDeleteCSMT = (e) => {
         e.preventDefault();
 
         // set configurations
@@ -118,7 +118,6 @@ function GetCSMTList() {
                     })
                 )
             }
-            setCSMTLists(result.data.csmt)
             setCSMTDelete(true);
         })
         .catch((error) => {
@@ -181,7 +180,7 @@ function GetCSMTList() {
                                                 type="submit"
                                                 onClick={(e) => {
                                                     getIdCSMT(data._id);
-                                                    handleDeleteNCCConGiong(e);
+                                                    handleDeleteCSMT(e);
                                                     }
                                                 }
                                             >

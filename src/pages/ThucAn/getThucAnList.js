@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 /* eslint-disable no-unused-vars */
-import { useLocation, Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,7 +20,7 @@ import styles from './ThucAn.module.scss';
 
 const cx = classNames.bind(styles);
 
-function GetThucAnList() {
+function GetThucAnList(props) {
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -28,7 +28,7 @@ function GetThucAnList() {
     const location = useLocation();
     const userData = location.state.userId;
 
-    const [thucanLists, setThucAnLists] = useState([]);
+    const [thucanLists, setThucAnLists] = useState(props.sendData);
     const [thucan, setThucAnEdit] = useState(false);
     const [formEdit, setFormEdit] = useState(false);
     const [dataEdit, setDataEdit] = useState('');
@@ -37,7 +37,7 @@ function GetThucAnList() {
 
 
     useEffect(() => {
-        async function getNCCConGiong(){
+        async function getThucAn(){
             console.log(userData)
             const configuration = {
                 method: "GET",
@@ -58,8 +58,8 @@ function GetThucAnList() {
                         }
                 });
         } 
-        getNCCConGiong();
-      },[]);
+        getThucAn();
+      },[props.sendData]);
       
     const datas = thucanLists;
 
@@ -134,9 +134,9 @@ function GetThucAnList() {
     const handleClickFrom = (e) => {
         // 👇️ take parameter passed from Child component
         setFormEdit(e);
-      };
+    };
 
-    // console.log(dataEdit);
+    console.log(props.sendData);
 
     return (
         <>  
@@ -157,7 +157,7 @@ function GetThucAnList() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {datas.map((data, index) => (
+                                {datas ? datas.map((data, index) => (
                                     <tr key={data._id} className="align-middle">
                                         <td> {index + 1} </td>
                                         <td> {data.ten} </td>
@@ -193,7 +193,7 @@ function GetThucAnList() {
                                             </Button> 
                                         </td>
                                     </tr>
-                                ))}
+                                )) : ''}
                             </tbody>
                         </Table>
                     </div>

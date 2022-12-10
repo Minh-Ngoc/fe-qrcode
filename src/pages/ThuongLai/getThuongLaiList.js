@@ -20,7 +20,7 @@ import styles from './ThuongLai.module.scss';
 
 const cx = classNames.bind(styles);
 
-function GetThuongLaiList() {
+function GetThuongLaiList(props) {
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -28,7 +28,7 @@ function GetThuongLaiList() {
     const location = useLocation();
     const userData = location.state.userId;
 
-    const [thuonglaiLists, setThuongLaiLists] = useState([]);
+    const [thuonglaiLists, setThuongLaiLists] = useState(props.sendData);
     const [thuonglaiEdit, setThuongLaiEdit] = useState(false);
     const [formEdit, setFormEdit] = useState(false);
     const [dataEdit, setDataEdit] = useState('');
@@ -59,7 +59,7 @@ function GetThuongLaiList() {
                 });
         } 
         getThuongLai();
-      },[]);
+      },[props.sendData, formEdit, thuonglaiDelete]);
       
     const datas = thuonglaiLists;
 
@@ -93,7 +93,7 @@ function GetThuongLaiList() {
         });
     }
 
-    const handleDeleteNCCConGiong = (e) => {
+    const handleDeleteThuongLai = (e) => {
         e.preventDefault();
 
         // set configurations
@@ -118,7 +118,6 @@ function GetThuongLaiList() {
                     })
                 )
             }
-            setThuongLaiLists(result.data.thuonglai)
             setThuongLaiDelete(true);
         })
         .catch((error) => {
@@ -185,7 +184,7 @@ function GetThuongLaiList() {
                                                 type="submit"
                                                 onClick={(e) => {
                                                     getIdThuongLai(data._id);
-                                                    handleDeleteNCCConGiong(e);
+                                                    handleDeleteThuongLai(e);
                                                     }
                                                 }
                                             >

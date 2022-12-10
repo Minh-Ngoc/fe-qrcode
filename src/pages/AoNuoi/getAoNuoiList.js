@@ -24,7 +24,7 @@ import styles from './AoNuoi.module.scss';
 
 const cx = classNames.bind(styles);
 
-function GetAoNuoiList() {
+function GetAoNuoiList(props) {
     const navigate = useNavigate();
 
     const [successMessage, setSuccessMessage] = useState("");
@@ -38,8 +38,7 @@ function GetAoNuoiList() {
     const [display, setDisplay] = useState('');
     const [btnAdd, setBtnAdd] = useState('');
 
-
-    const [aonuoiLists, setAoNuoiLists] = useState([]);
+    const [aonuoiLists, setAoNuoiLists] = useState(props.sendData);
     const [cosonuoitrongLists, setCoSoNuoiTrongLists] = useState([]);
     const [csmtLists, setCSMTLists] = useState([]);
     const [thuocthuysanLists, setThuocThuySanLists] = useState([]);
@@ -76,7 +75,7 @@ function GetAoNuoiList() {
                 });
         } 
         getAoNuoi();
-      },[]);
+    },[props.sendData, aonuoiDelete, display]);
       
     const datas = aonuoiLists;
 
@@ -178,7 +177,7 @@ function GetAoNuoiList() {
             console.log(idAoNuoi);
         };
 
-    // console.log(datas);
+    // console.log(handleSetDisplay);
     let indexx = 1;
 
     return (

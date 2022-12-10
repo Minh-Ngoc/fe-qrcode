@@ -20,7 +20,7 @@ import styles from './DotNuoi.module.scss';
 
 const cx = classNames.bind(styles);
 
-function GetDotNuoiList() {
+function GetDotNuoiList(props) {
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -28,7 +28,7 @@ function GetDotNuoiList() {
     const location = useLocation();
     const userData = location.state.userId;
 
-    const [dotnuoiLists, setDotNuoiLists] = useState([]);
+    const [dotnuoiLists, setDotNuoiLists] = useState(props.sendData);
     const [aonuoiLists, setAoNuoiLists] = useState([]);
     const [congiongLists, setConGiongLists] = useState([]);
 
@@ -63,7 +63,7 @@ function GetDotNuoiList() {
                 });
         } 
         getDotNuoi();
-      },[]);
+      },[props.sendData, dotnuoiDelete, formEdit]);
       
     const datas = dotnuoiLists;
 
@@ -100,15 +100,15 @@ function GetDotNuoiList() {
         });
     }
 
-    const handleDeleteAoNuoi = (e) => {
+    const handleDeleteDotNuoi = (e) => {
         e.preventDefault();
 
         // set configurations
         const configuration = {
             method: "delete",
-            url: `http://localhost:3000/api/aonuoi/${idDotNuoi}`,
+            url: `http://localhost:3000/api/dotnuoi/${idDotNuoi}`,
             params: {
-                aonuoiId: userData,
+                tkId: userData,
             },
         };
 
@@ -212,7 +212,7 @@ function GetDotNuoiList() {
                                                     type="submit"
                                                     onClick={(e) => {
                                                         getIdDotNuoi(data._id);
-                                                        handleDeleteAoNuoi(e);
+                                                        handleDeleteDotNuoi(e);
                                                         }
                                                     }
                                                 >

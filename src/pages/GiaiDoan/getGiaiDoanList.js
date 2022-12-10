@@ -26,7 +26,7 @@ import styles from './GiaiDoan.module.scss';
 
 const cx = classNames.bind(styles);
 
-function GetGiaiDoanList() {
+function GetGiaiDoanList(props) {
     const navigate = useNavigate();
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -37,7 +37,7 @@ function GetGiaiDoanList() {
     const location = useLocation();
     const userData = location.state.userId;
 
-    const [giaidoanLists, setGiaiDoanLists] = useState([]);
+    const [giaidoanLists, setGiaiDoanLists] = useState(props.sendData);
     const [thucanLists, setThucAnLists] = useState([]);
 
     const [display, setDisplay] = useState('');
@@ -50,7 +50,7 @@ function GetGiaiDoanList() {
 
 
     useEffect(() => {
-        async function getAoNuoi(){
+        async function getGiaiDoan(){
             // console.log(userData)
             const configuration = {
                 method: "GET",
@@ -72,8 +72,8 @@ function GetGiaiDoanList() {
                     }
                 });
         } 
-        getAoNuoi();
-      },[]);
+        getGiaiDoan();
+      },[props.sendData, display, giaidoanDelete, formEdit]);
       
     const datas = giaidoanLists;
 
@@ -110,15 +110,15 @@ function GetGiaiDoanList() {
         });
     }
 
-    const handleDeleteAoNuoi = (e) => {
+    const handleDeleteGiaiDoan = (e) => {
         e.preventDefault();
 
         // set configurations
         const configuration = {
             method: "delete",
-            url: `http://localhost:3000/api/aonuoi/${idGiaiDoan}`,
+            url: `http://localhost:3000/api/giaidoan/${idGiaiDoan}`,
             params: {
-                csntId: userData,
+                tkId: userData,
             },
         };
 
@@ -254,7 +254,7 @@ function GetGiaiDoanList() {
                                                         type="submit"
                                                         onClick={(e) => {
                                                             getIdGiaiDoan(data._id);
-                                                            handleDeleteAoNuoi(e);
+                                                            handleDeleteGiaiDoan(e);
                                                             }
                                                         }
                                                     >

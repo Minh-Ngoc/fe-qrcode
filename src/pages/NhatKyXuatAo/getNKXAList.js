@@ -22,7 +22,7 @@ import styles from './NKXA.module.scss';
 
 const cx = classNames.bind(styles);
 
-function GetNKXAList() {
+function GetNKXAList(props) {
 
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -31,7 +31,7 @@ function GetNKXAList() {
     const location = useLocation();
     const userData = location.state.userId;
 
-    const [aonuoiLists, setAoNuoiLists] = useState([]);
+    const [aonuoiLists, setAoNuoiLists] = useState(props.sendData);
 
     const [aonuoiEdit, setAoNuoiEdit] = useState(false);
     const [formEdit, setFormEdit] = useState(false);
@@ -63,7 +63,7 @@ function GetNKXAList() {
                 });
         } 
         getAoNuoi();
-      },[]);
+      },[props.sendData]);
       
     const datas = aonuoiLists;
 

@@ -20,7 +20,7 @@ import styles from './ThuocThuySan.module.scss';
 
 const cx = classNames.bind(styles);
 
-function GetThuocThuySanList() {
+function GetThuocThuySanList(props) {
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -28,7 +28,7 @@ function GetThuocThuySanList() {
     const location = useLocation();
     const userData = location.state.userId;
 
-    const [thuocthuysanLists, setThuocThuySanLists] = useState([]);
+    const [thuocthuysanLists, setThuocThuySanLists] = useState(props.sendData);
     const [thuocthuysanEdit, setThuocThuySanEdit] = useState(false);
     const [formEdit, setFormEdit] = useState(false);
     const [dataEdit, setDataEdit] = useState('');
@@ -59,7 +59,7 @@ function GetThuocThuySanList() {
                 });
         } 
         getThuocThuySan();
-      },[]);
+      },[props.sendData, ThuocThuySanDelete, formEdit]);
       
     const datas = thuocthuysanLists;
 
@@ -81,7 +81,7 @@ function GetThuocThuySanList() {
         // make the API call
         axios(configuration)
         .then((result) => {
-            setDataEdit(result.data.csmt);
+            setDataEdit(result.data.thuocthuysan);
             setThuocThuySanEdit(true);
         })
         .catch((error) => {
@@ -93,7 +93,7 @@ function GetThuocThuySanList() {
         });
     }
 
-    const handleDeleteNCCConGiong = (e) => {
+    const handleDeleteTTS = (e) => {
         e.preventDefault();
 
         // set configurations
@@ -118,7 +118,6 @@ function GetThuocThuySanList() {
                     })
                 )
             }
-            setThuocThuySanLists(result.data.csmt)
             setThuocThuySanDelete(true);
         })
         .catch((error) => {
@@ -183,7 +182,7 @@ function GetThuocThuySanList() {
                                                 type="submit"
                                                 onClick={(e) => {
                                                     getIdThuocThuySan(data._id);
-                                                    handleDeleteNCCConGiong(e);
+                                                    handleDeleteTTS(e);
                                                     }
                                                 }
                                             >
