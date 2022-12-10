@@ -59,12 +59,12 @@ function GetThucAnList(props) {
                 });
         } 
         getThucAn();
-      },[props.sendData]);
+      },[props.sendData, thucanDelete, formEdit]);
       
     const datas = thucanLists;
 
-    let idNCCConGiong;
-    const getIdNCCConGiong = (id) => idNCCConGiong = id;
+    let idThucAn;
+    const getIdThucAn = (id) => idThucAn = id;
 
     const handleSubmit = (e) => {
         // prevent the form from refreshing the whole page
@@ -75,7 +75,7 @@ function GetThucAnList(props) {
         // set configurations
         const configuration = {
             method: "get",
-            url: `http://localhost:3000/api/nhacungcapcongiong/${idNCCConGiong}/edit`,
+            url: `http://localhost:3000/api/nhacungcapcongiong/${idThucAn}/edit`,
         };
 
         // make the API call
@@ -93,13 +93,13 @@ function GetThucAnList(props) {
         });
     }
 
-    const handleDeleteNCCConGiong = (e) => {
+    const handleDeleteThucAn = (e) => {
         e.preventDefault();
 
         // set configurations
         const configuration = {
             method: "delete",
-            url: `http://localhost:3000/api/nhacungcapcongiong/${idNCCConGiong}`,
+            url: `http://localhost:3000/api/thucan/${idThucAn}`,
         };
 
         // make the API call
@@ -118,7 +118,6 @@ function GetThucAnList(props) {
                     })
                 )
             }
-            setThucAnLists(result.data.thucan)
             setThucAnDelete(true);
         })
         .catch((error) => {
@@ -170,7 +169,7 @@ function GetThucAnList(props) {
                                                 variant="primary"
                                                 type="submit"
                                                 onClick={(e) => {
-                                                    getIdNCCConGiong(data._id);
+                                                    getIdThucAn(data._id);
                                                     handleSubmit(e);
                                                     }
                                                 }
@@ -184,8 +183,8 @@ function GetThucAnList(props) {
                                                 variant="danger"
                                                 type="submit"
                                                 onClick={(e) => {
-                                                    getIdNCCConGiong(data._id);
-                                                    handleDeleteNCCConGiong(e);
+                                                    getIdThucAn(data._id);
+                                                    handleDeleteThucAn(e);
                                                     }
                                                 }
                                             >
