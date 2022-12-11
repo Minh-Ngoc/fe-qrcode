@@ -88,6 +88,7 @@ function EditCSNT(props) {
                 method: "put",
                 url: `http://localhost:3000/api/cosonuoitrong/${props.dataSend._id}`,
                 data: {
+                    presentName: props.dataSend.ten,
                     ten,
                     chusohuu,
                     diachi,
@@ -111,12 +112,6 @@ function EditCSNT(props) {
                             position: toast.POSITION.TOP_RIGHT
                         })
                     )
-                } else { 
-                    setErrorMessage(
-                        toast.error("Cập nhật không thành công !", {
-                            position: toast.POSITION.TOP_RIGHT
-                        })
-                    )
                 }
                 
                 setCoSoNuoiTrong(true);
@@ -128,7 +123,11 @@ function EditCSNT(props) {
                     return toast.error("Cơ sở nuôi trồng đã tồn tại!", {
                         position: toast.POSITION.TOP_RIGHT,
                     })
-                } 
+                } else {
+                    return toast.error("Cập nhật không thành công!", {
+                        position: toast.POSITION.TOP_RIGHT,
+                    })
+                }
             });
         }
     };
