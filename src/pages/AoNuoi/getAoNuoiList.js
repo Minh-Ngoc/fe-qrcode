@@ -256,7 +256,7 @@ function GetAoNuoiList(props) {
 
                                                 <td>
                                                     <div className="d-flex align-items-center">
-                                                        <Scrollbars style={{ minHeight: 70, width: 100, flex: 1 }}>
+                                                        <Scrollbars style={{ minHeight: 70, width: 150, flex: 1 }}>
                                                             <div className={'list-group ' + cx('thucanDetail')}>
                                                                 {aonuoi.thuocthuysan ? aonuoi.thuocthuysan.map((tts, index) => (
                                                                     <div className="d-flex align-items-center list-group-item">
