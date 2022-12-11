@@ -84,16 +84,21 @@
     width: 46rem;
   }
 }
+.btn-addCSNT {
+  margin-top: 3rem;
+  width: 100%;
+
+  button {
+    width: 46rem;
+  }
+}
 
 .btn-editAoNuoi {
   margin-top: 3rem;
   width: 100%;
 
   button {
-    width: 22rem;
-  }
-  button + button {
-    margin-left: 2rem;
+    width: 46rem;
   }
 }
 

@@ -290,9 +290,9 @@ function EditDotNuoi(props) {
                     </div>
 
                     {/* submit button */}
-                    <div className={cx('btn-addAoNuoi')}>
+                    <div className={'d-flex justify-content-around ' + cx('btn-editAoNuoi')}>
                         <Button
-                            className={cx('btn-submit-addAoNuoi', 'btn', 'btn--success') }
+                            className={cx('btn-submit-login', 'btn', 'btn--success') }
                             variant="danger"
                             type="submit"
                             onClick={(e) => {
@@ -301,6 +301,14 @@ function EditDotNuoi(props) {
                             }
                         >
                             THÊM
+                        </Button>
+                        <Button
+                            className={cx('btn-submit-login', 'btn', 'btn--success') }
+                            variant="primary"
+                            type="button"
+                            onClick={() => props.handleClickFrom(false)}
+                        >
+                            TRỞ VỀ
                         </Button>
                     </div>
                 </Form>  
