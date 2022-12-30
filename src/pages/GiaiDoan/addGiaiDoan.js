@@ -51,7 +51,7 @@ function AddGiaiDoan() {
                 })
                 .catch((error) => {
                     if(error){
-                        return toast.error("Không có ao nuôi nào được tạo!", {
+                        return toast.error("Bạn chưa có ao nuôi nào. Vui lòng thêm ao nuôi để tạo giai đoạn nuôi!", {
                             position: toast.POSITION.TOP_RIGHT,
                         })
                     } 

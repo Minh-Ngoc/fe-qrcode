@@ -29,6 +29,16 @@ export const linkItems = [
       icon: faQrcode,
     },
     {
+      name: 'Giai đoạn',
+      path: '/giaidoan',
+      icon: faSpinner,
+    },
+    {
+      name: 'Nhật ký xuất ao',
+      path: '/nhatkyxuatao',
+      icon: faClockRotateLeft,
+    },
+    {
       name: 'Con giống',
       path: '/congiong',
       icon: faShrimp,
@@ -44,11 +54,6 @@ export const linkItems = [
       icon: faSnowflake,
     },
     {
-      name: 'Giai đoạn',
-      path: '/giaidoan',
-      icon: faSpinner,
-    },
-    {
       name: 'Thức ăn',
       path: '/thucan',
       icon: faTablets,
@@ -57,11 +62,6 @@ export const linkItems = [
       name: 'Thuốc thủy sản',
       path: '/thuocthuysan',
       icon: faPrescriptionBottleMedical,
-    },
-    {
-      name: 'Nhật ký xuất ao',
-      path: '/nhatkyxuatao',
-      icon: faClockRotateLeft,
     },
     {
       name: 'Thương lái',

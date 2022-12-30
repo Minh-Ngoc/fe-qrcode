@@ -129,7 +129,7 @@ function AddCSNT() {
 
                             {/* ten */}
                             <Form.Group controlId="formBasicName" className={cx('form-group')}>
-                                <Form.Label>Họ và tên:</Form.Label>
+                                <Form.Label>Họ và tên chủ sở hữu:</Form.Label>
                                 <Form.Control
                                     size="lg"
                                     type="text"
@@ -183,7 +183,7 @@ function AddCSNT() {
 
                             {/* dtmatnuoc */}
                             <Form.Group controlId="formBasicSDT" className={cx('form-group')}>
-                                <Form.Label>Thể tích mặt nước (m<sup>3</sup>) :</Form.Label>
+                                <Form.Label>Diện tích mặt nước (m<sup>2</sup>) :</Form.Label>
                                 <Form.Control
                                     size="lg"
                                     type="text"

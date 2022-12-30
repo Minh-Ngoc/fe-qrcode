@@ -62,7 +62,7 @@ function ScanQRCode() {
                     setAoNuoi(result.data.dotnuoi[0].aonuois[0]);
                     setCSMTLists(result.data.chisomoitruong);
                     setTTSLists(result.data.thuocthuysan);
-                    setGiaiDoan(result.data.dotnuoi[0].giaidoans[0]);
+                    setGiaiDoan(result.data.dotnuoi[0].giaidoans);
                     setThuongLaiLists(result.data.thuonglai);
                     setThucAn(result.data.thucan);
                     setData(result.data.dotnuoi[0]);
@@ -82,7 +82,7 @@ function ScanQRCode() {
         getData();
       },[]);
 
-    // console.log(thucanLists);
+    // console.log(giaidoan.map(giaidoan => giaidoan.ten));
 
     return (
         <div id={cx('Scan-qrcode')}>
@@ -169,9 +169,57 @@ function ScanQRCode() {
                                             <li>Địa chỉ: {cosonuoitrong.diachi} </li>
                                             <li>Số điện thoại: {cosonuoitrong.sdt} </li>
                                             <li>Diện tích: {cosonuoitrong.dientich} m<sup>2</sup> </li>
-                                            <li>Thể tích mặt nước: {cosonuoitrong.dtmatnuoc} m<sup>3</sup></li>
+                                            <li>Diện tích mặt nước: {cosonuoitrong.dtmatnuoc} m<sup>2</sup></li>
                                             <li>Năm đăng ký: {cosonuoitrong.namdangky} </li>
                                         </div>
+                                    </div>
+
+                                    <div className={cx('content-text')}>
+                                        <div className={cx('title')}>
+                                            <div className={cx('icon')}><FontAwesomeIcon icon={faSnowflake} /></div>
+                                            Giai đoạn nuôi:
+                                        </div>
+                                        {giaidoan ? giaidoan.map(giaidoan => (
+                                        <div className={cx('value')}>
+                                            <li>{giaidoan.ten}</li>
+                                            <li>Thời điểm: {giaidoan.thoidiem}</li>
+                                            {(giaidoan.ghichu && giaidoan.ghichu !== '') ? (
+                                                <li>Ghi chú: {giaidoan.ghichu}</li>
+                                                ) : ''
+                                            }
+                                            <li>Thức ăn đã sử dụng: (Được thể hiện ở bảng dưới đây) </li>
+                                            
+                                            <div className={'mt-3 mb-3 ' + cx('table-content')}>
+                                                <Table responsive hover className="text-center">
+                                                    <thead>
+                                                        <tr className="align-middle">
+                                                            <th>#</th>
+                                                            <th>Thời điểm cho ăn </th>
+                                                            <th>Lượng thức ăn</th>
+                                                            <th>Tên thức ăn</th>
+                                                            <th>Loại thức ăn</th>
+                                                            <th>Nhà cung cấp thức ăn</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {giaidoan.thucan ? giaidoan.thucan.map((thucan, index) => 
+                                                        thucanLists.map(list => (list._id === thucan.thucanId) ? (
+                                                        <tr key={data._id} className="align-middle">
+                                                            <td> {++index} </td>
+                                                            <td>{thucan.thoidiem} </td>
+                                                            <td>{thucan.luongthucan} kg</td>
+                                                            <td>{list.ten} kg</td>
+                                                            <td>{list.loaithucan}</td>
+                                                            <td> {list.ncc} </td>
+                                                        </tr>
+                                                        ) : '') 
+                                                    ) : ''}
+
+                                                    </tbody>
+                                                </Table>
+                                            </div>
+                                        </div>
+                                        )) : ''}
                                     </div>
 
                                     <div className={cx('content-text')}>
@@ -220,7 +268,7 @@ function ScanQRCode() {
                                                         <tr className="align-middle">
                                                             <th>#</th>
                                                             <th>Thời điểm</th>
-                                                            <th>Liều lượng</th>
+                                                            <th>Liều lượng đã sử dụng</th>
                                                             <th>Tên thuốc</th>
                                                             <th>Liều lượng và cách sử dụng</th>
                                                             <th>Nhà cung cấp</th>
@@ -241,52 +289,6 @@ function ScanQRCode() {
                                                                     </div> 
                                                                 </Scrollbars> 
                                                             </td>
-                                                            <td> {list.ncc} </td>
-                                                        </tr>
-                                                        ) : '') 
-                                                    ) : ''}
-
-                                                    </tbody>
-                                                </Table>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className={cx('content-text')}>
-                                        <div className={cx('title')}>
-                                            <div className={cx('icon')}><FontAwesomeIcon icon={faSnowflake} /></div>
-                                            Giai đoạn nuôi:
-                                        </div>
-                                        <div className={cx('value')}>
-                                            <li>{giaidoan.ten}</li>
-                                            <li>Thời điểm: {giaidoan.thoidiem}</li>
-                                            {(giaidoan.ghichu && giaidoan.ghichu !== '') ? (
-                                                <li>Ghi chú: {giaidoan.ghichu}</li>
-                                                ) : ''
-                                            }
-                                            <li>Thức ăn đã sử dụng: (Được thể hiện ở bảng dưới đây) </li>
-                                            
-                                            <div className={'mt-3 mb-3 ' + cx('table-content')}>
-                                                <Table responsive hover className="text-center">
-                                                    <thead>
-                                                        <tr className="align-middle">
-                                                            <th>#</th>
-                                                            <th>Thời điểm cho ăn </th>
-                                                            <th>Lượng thức ăn</th>
-                                                            <th>Tên thức ăn</th>
-                                                            <th>Loại thức ăn</th>
-                                                            <th>Nhà cung cấp thức ăn</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    {giaidoan.thucan ? giaidoan.thucan.map((thucan, index) => 
-                                                        thucanLists.map(list => (list._id === thucan.thucanId) ? (
-                                                        <tr key={data._id} className="align-middle">
-                                                            <td> {++index} </td>
-                                                            <td>{thucan.thoidiem} </td>
-                                                            <td>{thucan.luongthucan} kg</td>
-                                                            <td>{list.ten} kg</td>
-                                                            <td>{list.loaithucan}</td>
                                                             <td> {list.ncc} </td>
                                                         </tr>
                                                         ) : '') 

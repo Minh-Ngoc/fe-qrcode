@@ -11,6 +11,8 @@ import { Button } from "react-bootstrap";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import Scrollbars from "react-custom-scrollbars-2";
+
 import Table from 'react-bootstrap/Table';
 
 import EditConGiong from './editConGiong'
@@ -160,9 +162,9 @@ function GetConGiongList(props) {
                                 <tr className="align-middle">
                                     <th>#</th>
                                     <th>Tên con giống</th>
-                                    <th>Mô tả</th>
                                     <th>Loại con giống</th>
                                     <th>Nhà cung cấp</th>
+                                    <th>Mô tả</th>
                                     {/* <th>Hình ảnh</th> */}
                                     <th className="text-center" colSpan="2">Action</th>
                                 </tr>
@@ -173,12 +175,16 @@ function GetConGiongList(props) {
                                         <tr key={data._id} className="align-middle">
                                             <td> {index + 1 } </td>
                                             <td> {data.ten} </td>
-                                            <td> {data.mota} </td>
                                             <td> 
                                                 {data.loaicongiongs.map(loaicongiong => loaicongiong.ten)}     
                                             </td>
                                             <td>
                                                 {data.ncccongiongs.map(ncccongiong => ncccongiong.ten)}
+                                            </td>
+                                            <td style={{width: '500px'}}> 
+                                                <Scrollbars style={{height: 100}}>
+                                                    {data.mota} 
+                                                </Scrollbars>
                                             </td>
                                             {/* <td> 
                                                 {(data.hinhanh) ? (

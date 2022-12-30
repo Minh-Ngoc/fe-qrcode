@@ -160,7 +160,7 @@ function GetThuocThuySanList(props) {
                                         <td> {index + 1} </td>
                                         <td> {data.ten} </td>
                                         <td> {data.ncc} </td>
-                                        <td className="text-start"> {data.lluongvacachsd} </td>
+                                        <td className="text-start overflow-auto" style={{width: '600px'}}> {data.lluongvacachsd} </td>
                                         <td> 
                                             <Button
                                                 className={cx('btn-submit-edit', 'btn', 'btn--primary') }

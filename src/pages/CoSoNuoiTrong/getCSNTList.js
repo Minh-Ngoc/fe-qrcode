@@ -160,7 +160,7 @@ function GetCSNTList(props) {
                                     <th>Địa chỉ</th>
                                     <th>Số điện thoại</th>
                                     <th className="text-center">Diện tích</th>
-                                    <th className="text-center">Thể tích mặt nước</th>
+                                    <th className="text-center">Diện tích mặt nước</th>
                                     <th className="text-center">Năm đăng ký</th>
                                     <th className="text-center" colSpan="2">Action</th>
                                 </tr>
@@ -174,7 +174,7 @@ function GetCSNTList(props) {
                                         <td style={{maxWidth: '400px'}}> {data.diachi} </td>
                                         <td> {data.sdt} </td>
                                         <td className="text-center"> {data.dientich} m<sup>2</sup> </td>
-                                        <td className="text-center"> {data.dtmatnuoc} m<sup>3</sup> </td>
+                                        <td className="text-center"> {data.dtmatnuoc} m<sup>2</sup> </td>
                                         <td className="text-center"> {data.namdangky} </td>
                                         <td className="text-center"> 
                                             <Button

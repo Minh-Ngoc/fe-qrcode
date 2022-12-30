@@ -137,8 +137,7 @@ function AddDotNuoi() {
                     setSoLuong('');
                     setNgayTuoi('');
                     setChatLuong('');
-                    setAoNuoiId('');
-                    setConGiongId('');
+                   
                 },100)
             })
             .catch((error) => {
